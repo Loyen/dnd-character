@@ -7,7 +7,7 @@ class CharacterStat implements \JsonSerializable
     public function __construct(
         public readonly CharacterStatTypes $type,
         public readonly int $value = 0,
-        private array $modifiers = [],
+        public readonly array $modifiers = []
     )
     {
     }
