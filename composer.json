@@ -1,0 +1,19 @@
+{
+    "name": "loyen/dndb-character-sheet",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "loyen\\DndbCharacterLight\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Patrik Freij",
+            "email": "patrik.t.freij@gmail.com"
+        }
+    ],
+    "require": {},
+    "scripts": {
+        "from-file": "loyen\\DndbCharacterLight\\Commands\\CharacterSheet::fromFile"
+    }
+}
