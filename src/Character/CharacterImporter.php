@@ -41,6 +41,13 @@ class CharacterImporter
             $modifiersList[$entityId][] = $statModifier['value'];
         }
 
+        foreach ($data['bonusStats'] as $bonusStat) {
+            if (!empty($bonusStat['value'])) {
+                $entityId = $bonusStat['id'];
+                $modifiersList[$entityId][] = $bonusStat['value'];
+            }
+        }
+
         $statsCollection = [];
         foreach ($stats as $stat) {
             $statId = $stat['id'];
