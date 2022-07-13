@@ -1,9 +1,9 @@
 <?php
 
-namespace loyen\DndbCharacterLight\Commands;
+namespace loyen\DndbCharacterSheet\Commands;
 
 use Composer\Script\Event;
-use loyen\DndbCharacterLight\Character\CharacterImporter;
+use loyen\DndbCharacterSheet\Character\CharacterImporter;
 
 class CharacterSheet
 {

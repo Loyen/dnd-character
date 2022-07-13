@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterLight\Character\Model;
+namespace loyen\DndbCharacterSheet\Character\Model;
 
 enum CharacterStatTypes: int
 {

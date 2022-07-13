@@ -1,11 +1,11 @@
 <?php
 
-namespace loyen\DndbCharacterLight\Character;
+namespace loyen\DndbCharacterSheet\Character;
 
-use loyen\DndbCharacterLight\Character\Exception\CharacterInvalidImportException;
-use loyen\DndbCharacterLight\Character\Model\Character;
-use loyen\DndbCharacterLight\Character\Model\CharacterStat;
-use loyen\DndbCharacterLight\Character\Model\CharacterStatTypes;
+use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException;
+use loyen\DndbCharacterSheet\Character\Model\Character;
+use loyen\DndbCharacterSheet\Character\Model\CharacterStat;
+use loyen\DndbCharacterSheet\Character\Model\CharacterStatTypes;
 
 class CharacterImporter
 {
