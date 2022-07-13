@@ -48,13 +48,22 @@ class CharacterImporter
             }
         }
 
+        $overrideList = [];
+        foreach ($data['overrideStats'] as $overrideStat) {
+            if (!empty($overrideStat['value'])) {
+                $entityId = $overrideStat['id'];
+                $overrideList[$entityId] = $overrideStat['value'];
+            }
+        }
+
         $statsCollection = [];
         foreach ($stats as $stat) {
             $statId = $stat['id'];
             $statsCollection[] = new CharacterStat(
                 CharacterStatTypes::from($statId),
                 $stat['value'],
-                $modifiersList[$statId] ?? []
+                $modifiersList[$statId] ?? [],
+                $overrideList[$statId] ?? null
             );
         }
 

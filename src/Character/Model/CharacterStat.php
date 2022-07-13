@@ -7,7 +7,8 @@ class CharacterStat implements \JsonSerializable
     public function __construct(
         public readonly CharacterStatTypes $type,
         public readonly int $value = 0,
-        public readonly array $modifiers = []
+        public readonly array $modifiers = [],
+        public readonly ?int $overrideValue = null
     )
     {
     }
@@ -16,7 +17,7 @@ class CharacterStat implements \JsonSerializable
     {
         return [
             'name' => $this->type->name(),
-            'value' => $this->value + array_sum($this->modifiers)
+            'value' => $this->overrideValue ?? ($this->value + array_sum($this->modifiers))
         ];
     }
 }
