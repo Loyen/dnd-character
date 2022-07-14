@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Character\Model\Character;
-use loyen\DndbCharacterSheet\Character\Model\CharacterStat;
-use loyen\DndbCharacterSheet\Character\Model\CharacterStatTypes;
+use loyen\DndbCharacterSheet\Character\Model\CharacterAbility;
+use loyen\DndbCharacterSheet\Character\Model\CharacterAbilityTypes;
 
 class CharacterImporter
 {
@@ -79,8 +79,8 @@ class CharacterImporter
         $statsCollection = [];
         foreach ($stats as $stat) {
             $statId = $stat['id'];
-            $statsCollection[] = new CharacterStat(
-                CharacterStatTypes::from($statId),
+            $statsCollection[] = new CharacterAbility(
+                CharacterAbilityTypes::from($statId),
                 $stat['value'],
                 $modifiersList[$statId] ?? [],
                 $overrideList[$statId] ?? null

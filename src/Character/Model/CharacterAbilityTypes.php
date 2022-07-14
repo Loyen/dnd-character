@@ -2,7 +2,7 @@
 
 namespace loyen\DndbCharacterSheet\Character\Model;
 
-enum CharacterStatTypes: int
+enum CharacterAbilityTypes: int
 {
     case STR = 1;
     case DEX = 2;
