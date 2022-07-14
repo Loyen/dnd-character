@@ -13,12 +13,12 @@ enum CharacterAbilityTypes: int
 
     public function name(): string {
         return match($this) {
-            self::STR => "Strength",
-            self::DEX => "Dexterity",
-            self::CON => "Consitution",
-            self::INT => "Intelligence",
-            self::WIS => "Wisdom",
-            self::CHA => "Charisma",
+            self::STR => 'Strength',
+            self::DEX => 'Dexterity',
+            self::CON => 'Consitution',
+            self::INT => 'Intelligence',
+            self::WIS => 'Wisdom',
+            self::CHA => 'Charisma',
         };
     }
 }
