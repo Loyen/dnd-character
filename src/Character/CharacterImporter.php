@@ -2,6 +2,8 @@
 
 namespace loyen\DndbCharacterSheet\Character;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Character\Model\Character;
 use loyen\DndbCharacterSheet\Character\Model\CharacterStat;
@@ -9,20 +11,38 @@ use loyen\DndbCharacterSheet\Character\Model\CharacterStatTypes;
 
 class CharacterImporter
 {
-    public static function importFromJson(string $jsonString): Character
+    public static function importFromApiById(int $characterId): Character
     {
+        try {
+            $client = new Client([
+                'base_uri'  => 'https://character-service.dndbeyond.com/',
+                'timeout'   => 2
+            ]);
 
-        $jsonData = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
+            $response = $client->request('GET', 'character/v5/character/' . $characterId);
 
-        $character = new Character(
-            $jsonData['name'],
-            self::extractStatsFromJson($jsonData)
-        );
-
-        return $character;
+            return self::createCharacterFromJson($response->getBody());
+        } catch (ClientException $e) {
+            \trigger_error('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
+        }
     }
 
-    public static function extractStatsFromJson(array $data): array
+    public static function importFromJson(string $jsonString): Character
+    {
+        return self::createCharacterFromJson($jsonString);
+    }
+
+    private static function createCharacterFromJson(string $jsonString): Character
+    {
+        $jsonData = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
+
+        return new Character(
+            $jsonData['name'],
+            self::extractStatsFromData($jsonData)
+        );
+    }
+
+    public static function extractStatsFromData(array $data): array
     {
         $stats = $data['stats'];
         $modifiers = $data['modifiers'];
