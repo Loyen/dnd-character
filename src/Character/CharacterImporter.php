@@ -40,7 +40,7 @@ class CharacterImporter
 
         return new Character(
             $jsonData['name'],
-            self::extractStatsFromData($jsonData),
+            self::extractAbilityScoresFromData($jsonData),
             self::extractProficiencyBonus($jsonData),
             self::extractMovementSpeeds($jsonData),
         );
@@ -97,7 +97,7 @@ class CharacterImporter
         };
     }
 
-    public static function extractStatsFromData(array $data): array
+    public static function extractAbilityScoresFromData(array $data): array
     {
         $stats = $data['stats'];
         $modifiers = $data['modifiers'];
