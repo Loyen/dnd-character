@@ -3,7 +3,7 @@
 namespace loyen\DndbCharacterSheet\Character;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Character\Model\Character;
 use loyen\DndbCharacterSheet\Character\Model\CharacterAbility;
@@ -22,7 +22,7 @@ class CharacterImporter
             $response = $client->request('GET', 'character/v5/character/' . $characterId);
 
             return self::createCharacterFromJson($response->getBody());
-        } catch (ClientException $e) {
+        } catch (GuzzleException $e) {
             \trigger_error('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
         }
     }
