@@ -68,6 +68,19 @@ class CharacterImporter
             )
         ];
 
+        $flyingModifiers = array_filter(
+            $flatModifiers,
+            fn ($m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
+        );
+
+        if (!empty($flyingModifiers)) {
+            $speedCollection[] = new CharacterMovement(
+                CharacterMovementTypes::from('fly'),
+                $walkingSpeed,
+                $walkingModifiers
+            );
+        }
+
         return $speedCollection;
     }
 
