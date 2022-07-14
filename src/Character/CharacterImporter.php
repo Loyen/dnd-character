@@ -38,8 +38,22 @@ class CharacterImporter
 
         return new Character(
             $jsonData['name'],
-            self::extractStatsFromData($jsonData)
+            self::extractStatsFromData($jsonData),
+            self::extractProficiencyBonus($jsonData),
         );
+    }
+
+    public static function extractProficiencyBonus(array $data): int
+    {
+        $level = max(20, array_sum(array_column($data['classes'], 'level')));
+
+        return match (true) {
+            $level <= 4 => 2,
+            $level <= 8 => 3,
+            $level <= 12 => 4,
+            $level <= 16 => 5,
+            $level <= 20 => 6
+        };
     }
 
     public static function extractStatsFromData(array $data): array
