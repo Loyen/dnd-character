@@ -7,7 +7,8 @@ class Character implements \JsonSerializable
     public function __construct(
         public readonly string $name,
         public readonly array $abilityScores,
-        public readonly int $proficiencyBonus
+        public readonly int $proficiencyBonus,
+        public readonly array $movementSpeeds,
     )
     {
     }

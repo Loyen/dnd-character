@@ -8,6 +8,8 @@ use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException
 use loyen\DndbCharacterSheet\Character\Model\Character;
 use loyen\DndbCharacterSheet\Character\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Character\Model\CharacterAbilityTypes;
+use loyen\DndbCharacterSheet\Character\Model\CharacterMovement;
+use loyen\DndbCharacterSheet\Character\Model\CharacterMovementTypes;
 
 class CharacterImporter
 {
@@ -40,7 +42,33 @@ class CharacterImporter
             $jsonData['name'],
             self::extractStatsFromData($jsonData),
             self::extractProficiencyBonus($jsonData),
+            self::extractMovementSpeeds($jsonData),
         );
+    }
+
+    public static function extractMovementSpeeds(array $data): array
+    {
+        $walkingSpeed = $data['race']['weightSpeeds']['normal']['walk'];
+        $modifiers = $data['modifiers'];
+
+        $flatModifiers = array_merge(...array_values($modifiers));
+
+        $walkingModifiers = array_column(array_filter(
+                $flatModifiers,
+                fn ($m) => 1 === $m['modifierTypeId'] && 1685 === $m['modifierSubTypeId']
+            ),
+            'value'
+        );
+
+        $speedCollection = [
+            new CharacterMovement(
+                CharacterMovementTypes::from('walk'),
+                $walkingSpeed,
+                $walkingModifiers
+            )
+        ];
+
+        return $speedCollection;
     }
 
     public static function extractProficiencyBonus(array $data): int
