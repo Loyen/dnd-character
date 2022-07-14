@@ -86,7 +86,7 @@ class CharacterImporter
 
     public static function extractProficiencyBonus(array $data): int
     {
-        $level = max(20, array_sum(array_column($data['classes'], 'level')));
+        $level = min(20, array_sum(array_column($data['classes'], 'level')));
 
         return match (true) {
             $level <= 4 => 2,
