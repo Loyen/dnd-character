@@ -44,9 +44,11 @@ class CharacterImporter
             self::extractProficiencyBonus($jsonData),
             self::extractMovementSpeeds($jsonData),
             self::extractLanguagesFromData($jsonData),
-            self::extractToolProficienciesFromData($jsonData),
-            self::extractWeaponProficienciesFromData($jsonData),
-            self::extractArmorProficienciesFromData($jsonData),
+            [
+                'armor'     => self::extractArmorProficienciesFromData($jsonData),
+                'tools'     => self::extractToolProficienciesFromData($jsonData),
+                'weapons'   => self::extractWeaponProficienciesFromData($jsonData),
+            ]
         );
     }
 
