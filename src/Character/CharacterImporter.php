@@ -131,14 +131,27 @@ class CharacterImporter
             }
         }
 
+        $savingThrowsProficiencies = array_column(array_filter(
+            $flatModifiers,
+            fn ($m) => $m['type'] === 'proficiency' &&
+                       str_ends_with($m['subType'], '-saving-throws')
+            ),
+            'type',
+            'subType'
+        );
+
         $statsCollection = [];
         foreach ($stats as $stat) {
             $statId = $stat['id'];
+            $characterAbilityType = CharacterAbilityTypes::from($statId);
+            $savingThrowCode = strtolower($characterAbilityType->name()) . '-saving-throws';
+
             $statsCollection[] = new CharacterAbility(
-                CharacterAbilityTypes::from($statId),
+                $characterAbilityType,
                 $stat['value'],
                 $modifiersList[$statId] ?? [],
-                $overrideList[$statId] ?? null
+                $overrideList[$statId] ?? null,
+                isset($savingThrowsProficiencies[$savingThrowCode])
             );
         }
 

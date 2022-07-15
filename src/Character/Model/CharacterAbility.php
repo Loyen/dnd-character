@@ -8,7 +8,8 @@ class CharacterAbility implements \JsonSerializable
         public readonly CharacterAbilityTypes $type,
         public readonly int $value = 0,
         public readonly array $modifiers = [],
-        public readonly ?int $overrideValue = null
+        public readonly ?int $overrideValue = null,
+        public readonly ?bool $savingThrowProficient = false,
     )
     {
     }
@@ -26,7 +27,8 @@ class CharacterAbility implements \JsonSerializable
         return [
             'name' => $this->type->name(),
             'value' => $abilityScore,
-            'modifier' => $calulatedModifier
+            'modifier' => $calulatedModifier,
+            'savingThrowProficient' => $this->savingThrowProficient
         ];
     }
 }
