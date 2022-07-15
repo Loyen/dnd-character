@@ -11,6 +11,7 @@ class Character implements \JsonSerializable
         public readonly array $movementSpeeds,
         public readonly array $languages,
         public readonly array $tools,
+        public readonly array $weapons,
     )
     {
     }

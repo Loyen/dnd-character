@@ -45,6 +45,7 @@ class CharacterImporter
             self::extractMovementSpeeds($jsonData),
             self::extractLanguagesFromData($jsonData),
             self::extractToolProficienciesFromData($jsonData),
+            self::extractWeaponProficienciesFromData($jsonData),
         );
     }
 
@@ -192,5 +193,27 @@ class CharacterImporter
         sort($tools);
 
         return $tools;
+    }
+
+    public static function extractWeaponProficienciesFromData(array $data): array
+    {
+        $modifiers = $data['modifiers'];
+
+        $flatModifiers = array_merge(...array_values($modifiers));
+        $weaponEntityIdList = [
+            660121713, // Type
+            1782728300, // Weapon-specific
+        ];
+
+        $weapons = array_column(array_filter(
+                $flatModifiers,
+                fn ($m) => in_array($m['entityTypeId'], $weaponEntityIdList)
+            ),
+            'friendlySubtypeName'
+        );
+
+        sort($weapons);
+
+        return $weapons;
     }
 }
