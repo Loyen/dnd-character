@@ -44,6 +44,7 @@ class CharacterImporter
             self::extractProficiencyBonus($jsonData),
             self::extractMovementSpeeds($jsonData),
             self::extractLanguagesFromData($jsonData),
+            self::extractToolProficienciesFromData($jsonData),
         );
     }
 
@@ -174,5 +175,22 @@ class CharacterImporter
         sort($languages);
 
         return $languages;
+    }
+
+    public static function extractToolProficienciesFromData(array $data): array
+    {
+        $modifiers = $data['modifiers'];
+
+        $flatModifiers = array_merge(...array_values($modifiers));
+        $tools = array_column(array_filter(
+                $flatModifiers,
+                fn ($m) => $m['entityTypeId'] === 2103445194
+            ),
+            'friendlySubtypeName'
+        );
+
+        sort($tools);
+
+        return $tools;
     }
 }
