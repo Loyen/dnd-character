@@ -9,6 +9,7 @@ class Character implements \JsonSerializable
         public readonly array $abilityScores,
         public readonly int $proficiencyBonus,
         public readonly array $movementSpeeds,
+        public readonly array $languages,
     )
     {
     }

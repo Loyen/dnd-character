@@ -43,6 +43,7 @@ class CharacterImporter
             self::extractAbilityScoresFromData($jsonData),
             self::extractProficiencyBonus($jsonData),
             self::extractMovementSpeeds($jsonData),
+            self::extractLanguagesFromData($jsonData),
         );
     }
 
@@ -156,5 +157,22 @@ class CharacterImporter
         }
 
         return $statsCollection;
+    }
+
+    public static function extractLanguagesFromData(array $data): array
+    {
+        $modifiers = $data['modifiers'];
+
+        $flatModifiers = array_merge(...array_values($modifiers));
+        $languages = array_column(array_filter(
+                $flatModifiers,
+                fn ($m) => $m['type'] === 'language'
+            ),
+            'friendlySubtypeName'
+        );
+
+        sort($languages);
+
+        return $languages;
     }
 }
