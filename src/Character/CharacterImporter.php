@@ -42,8 +42,8 @@ class CharacterImporter
 
         $character->setName($jsonData['name']);
         $character->setAbilityScores(self::extractAbilityScoresFromData($jsonData));
-        $character->setProficiencyBonus(self::extractProficiencyBonus($jsonData));
-        $character->setMovementSpeeds(self::extractMovementSpeeds($jsonData));
+        $character->setProficiencyBonus(self::extractProficiencyBonusFromData($jsonData));
+        $character->setMovementSpeeds(self::extractMovementSpeedsFromData($jsonData));
         $character->setLanguages(self::extractLanguagesFromData($jsonData));
         $character->setProficiencies([
                 'armor'     => self::extractArmorProficienciesFromData($jsonData),
@@ -54,7 +54,7 @@ class CharacterImporter
         return $character;
     }
 
-    public static function extractMovementSpeeds(array $data): array
+    public static function extractMovementSpeedsFromData(array $data): array
     {
         $walkingSpeed = $data['race']['weightSpeeds']['normal']['walk'];
         $modifiers = $data['modifiers'];
@@ -98,7 +98,7 @@ class CharacterImporter
         return $speedCollection;
     }
 
-    public static function extractProficiencyBonus(array $data): int
+    public static function extractProficiencyBonusFromData(array $data): int
     {
         $level = min(20, array_sum(array_column($data['classes'], 'level')));
 
