@@ -38,18 +38,20 @@ class CharacterImporter
     {
         $jsonData = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
 
-        return new Character(
-            $jsonData['name'],
-            self::extractAbilityScoresFromData($jsonData),
-            self::extractProficiencyBonus($jsonData),
-            self::extractMovementSpeeds($jsonData),
-            self::extractLanguagesFromData($jsonData),
-            [
+        $character = new Character();
+
+        $character->setName($jsonData['name']);
+        $character->setAbilityScores(self::extractAbilityScoresFromData($jsonData));
+        $character->setProficiencyBonus(self::extractProficiencyBonus($jsonData));
+        $character->setMovementSpeeds(self::extractMovementSpeeds($jsonData));
+        $character->setLanguages(self::extractLanguagesFromData($jsonData));
+        $character->setProficiencies([
                 'armor'     => self::extractArmorProficienciesFromData($jsonData),
                 'tools'     => self::extractToolProficienciesFromData($jsonData),
                 'weapons'   => self::extractWeaponProficienciesFromData($jsonData),
-            ]
-        );
+        ]);
+
+        return $character;
     }
 
     public static function extractMovementSpeeds(array $data): array
