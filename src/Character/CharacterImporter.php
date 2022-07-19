@@ -230,12 +230,12 @@ class CharacterImporter
             1782728300, // Weapon-specific
         ];
 
-        $weapons = array_column(array_filter(
+        $weapons = array_values(array_unique(array_column(array_filter(
                 $flatModifiers,
                 fn ($m) => in_array($m['entityTypeId'], $weaponEntityIdList)
             ),
             'friendlySubtypeName'
-        );
+        )));
 
         sort($weapons);
 
