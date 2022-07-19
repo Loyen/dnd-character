@@ -192,12 +192,12 @@ class CharacterImporter
         $modifiers = $data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
-        $tools = array_column(array_filter(
+        $tools = array_values(array_unique(array_column(array_filter(
                 $flatModifiers,
                 fn ($m) => $m['entityTypeId'] === 2103445194
             ),
             'friendlySubtypeName'
-        );
+        )));
 
         sort($tools);
 
