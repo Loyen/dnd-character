@@ -215,7 +215,7 @@ class CharacterImporter
                 fn ($m) => $m['entityTypeId'] === 174869515
             ),
             'friendlySubtypeName'
-        ), \SORT_STRING));
+        )));
 
         return $armors;
     }
