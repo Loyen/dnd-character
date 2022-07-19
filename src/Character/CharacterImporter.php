@@ -177,12 +177,12 @@ class CharacterImporter
         $modifiers = $data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
-        $languages = array_column(array_filter(
+        $languages = array_values(array_unique(array_column(array_filter(
                 $flatModifiers,
                 fn ($m) => $m['type'] === 'language'
             ),
             'friendlySubtypeName'
-        );
+        )));
 
         sort($languages);
 
