@@ -59,9 +59,15 @@ class CharacterImporter
 
         $flatModifiers = array_merge(...array_values($modifiers));
 
+        $walkingSpeedModifierSubTypes = [
+            1685, // unarmored-movement
+            1697  // speed-walking
+        ];
+
         $walkingModifiers = array_column(array_filter(
                 $flatModifiers,
-                fn ($m) => 1 === $m['modifierTypeId'] && 1685 === $m['modifierSubTypeId']
+                fn ($m) => 1 === $m['modifierTypeId'] &&
+                                 in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
             'value'
         );
