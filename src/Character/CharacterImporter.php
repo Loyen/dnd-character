@@ -89,10 +89,11 @@ class CharacterImporter
         );
 
         if (!empty($flyingModifiers)) {
+            $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
             $speedCollection[] = new CharacterMovement(
                 CharacterMovementTypes::from('fly'),
-                $walkingSpeed,
-                $walkingModifiers
+                $flyingSpeed ?: $walkingSpeed,
+                $flyingSpeed ? [ 0 ] : $walkingModifiers
             );
         }
 
