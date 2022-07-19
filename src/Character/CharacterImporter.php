@@ -42,13 +42,14 @@ class CharacterImporter
 
         $character->setName($jsonData['name']);
         $character->setAbilityScores(self::extractAbilityScoresFromData($jsonData));
+        $character->setClasses(self::extractClassesFromData($jsonData));
         $character->setProficiencyBonus(self::extractProficiencyBonusFromData($jsonData));
         $character->setMovementSpeeds(self::extractMovementSpeedsFromData($jsonData));
         $character->setLanguages(self::extractLanguagesFromData($jsonData));
         $character->setProficiencies([
-                'armor'     => self::extractArmorProficienciesFromData($jsonData),
-                'tools'     => self::extractToolProficienciesFromData($jsonData),
-                'weapons'   => self::extractWeaponProficienciesFromData($jsonData),
+            'armor'     => self::extractArmorProficienciesFromData($jsonData),
+            'tools'     => self::extractToolProficienciesFromData($jsonData),
+            'weapons'   => self::extractWeaponProficienciesFromData($jsonData),
         ]);
 
         return $character;
@@ -242,5 +243,56 @@ class CharacterImporter
         sort($weapons);
 
         return $weapons;
+    }
+
+    public static function extractClassesFromData(array $data): array
+    {
+        $classes = $data['classes'];
+        $classOptions = array_column($data['options']['class'], null, 'componentId');
+
+        // Do not include any of these in the features list
+        $skippedFeatures = [
+            'Ability Score Improvement',
+            'Hit Points',
+            'Proficiencies',
+            'Fast Movement'
+        ];
+
+        $classList = [];
+        foreach ($classes as $classPosition => $class) {
+            $level = $class['level'];
+            $name = $class['definition']['name'];
+
+            $classList[$classPosition] = [
+                'level' => $level,
+                'name' => $name
+            ];
+
+            $classFeatures = $class['definition']['classFeatures'];
+
+            if (isset($class['subclassDefinition'])) {
+                $classList[$classPosition]['subName'] = $class['subclassDefinition']['name'];
+
+                $classFeatures = array_merge($classFeatures, $class['subclassDefinition']['classFeatures']);
+            }
+
+            $unlockedClassFeatures = \array_filter(
+                $classFeatures,
+                fn ($f) => $f['requiredLevel'] <= $level &&
+                           !in_array($f['name'], $skippedFeatures)
+            );
+
+            foreach ($unlockedClassFeatures as &$unlockedFeature) {
+                if (isset($classOptions[$unlockedFeature['id']]['definition']['name'])) {
+                    $unlockedFeature['name'] = $classOptions[$unlockedFeature['id']]['definition']['name'];
+                }
+            }
+
+            usort($unlockedClassFeatures, fn($a, $b) => $a['name'] <=> $b['name']);
+
+            $classList[$classPosition]['features'] = array_values(array_unique(array_column($unlockedClassFeatures, 'name')));
+        }
+
+        return $classList;
     }
 }
