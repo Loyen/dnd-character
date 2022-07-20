@@ -285,7 +285,11 @@ class CharacterImporter
 
             foreach ($unlockedClassFeatures as &$unlockedFeature) {
                 if (isset($classOptions[$unlockedFeature['id']]['definition']['name'])) {
-                    $unlockedFeature['name'] = $classOptions[$unlockedFeature['id']]['definition']['name'];
+                    $unlockedFeature['name'] = sprintf(
+                        '%s - %s',
+                        $unlockedFeature['name'],
+                        $classOptions[$unlockedFeature['id']]['definition']['name']
+                    );
                 }
             }
 
