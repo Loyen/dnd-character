@@ -45,9 +45,9 @@ class CharacterImporter
         $character->setClasses(self::extractClassesFromData($jsonData));
         $character->setProficiencyBonus(self::extractProficiencyBonusFromData($jsonData));
         $character->setMovementSpeeds(self::extractMovementSpeedsFromData($jsonData));
-        $character->setLanguages(self::extractLanguagesFromData($jsonData));
         $character->setProficiencies([
             'armor'     => self::extractArmorProficienciesFromData($jsonData),
+            'languages' => self::extractLanguagesFromData($jsonData),
             'tools'     => self::extractToolProficienciesFromData($jsonData),
             'weapons'   => self::extractWeaponProficienciesFromData($jsonData),
         ]);

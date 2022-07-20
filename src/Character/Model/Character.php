@@ -9,7 +9,6 @@ class Character implements \JsonSerializable
     private int $proficiencyBonus;
     private array $classes;
     private array $movementSpeeds;
-    private array $languages;
     private array $proficiencies;
 
     public function setName(string $name): void
@@ -60,16 +59,6 @@ class Character implements \JsonSerializable
     public function getMovementSpeeds(): array
     {
         return $this->movementSpeeds;
-    }
-
-    public function setLanguages(array $languages): void
-    {
-        $this->languages = $languages;
-    }
-
-    public function getLanguages(): array
-    {
-        return $this->languages;
     }
 
     public function setProficiencies(array $proficiencies): void
