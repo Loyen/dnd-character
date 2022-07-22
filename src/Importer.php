@@ -4,11 +4,13 @@ namespace loyen\DndbCharacterSheet;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use loyen\DndbCharacterSheet\Exception\CharacterAPIException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
+use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\MovementType;
 
 class Importer
@@ -48,6 +50,7 @@ class Importer
         $character->setName($this->data['name']);
         $character->setAbilityScores($this->extractAbilityScoresFromData());
         $character->setClasses($this->extractClassesFromData());
+        $character->setCurrencies($this->extractCurrenciesFromData());
         $character->setProficiencyBonus($this->extractProficiencyBonusFromData());
         $character->setMovementSpeeds($this->extractMovementSpeedsFromData());
         $character->setProficiencies([
@@ -58,6 +61,18 @@ class Importer
         ]);
 
         return $character;
+    }
+
+    public function extractCurrenciesFromData(): array
+    {
+        $currencies = $this->data['currencies'];
+
+        $currencyList = [];
+        foreach (CurrencyType::cases() as $currency) {
+            $currencyList[$currency->value] = $currencies[$currency->value];
+        }
+
+        return $currencyList;
     }
 
     public function extractMovementSpeedsFromData(): array
