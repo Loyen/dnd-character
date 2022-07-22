@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character\Exception;
+namespace loyen\DndbCharacterSheet\Exception;
 
 class CharacterInvalidImportException extends \Exception
 {

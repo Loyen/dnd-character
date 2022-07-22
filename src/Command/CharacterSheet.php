@@ -1,9 +1,9 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Commands;
+namespace loyen\DndbCharacterSheet\Command;
 
 use Composer\Script\Event;
-use loyen\DndbCharacterSheet\Character\CharacterImporter;
+use loyen\DndbCharacterSheet\Importer;
 
 class CharacterSheet
 {
@@ -16,7 +16,7 @@ class CharacterSheet
 
         $characterId = $event->getArguments()[0] ?? throw new \Exception('No character ID inputted.');
 
-        $character = CharacterImporter::importFromApiById($characterId);
+        $character = Importer::importFromApiById($characterId);
 
         echo \json_encode(
             $character,
@@ -37,7 +37,7 @@ class CharacterSheet
         $characterFilePath = $event->getArguments()[0] ?? throw new \Exception('No file inputted.');
         $characterFileContent = \file_get_contents($characterFilePath);
 
-        $character = CharacterImporter::importFromJson($characterFileContent);
+        $character = Importer::importFromJson($characterFileContent);
 
         echo \json_encode(
             $character,

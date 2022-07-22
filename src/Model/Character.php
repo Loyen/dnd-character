@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character\Model;
+namespace loyen\DndbCharacterSheet\Model;
 
 class Character implements \JsonSerializable
 {

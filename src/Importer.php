@@ -1,17 +1,17 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character;
+namespace loyen\DndbCharacterSheet;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException;
-use loyen\DndbCharacterSheet\Character\Model\Character;
-use loyen\DndbCharacterSheet\Character\Model\CharacterAbility;
-use loyen\DndbCharacterSheet\Character\Model\CharacterMovement;
+use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
+use loyen\DndbCharacterSheet\Model\Character;
+use loyen\DndbCharacterSheet\Model\CharacterAbility;
+use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\MovementType;
 
-class CharacterImporter
+class Importer
 {
     public static function importFromApiById(int $characterId): Character
     {

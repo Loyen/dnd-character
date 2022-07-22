@@ -1,8 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character\Model;
-
-use loyen\DndbCharacterSheet\Model\MovementType;
+namespace loyen\DndbCharacterSheet\Model;
 
 class CharacterMovement implements \JsonSerializable
 {

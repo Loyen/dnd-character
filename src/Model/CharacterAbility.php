@@ -1,8 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character\Model;
-
-use loyen\DndbCharacterSheet\Model\AbilityType;
+namespace loyen\DndbCharacterSheet\Model;
 
 class CharacterAbility implements \JsonSerializable
 {
