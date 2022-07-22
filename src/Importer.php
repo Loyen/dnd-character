@@ -27,7 +27,7 @@ class Importer
 
             return (new self($response->getBody()))->createCharacter();
         } catch (GuzzleException $e) {
-            \trigger_error('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
+            throw new CharacterAPIException('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
         }
     }
 
