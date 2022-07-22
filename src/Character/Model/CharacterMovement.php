@@ -19,8 +19,7 @@ class CharacterMovement implements \JsonSerializable
 
         return [
             'name' => $this->type->name(),
-            'value' => $abilityScore,
-            'modifier' => $modifierTotal
+            'value' => $abilityScore
         ];
     }
 }
