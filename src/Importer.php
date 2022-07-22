@@ -13,6 +13,8 @@ use loyen\DndbCharacterSheet\Model\MovementType;
 
 class Importer
 {
+    private array $data;
+
     public static function importFromApiById(int $characterId): Character
     {
         try {
@@ -23,7 +25,7 @@ class Importer
 
             $response = $client->request('GET', 'character/v5/character/' . $characterId);
 
-            return self::createCharacterFromJson($response->getBody());
+            return (new self($response->getBody()))->createCharacter();
         } catch (GuzzleException $e) {
             \trigger_error('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
         }
@@ -31,34 +33,37 @@ class Importer
 
     public static function importFromJson(string $jsonString): Character
     {
-        return self::createCharacterFromJson($jsonString);
+        return (new self($jsonString))->createCharacter();
     }
 
-    private static function createCharacterFromJson(string $jsonString): Character
+    public function __construct(string $jsonString)
     {
-        $jsonData = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
+        $this->data = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
+    }
 
+    public function createCharacter(): Character
+    {
         $character = new Character();
 
-        $character->setName($jsonData['name']);
-        $character->setAbilityScores(self::extractAbilityScoresFromData($jsonData));
-        $character->setClasses(self::extractClassesFromData($jsonData));
-        $character->setProficiencyBonus(self::extractProficiencyBonusFromData($jsonData));
-        $character->setMovementSpeeds(self::extractMovementSpeedsFromData($jsonData));
+        $character->setName($this->data['name']);
+        $character->setAbilityScores($this->extractAbilityScoresFromData());
+        $character->setClasses($this->extractClassesFromData());
+        $character->setProficiencyBonus($this->extractProficiencyBonusFromData());
+        $character->setMovementSpeeds($this->extractMovementSpeedsFromData());
         $character->setProficiencies([
-            'armor'     => self::extractArmorProficienciesFromData($jsonData),
-            'languages' => self::extractLanguagesFromData($jsonData),
-            'tools'     => self::extractToolProficienciesFromData($jsonData),
-            'weapons'   => self::extractWeaponProficienciesFromData($jsonData),
+            'armor'     => $this->extractArmorProficienciesFromData(),
+            'languages' => $this->extractLanguagesFromData(),
+            'tools'     => $this->extractToolProficienciesFromData(),
+            'weapons'   => $this->extractWeaponProficienciesFromData(),
         ]);
 
         return $character;
     }
 
-    public static function extractMovementSpeedsFromData(array $data): array
+    public function extractMovementSpeedsFromData(): array
     {
-        $walkingSpeed = $data['race']['weightSpeeds']['normal']['walk'];
-        $modifiers = $data['modifiers'];
+        $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
+        $modifiers = $this->data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
 
@@ -100,9 +105,9 @@ class Importer
         return $speedCollection;
     }
 
-    public static function extractProficiencyBonusFromData(array $data): int
+    public function extractProficiencyBonusFromData(): int
     {
-        $level = min(20, array_sum(array_column($data['classes'], 'level')));
+        $level = min(20, array_sum(array_column($this->data['classes'], 'level')));
 
         return match (true) {
             $level <= 4 => 2,
@@ -113,10 +118,10 @@ class Importer
         };
     }
 
-    public static function extractAbilityScoresFromData(array $data): array
+    public function extractAbilityScoresFromData(): array
     {
-        $stats = $data['stats'];
-        $modifiers = $data['modifiers'];
+        $stats = $this->data['stats'];
+        $modifiers = $this->data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
 
@@ -132,7 +137,7 @@ class Importer
             $modifiersList[$entityId][] = $statModifier['value'];
         }
 
-        foreach ($data['bonusStats'] as $bonusStat) {
+        foreach ($this->data['bonusStats'] as $bonusStat) {
             if (!empty($bonusStat['value'])) {
                 $entityId = $bonusStat['id'];
                 $modifiersList[$entityId][] = $bonusStat['value'];
@@ -140,7 +145,7 @@ class Importer
         }
 
         $overrideList = [];
-        foreach ($data['overrideStats'] as $overrideStat) {
+        foreach ($this->data['overrideStats'] as $overrideStat) {
             if (!empty($overrideStat['value'])) {
                 $entityId = $overrideStat['id'];
                 $overrideList[$entityId] = $overrideStat['value'];
@@ -174,9 +179,9 @@ class Importer
         return $statsCollection;
     }
 
-    public static function extractLanguagesFromData(array $data): array
+    public function extractLanguagesFromData(): array
     {
-        $modifiers = $data['modifiers'];
+        $modifiers = $this->data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
         $languages = array_values(array_unique(array_column(array_filter(
@@ -191,9 +196,9 @@ class Importer
         return $languages;
     }
 
-    public static function extractToolProficienciesFromData(array $data): array
+    public function extractToolProficienciesFromData(): array
     {
-        $modifiers = $data['modifiers'];
+        $modifiers = $this->data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
         $tools = array_values(array_unique(array_column(array_filter(
@@ -208,9 +213,9 @@ class Importer
         return $tools;
     }
 
-    public static function extractArmorProficienciesFromData(array $data): array
+    public function extractArmorProficienciesFromData(): array
     {
-        $modifiers = $data['modifiers'];
+        $modifiers = $this->data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
 
@@ -224,9 +229,9 @@ class Importer
         return $armors;
     }
 
-    public static function extractWeaponProficienciesFromData(array $data): array
+    public function extractWeaponProficienciesFromData(): array
     {
-        $modifiers = $data['modifiers'];
+        $modifiers = $this->data['modifiers'];
 
         $flatModifiers = array_merge(...array_values($modifiers));
         $weaponEntityIdList = [
@@ -246,10 +251,10 @@ class Importer
         return $weapons;
     }
 
-    public static function extractClassesFromData(array $data): array
+    public function extractClassesFromData(): array
     {
-        $classes = $data['classes'];
-        $classOptions = array_column($data['options']['class'], null, 'componentId');
+        $classes = $this->data['classes'];
+        $classOptions = array_column($this->data['options']['class'], null, 'componentId');
 
         // Do not include any of these in the features list
         $skippedFeatures = [
