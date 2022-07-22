@@ -2,10 +2,12 @@
 
 namespace loyen\DndbCharacterSheet\Character\Model;
 
+use loyen\DndbCharacterSheet\Model\AbilityType;
+
 class CharacterAbility implements \JsonSerializable
 {
     public function __construct(
-        public readonly CharacterAbilityTypes $type,
+        public readonly AbilityType $type,
         public readonly int $value = 0,
         public readonly array $modifiers = [],
         public readonly ?int $overrideValue = null,

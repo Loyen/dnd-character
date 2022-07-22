@@ -7,9 +7,9 @@ use GuzzleHttp\Exception\GuzzleException;
 use loyen\DndbCharacterSheet\Character\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Character\Model\Character;
 use loyen\DndbCharacterSheet\Character\Model\CharacterAbility;
-use loyen\DndbCharacterSheet\Character\Model\CharacterAbilityTypes;
 use loyen\DndbCharacterSheet\Character\Model\CharacterMovement;
-use loyen\DndbCharacterSheet\Character\Model\CharacterMovementTypes;
+use loyen\DndbCharacterSheet\Model\AbilityType;
+use loyen\DndbCharacterSheet\Model\MovementType;
 
 class CharacterImporter
 {
@@ -77,7 +77,7 @@ class CharacterImporter
 
         $speedCollection = [
             new CharacterMovement(
-                CharacterMovementTypes::from('walk'),
+                MovementType::from('walk'),
                 $walkingSpeed,
                 $walkingModifiers
             )
@@ -91,7 +91,7 @@ class CharacterImporter
         if (!empty($flyingModifiers)) {
             $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
             $speedCollection[] = new CharacterMovement(
-                CharacterMovementTypes::from('fly'),
+                MovementType::from('fly'),
                 $flyingSpeed ?: $walkingSpeed,
                 $flyingSpeed ? [ 0 ] : $walkingModifiers
             );
@@ -159,7 +159,7 @@ class CharacterImporter
         $statsCollection = [];
         foreach ($stats as $stat) {
             $statId = $stat['id'];
-            $characterAbilityType = CharacterAbilityTypes::from($statId);
+            $characterAbilityType = AbilityType::from($statId);
             $savingThrowCode = strtolower($characterAbilityType->name()) . '-saving-throws';
 
             $statsCollection[] = new CharacterAbility(

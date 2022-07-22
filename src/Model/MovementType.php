@@ -1,8 +1,8 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character\Model;
+namespace loyen\DndbCharacterSheet\Model;
 
-enum CharacterMovementTypes: string
+enum MovementType: string
 {
     case WALK = 'walk';
     case FLY = 'fly';

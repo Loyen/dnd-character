@@ -1,8 +1,8 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Character\Model;
+namespace loyen\DndbCharacterSheet\Model;
 
-enum CharacterAbilityTypes: int
+enum AbilityType: int
 {
     case STR = 1;
     case DEX = 2;
