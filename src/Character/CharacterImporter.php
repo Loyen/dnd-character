@@ -120,10 +120,10 @@ class CharacterImporter
 
         $flatModifiers = array_merge(...array_values($modifiers));
 
-        $statsEntityTypeId = 1472902489;
         $statsModifiers = array_filter(
             $flatModifiers,
-            fn ($m) => $m['entityTypeId'] === $statsEntityTypeId
+            fn ($m) => 1472902489 === $m['entityTypeId'] &&
+                       null !== $m['value']
         );
 
         $modifiersList = [];
