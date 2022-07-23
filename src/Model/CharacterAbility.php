@@ -14,17 +14,23 @@ class CharacterAbility implements \JsonSerializable
     {
     }
 
+    public function getCalculatedValue(): int
+    {
+        return $this->overrideValue
+            ?? $this->value + array_sum($this->modifiers);
+    }
+
+    public function getCalculatedModifier(): int
+    {
+        return floor(($this->getCalculatedValue() - 10)/2);
+    }
+
     public function jsonSerialize(): mixed
     {
-        $modifierTotal = array_sum($this->modifiers);
-        $abilityScore = $this->overrideValue ?? $this->value + $modifierTotal;
-
-        $calulatedModifier = floor(($abilityScore - 10)/2);
-
         return [
             'name' => $this->type->name(),
-            'value' => $abilityScore,
-            'modifier' => $calulatedModifier,
+            'value' => $this->getCalculatedValue(),
+            'modifier' => $this->getCalculatedModifier(),
             'savingThrowProficient' => $this->savingThrowProficient
         ];
     }

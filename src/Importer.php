@@ -9,6 +9,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
+use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\MovementType;
@@ -52,6 +53,7 @@ class Importer
         $character->setAbilityScores($this->getAbilityScores());
         $character->setClasses($this->getClasses());
         $character->setCurrencies($this->getCurrencies());
+        $character->setHealth($this->getHealth());
         $character->setProficiencyBonus($this->getProficiencyBonus());
         $character->setMovementSpeeds($this->getMovementSpeeds());
         $character->setProficiencies([
@@ -202,6 +204,31 @@ class Importer
         return $currencyList;
     }
 
+    public function getHealth(): CharacterHealth
+    {
+        $baseHitPoints = $this->data['baseHitPoints'];
+        $overrideHitPoints = $this->data['overrideHitPoints'];
+
+        $healthModifiers = [];
+        if (isset($this->data['bonusHitPoints'])) {
+            $healthModifiers[] = $this->data['bonusHitPoints'];
+        }
+        if (isset($this->data['removedHitPoints'])) {
+            $healthModifiers[] = -$this->data['removedHitPoints'];
+        }
+        if (isset($this->data['temporaryHitPoints'])) {
+            $healthModifiers[] = $this->data['temporaryHitPoints'];
+        }
+
+        $level = $this->getLevel();
+        $abilityScores = array_filter($this->getAbilityScores(), fn($a) => $a->type == AbilityType::CON);
+        $constituionScore = array_shift($abilityScores);
+
+        $baseHitPoints += $level * $constituionScore->getCalculatedModifier();
+
+        return new CharacterHealth($baseHitPoints, $healthModifiers, $overrideHitPoints);
+    }
+
     public function getLanguages(): array
     {
         $modifiers = $this->getModifiers();
@@ -215,6 +242,11 @@ class Importer
         sort($languages);
 
         return $languages;
+    }
+
+    public function getLevel(): int
+    {
+        return min(20, array_sum(array_column($this->data['classes'], 'level')));
     }
 
     public function getModifiers(): array
@@ -269,7 +301,7 @@ class Importer
 
     public function getProficiencyBonus(): int
     {
-        $level = min(20, array_sum(array_column($this->data['classes'], 'level')));
+        $level = $this->getLevel();
 
         return match (true) {
             $level <= 4 => 2,

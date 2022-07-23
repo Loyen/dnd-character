@@ -9,6 +9,7 @@ class Character implements \JsonSerializable
     private int $proficiencyBonus;
     private array $classes;
     private array $currencies;
+    private CharacterHealth $health;
     private array $movementSpeeds;
     private array $proficiencies;
 
@@ -50,6 +51,16 @@ class Character implements \JsonSerializable
     public function getCurrencies(): array
     {
         return $this->currencies;
+    }
+
+    public function getHealth(): CharacterHealth
+    {
+        return $this->health;
+    }
+
+    public function setHealth(CharacterHealth $health): void
+    {
+        $this->health = $health;
     }
 
     public function setProficiencyBonus(int $proficiencyBonus): void
