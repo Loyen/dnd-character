@@ -49,90 +49,22 @@ class Importer
         $character = new Character();
 
         $character->setName($this->data['name']);
-        $character->setAbilityScores($this->extractAbilityScoresFromData());
-        $character->setClasses($this->extractClassesFromData());
-        $character->setCurrencies($this->extractCurrenciesFromData());
-        $character->setProficiencyBonus($this->extractProficiencyBonusFromData());
-        $character->setMovementSpeeds($this->extractMovementSpeedsFromData());
+        $character->setAbilityScores($this->getAbilityScores());
+        $character->setClasses($this->getClasses());
+        $character->setCurrencies($this->getCurrencies());
+        $character->setProficiencyBonus($this->getProficiencyBonus());
+        $character->setMovementSpeeds($this->getMovementSpeeds());
         $character->setProficiencies([
-            'armor'     => $this->extractArmorProficienciesFromData(),
-            'languages' => $this->extractLanguagesFromData(),
-            'tools'     => $this->extractToolProficienciesFromData(),
-            'weapons'   => $this->extractWeaponProficienciesFromData(),
+            'armor'     => $this->getArmorProficiencies(),
+            'languages' => $this->getLanguages(),
+            'tools'     => $this->getToolProficiencies(),
+            'weapons'   => $this->getWeaponProficiences(),
         ]);
 
         return $character;
     }
 
-    public function extractCurrenciesFromData(): array
-    {
-        $currencies = $this->data['currencies'];
-
-        $currencyList = [];
-        foreach (CurrencyType::cases() as $currency) {
-            $currencyList[$currency->value] = $currencies[$currency->value];
-        }
-
-        return $currencyList;
-    }
-
-    public function extractMovementSpeedsFromData(): array
-    {
-        $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
-        $modifiers = $this->getModifiers();
-
-        $walkingSpeedModifierSubTypes = [
-            1685, // unarmored-movement
-            1697  // speed-walking
-        ];
-
-        $walkingModifiers = array_column(array_filter(
-                $modifiers,
-                fn ($m) => 1 === $m['modifierTypeId'] &&
-                                 in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
-            ),
-            'value'
-        );
-
-        $speedCollection = [
-            new CharacterMovement(
-                MovementType::from('walk'),
-                $walkingSpeed,
-                $walkingModifiers
-            )
-        ];
-
-        $flyingModifiers = array_filter(
-            $modifiers,
-            fn ($m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
-        );
-
-        if (!empty($flyingModifiers)) {
-            $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
-            $speedCollection[] = new CharacterMovement(
-                MovementType::from('fly'),
-                $flyingSpeed ?: $walkingSpeed,
-                $flyingSpeed ? [ 0 ] : $walkingModifiers
-            );
-        }
-
-        return $speedCollection;
-    }
-
-    public function extractProficiencyBonusFromData(): int
-    {
-        $level = min(20, array_sum(array_column($this->data['classes'], 'level')));
-
-        return match (true) {
-            $level <= 4 => 2,
-            $level <= 8 => 3,
-            $level <= 12 => 4,
-            $level <= 16 => 5,
-            $level <= 20 => 6
-        };
-    }
-
-    public function extractAbilityScoresFromData(): array
+    public function getAbilityScores(): array
     {
         $stats = $this->data['stats'];
         $modifiers = $this->getModifiers();
@@ -190,37 +122,7 @@ class Importer
         return $statsCollection;
     }
 
-    public function extractLanguagesFromData(): array
-    {
-        $modifiers = $this->getModifiers();
-        $languages = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => $m['type'] === 'language'
-            ),
-            'friendlySubtypeName'
-        )));
-
-        sort($languages);
-
-        return $languages;
-    }
-
-    public function extractToolProficienciesFromData(): array
-    {
-        $modifiers = $this->getModifiers();
-        $tools = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => $m['entityTypeId'] === 2103445194
-            ),
-            'friendlySubtypeName'
-        )));
-
-        sort($tools);
-
-        return $tools;
-    }
-
-    public function extractArmorProficienciesFromData(): array
+    public function getArmorProficiencies(): array
     {
         $modifiers = $this->getModifiers();
         $armors = array_values(array_unique(array_column(array_filter(
@@ -233,27 +135,7 @@ class Importer
         return $armors;
     }
 
-    public function extractWeaponProficienciesFromData(): array
-    {
-        $modifiers = $this->getModifiers();
-        $weaponEntityIdList = [
-            660121713, // Type
-            1782728300, // Weapon-specific
-        ];
-
-        $weapons = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => in_array($m['entityTypeId'], $weaponEntityIdList)
-            ),
-            'friendlySubtypeName'
-        )));
-
-        sort($weapons);
-
-        return $weapons;
-    }
-
-    public function extractClassesFromData(): array
+    public function getClasses(): array
     {
         $classes = $this->data['classes'];
         $classOptions = array_column($this->data['options']['class'], null, 'componentId');
@@ -308,10 +190,128 @@ class Importer
         return $classList;
     }
 
+    public function getCurrencies(): array
+    {
+        $currencies = $this->data['currencies'];
+
+        $currencyList = [];
+        foreach (CurrencyType::cases() as $currency) {
+            $currencyList[$currency->value] = $currencies[$currency->value];
+        }
+
+        return $currencyList;
+    }
+
+    public function getLanguages(): array
+    {
+        $modifiers = $this->getModifiers();
+        $languages = array_values(array_unique(array_column(array_filter(
+                $modifiers,
+                fn ($m) => $m['type'] === 'language'
+            ),
+            'friendlySubtypeName'
+        )));
+
+        sort($languages);
+
+        return $languages;
+    }
+
     public function getModifiers(): array
     {
         $this->modifiers ??= array_merge(...array_values($this->data['modifiers']));
 
         return $this->modifiers;
+    }
+
+    public function getMovementSpeeds(): array
+    {
+        $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
+        $modifiers = $this->getModifiers();
+
+        $walkingSpeedModifierSubTypes = [
+            1685, // unarmored-movement
+            1697  // speed-walking
+        ];
+
+        $walkingModifiers = array_column(array_filter(
+                $modifiers,
+                fn ($m) => 1 === $m['modifierTypeId'] &&
+                                 in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
+            ),
+            'value'
+        );
+
+        $speedCollection = [
+            new CharacterMovement(
+                MovementType::from('walk'),
+                $walkingSpeed,
+                $walkingModifiers
+            )
+        ];
+
+        $flyingModifiers = array_filter(
+            $modifiers,
+            fn ($m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
+        );
+
+        if (!empty($flyingModifiers)) {
+            $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
+            $speedCollection[] = new CharacterMovement(
+                MovementType::from('fly'),
+                $flyingSpeed ?: $walkingSpeed,
+                $flyingSpeed ? [ 0 ] : $walkingModifiers
+            );
+        }
+
+        return $speedCollection;
+    }
+
+    public function getProficiencyBonus(): int
+    {
+        $level = min(20, array_sum(array_column($this->data['classes'], 'level')));
+
+        return match (true) {
+            $level <= 4 => 2,
+            $level <= 8 => 3,
+            $level <= 12 => 4,
+            $level <= 16 => 5,
+            $level <= 20 => 6
+        };
+    }
+
+    public function getToolProficiencies(): array
+    {
+        $modifiers = $this->getModifiers();
+        $tools = array_values(array_unique(array_column(array_filter(
+                $modifiers,
+                fn ($m) => $m['entityTypeId'] === 2103445194
+            ),
+            'friendlySubtypeName'
+        )));
+
+        sort($tools);
+
+        return $tools;
+    }
+
+    public function getWeaponProficiences(): array
+    {
+        $modifiers = $this->getModifiers();
+        $weaponEntityIdList = [
+            660121713, // Type
+            1782728300, // Weapon-specific
+        ];
+
+        $weapons = array_values(array_unique(array_column(array_filter(
+                $modifiers,
+                fn ($m) => in_array($m['entityTypeId'], $weaponEntityIdList)
+            ),
+            'friendlySubtypeName'
+        )));
+
+        sort($weapons);
+
+        return $weapons;
     }
 }
