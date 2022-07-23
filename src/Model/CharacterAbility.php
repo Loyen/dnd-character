@@ -19,7 +19,7 @@ class CharacterAbility implements \JsonSerializable
         $modifierTotal = array_sum($this->modifiers);
         $abilityScore = $this->overrideValue ?? $this->value + $modifierTotal;
 
-        $calulatedModifier = round(($abilityScore - 10)/2);
+        $calulatedModifier = floor(($abilityScore - 10)/2);
 
         return [
             'name' => $this->type->name(),
