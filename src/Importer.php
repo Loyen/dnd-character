@@ -16,6 +16,7 @@ use loyen\DndbCharacterSheet\Model\MovementType;
 class Importer
 {
     private array $data;
+    private array $modifiers;
 
     public static function importFromApiById(int $characterId): Character
     {
@@ -78,9 +79,7 @@ class Importer
     public function extractMovementSpeedsFromData(): array
     {
         $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
-        $modifiers = $this->data['modifiers'];
-
-        $flatModifiers = array_merge(...array_values($modifiers));
+        $modifiers = $this->getModifiers();
 
         $walkingSpeedModifierSubTypes = [
             1685, // unarmored-movement
@@ -88,7 +87,7 @@ class Importer
         ];
 
         $walkingModifiers = array_column(array_filter(
-                $flatModifiers,
+                $modifiers,
                 fn ($m) => 1 === $m['modifierTypeId'] &&
                                  in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
@@ -104,7 +103,7 @@ class Importer
         ];
 
         $flyingModifiers = array_filter(
-            $flatModifiers,
+            $modifiers,
             fn ($m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
         );
 
@@ -136,12 +135,9 @@ class Importer
     public function extractAbilityScoresFromData(): array
     {
         $stats = $this->data['stats'];
-        $modifiers = $this->data['modifiers'];
-
-        $flatModifiers = array_merge(...array_values($modifiers));
-
+        $modifiers = $this->getModifiers();
         $statsModifiers = array_filter(
-            $flatModifiers,
+            $modifiers,
             fn ($m) => 1472902489 === $m['entityTypeId'] &&
                        null !== $m['value']
         );
@@ -168,7 +164,7 @@ class Importer
         }
 
         $savingThrowsProficiencies = array_column(array_filter(
-            $flatModifiers,
+            $modifiers,
             fn ($m) => $m['type'] === 'proficiency' &&
                        str_ends_with($m['subType'], '-saving-throws')
             ),
@@ -196,11 +192,9 @@ class Importer
 
     public function extractLanguagesFromData(): array
     {
-        $modifiers = $this->data['modifiers'];
-
-        $flatModifiers = array_merge(...array_values($modifiers));
+        $modifiers = $this->getModifiers();
         $languages = array_values(array_unique(array_column(array_filter(
-                $flatModifiers,
+                $modifiers,
                 fn ($m) => $m['type'] === 'language'
             ),
             'friendlySubtypeName'
@@ -213,11 +207,9 @@ class Importer
 
     public function extractToolProficienciesFromData(): array
     {
-        $modifiers = $this->data['modifiers'];
-
-        $flatModifiers = array_merge(...array_values($modifiers));
+        $modifiers = $this->getModifiers();
         $tools = array_values(array_unique(array_column(array_filter(
-                $flatModifiers,
+                $modifiers,
                 fn ($m) => $m['entityTypeId'] === 2103445194
             ),
             'friendlySubtypeName'
@@ -230,12 +222,9 @@ class Importer
 
     public function extractArmorProficienciesFromData(): array
     {
-        $modifiers = $this->data['modifiers'];
-
-        $flatModifiers = array_merge(...array_values($modifiers));
-
+        $modifiers = $this->getModifiers();
         $armors = array_values(array_unique(array_column(array_filter(
-                $flatModifiers,
+                $modifiers,
                 fn ($m) => $m['entityTypeId'] === 174869515
             ),
             'friendlySubtypeName'
@@ -246,16 +235,14 @@ class Importer
 
     public function extractWeaponProficienciesFromData(): array
     {
-        $modifiers = $this->data['modifiers'];
-
-        $flatModifiers = array_merge(...array_values($modifiers));
+        $modifiers = $this->getModifiers();
         $weaponEntityIdList = [
             660121713, // Type
             1782728300, // Weapon-specific
         ];
 
         $weapons = array_values(array_unique(array_column(array_filter(
-                $flatModifiers,
+                $modifiers,
                 fn ($m) => in_array($m['entityTypeId'], $weaponEntityIdList)
             ),
             'friendlySubtypeName'
@@ -319,5 +306,12 @@ class Importer
         }
 
         return $classList;
+    }
+
+    public function getModifiers(): array
+    {
+        $this->modifiers ??= array_merge(...array_values($this->data['modifiers']));
+
+        return $this->modifiers;
     }
 }
