@@ -16,8 +16,8 @@
         "guzzlehttp/guzzle": "^7.0"
     },
     "scripts": {
-        "from-api": "loyen\\DndbCharacterSheet\\Commands\\CharacterSheet::fromAPI",
-        "from-file": "loyen\\DndbCharacterSheet\\Commands\\CharacterSheet::fromFile"
+        "from-api": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromAPI",
+        "from-file": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromFile"
     },
     "config": {
         "platform": {
