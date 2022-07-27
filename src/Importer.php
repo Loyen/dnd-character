@@ -277,7 +277,7 @@ class Importer
 
         $speedCollection = [
             new CharacterMovement(
-                MovementType::from('walk'),
+                MovementType::WALK,
                 $walkingSpeed,
                 $walkingModifiers
             )
@@ -291,7 +291,7 @@ class Importer
         if (!empty($flyingModifiers)) {
             $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
             $speedCollection[] = new CharacterMovement(
-                MovementType::from('fly'),
+                MovementType::FLY,
                 $flyingSpeed ?: $walkingSpeed,
                 $flyingSpeed ? [ 0 ] : $walkingModifiers
             );

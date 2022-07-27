@@ -2,13 +2,13 @@
 
 namespace loyen\DndbCharacterSheet\Model;
 
-enum MovementType: string
+enum MovementType
 {
-    case WALK = 'walk';
-    case FLY = 'fly';
-    case BURROW = 'burrow';
-    case SWIM = 'swim';
-    case CLIMB = 'climb';
+    case WALK;
+    case FLY;
+    case BURROW;
+    case SWIM;
+    case CLIMB;
 
     public function name(): string {
         return match($this) {
