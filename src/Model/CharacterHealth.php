@@ -7,6 +7,7 @@ class CharacterHealth implements \JsonSerializable
     public function __construct(
         public readonly int $value = 0,
         public readonly array $modifiers = [],
+        public readonly int $temporaryHitPoints = 0,
         public readonly ?int $overrideValue = null,
     )
     {
@@ -20,6 +21,7 @@ class CharacterHealth implements \JsonSerializable
         return [
             'value' => $currentHitPoints,
             'max' => $maxHitPoints,
+            'temporary' => $this->temporaryHitPoints
         ];
     }
 }

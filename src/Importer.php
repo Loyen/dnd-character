@@ -207,7 +207,6 @@ class Importer
     public function getHealth(): CharacterHealth
     {
         $baseHitPoints = $this->data['baseHitPoints'];
-        $overrideHitPoints = $this->data['overrideHitPoints'];
 
         $healthModifiers = [];
         if (isset($this->data['bonusHitPoints'])) {
@@ -216,9 +215,6 @@ class Importer
         if (isset($this->data['removedHitPoints'])) {
             $healthModifiers[] = -$this->data['removedHitPoints'];
         }
-        if (isset($this->data['temporaryHitPoints'])) {
-            $healthModifiers[] = $this->data['temporaryHitPoints'];
-        }
 
         $level = $this->getLevel();
         $abilityScores = array_filter($this->getAbilityScores(), fn($a) => $a->type == AbilityType::CON);
@@ -226,7 +222,12 @@ class Importer
 
         $baseHitPoints += $level * $constituionScore->getCalculatedModifier();
 
-        return new CharacterHealth($baseHitPoints, $healthModifiers, $overrideHitPoints);
+        return new CharacterHealth(
+            $baseHitPoints,
+            $healthModifiers,
+            $this->data['temporaryHitPoints'] ?? 0,
+            $this->data['overrideHitPoints'] ?? null,
+        );
     }
 
     public function getLanguages(): array
