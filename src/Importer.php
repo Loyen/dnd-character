@@ -112,13 +112,19 @@ class Importer
             $characterAbilityType = AbilityType::from($statId);
             $savingThrowCode = strtolower($characterAbilityType->name()) . '-saving-throws';
 
-            $statsCollection[] = new CharacterAbility(
-                $characterAbilityType,
-                $stat['value'],
-                $modifiersList[$statId] ?? [],
-                $overrideList[$statId] ?? null,
-                isset($savingThrowsProficiencies[$savingThrowCode])
-            );
+            $ability = new CharacterAbility($characterAbilityType);
+            $ability->setValue($stat['value']);
+            $ability->setSavingThrowProficient(isset($savingThrowsProficiencies[$savingThrowCode]));
+
+            if (isset($modifiersList[$statId])) {
+                $ability->setModifiers($modifiersList[$statId]);
+            }
+
+            if (isset($overrideList[$statId])) {
+                $ability->setOverrideValue($overrideList[$statId]);
+            }
+
+            $statsCollection[$characterAbilityType->name] = $ability;
         }
 
         return $statsCollection;
