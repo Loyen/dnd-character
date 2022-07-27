@@ -252,7 +252,12 @@ class Importer
 
     public function getModifiers(): array
     {
-        $this->modifiers ??= array_merge(...array_values($this->data['modifiers']));
+        if (!isset($this->modifiers)) {
+            $modifiers = $this->data['modifiers'];
+            unset($modifiers['item']);
+
+            $this->modifiers = array_merge(...array_values($modifiers));
+        }
 
         return $this->modifiers;
     }
