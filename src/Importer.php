@@ -18,6 +18,7 @@ class Importer
 {
     private array $data;
     private array $modifiers;
+    private Character $character;
 
     public static function importFromApiById(int $characterId): Character
     {
@@ -47,23 +48,23 @@ class Importer
 
     public function createCharacter(): Character
     {
-        $character = new Character();
+        $this->character = new Character();
 
-        $character->setName($this->data['name']);
-        $character->setAbilityScores($this->getAbilityScores());
-        $character->setClasses($this->getClasses());
-        $character->setCurrencies($this->getCurrencies());
-        $character->setHealth($this->getHealth());
-        $character->setProficiencyBonus($this->getProficiencyBonus());
-        $character->setMovementSpeeds($this->getMovementSpeeds());
-        $character->setProficiencies([
+        $this->character->setName($this->data['name']);
+        $this->character->setAbilityScores($this->getAbilityScores());
+        $this->character->setClasses($this->getClasses());
+        $this->character->setCurrencies($this->getCurrencies());
+        $this->character->setHealth($this->getHealth());
+        $this->character->setProficiencyBonus($this->getProficiencyBonus());
+        $this->character->setMovementSpeeds($this->getMovementSpeeds());
+        $this->character->setProficiencies([
             'armor'     => $this->getArmorProficiencies(),
             'languages' => $this->getLanguages(),
             'tools'     => $this->getToolProficiencies(),
             'weapons'   => $this->getWeaponProficiences(),
         ]);
 
-        return $character;
+        return $this->character;
     }
 
     public function getAbilityScores(): array
@@ -223,9 +224,7 @@ class Importer
         }
 
         $level = $this->getLevel();
-        $abilityScores = array_filter($this->getAbilityScores(), fn($a) => $a->type == AbilityType::CON);
-        $constituionScore = array_shift($abilityScores);
-
+        $constituionScore = $this->character->getAbilityScores()[AbilityType::CON->name];
         $baseHitPoints += $level * $constituionScore->getCalculatedModifier();
 
         return new CharacterHealth(
