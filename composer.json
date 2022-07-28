@@ -13,7 +13,8 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.0"
+        "guzzlehttp/guzzle": "^7.0",
+        "composer/composer": "^2.3"
     },
     "scripts": {
         "from-api": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromAPI",
