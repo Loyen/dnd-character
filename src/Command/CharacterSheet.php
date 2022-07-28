@@ -15,6 +15,7 @@ class CharacterSheet
         require_once $vendorDir . '/autoload.php';
 
         $characterId = $event->getArguments()[0] ?? throw new \Exception('No character ID inputted.');
+        $characterId = intval($characterId);
 
         $character = Importer::importFromApiById($characterId);
 
