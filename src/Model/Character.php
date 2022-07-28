@@ -12,6 +12,7 @@ class Character implements \JsonSerializable
     private CharacterHealth $health;
     private array $movementSpeeds;
     private array $proficiencies;
+    private array $inventory;
 
     public function setName(string $name): void
     {
@@ -36,6 +37,11 @@ class Character implements \JsonSerializable
     public function setClasses(array $classes): void
     {
         $this->classes = $classes;
+    }
+
+    public function setInventory(array $inventory): void
+    {
+        $this->inventory = $inventory;
     }
 
     public function getClasses(): array
@@ -91,6 +97,11 @@ class Character implements \JsonSerializable
     public function getProficiencies(): array
     {
         return $this->proficiencies;
+    }
+
+    public function getInventory(): array
+    {
+        return $this->inventory;
     }
 
     public function jsonSerialize(): mixed

@@ -12,6 +12,7 @@ use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
+use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
 
 class Importer
@@ -51,6 +52,7 @@ class Importer
         $this->character = new Character();
 
         $this->character->setName($this->data['name']);
+        $this->character->setInventory($this->getInventory());
         $this->character->setAbilityScores($this->getAbilityScores());
         $this->character->setClasses($this->getClasses());
         $this->character->setCurrencies($this->getCurrencies());
@@ -235,6 +237,61 @@ class Importer
         );
     }
 
+    public function getInventory(): array
+    {
+        $inventory = $this->data['inventory'];
+
+        $itemList = [];
+        foreach ($inventory as $iItem) {
+            $iItemDefinition = $iItem['definition'];
+            $item = new Item(
+                $iItemDefinition['name'],
+                $iItemDefinition['filterType']
+            );
+            $item->setId($iItemDefinition['id']);
+            $item->setTypeId($iItemDefinition['entityTypeId']);
+
+            $subType = $iItemDefinition['subType'] ?? $iItemDefinition['type'];
+
+            if ($iItemDefinition['filterType'] !== $subType) {
+                $item->setSubType($subType);
+            }
+
+            $item->setQuantity($iItem['quantity']);
+            $item->setCanAttune($iItemDefinition['canAttune']);
+            $item->setIsAttuned($iItem['isAttuned']);
+            $item->setIsConsumable($iItemDefinition['isConsumable']);
+            $item->setIsEquipped($iItemDefinition['canEquip'] && $iItem['equipped']);
+            $item->setIsMagical($iItemDefinition['magic']);
+
+            if (isset($iItemDefinition['damageType'])) {
+                $item->setDamageType($iItemDefinition['damageType']);
+            }
+
+            if (isset($iItemDefinition['damage']['diceString'])) {
+                $item->setDamage($iItemDefinition['damage']['diceString']);
+            }
+
+            if (isset($iItemDefinition['range'])) {
+                $item->setRange($iItemDefinition['range']);
+            }
+
+            if (isset($iItemDefinition['longRange'])) {
+                $item->setLongRange($iItemDefinition['longRange']);
+            }
+
+            if (isset($iItemDefinition['properties'])) {
+                foreach ($iItemDefinition['properties'] as $p) {
+                    $item->addProperty($p['name']);
+                }
+            }
+
+            $itemList[] = $item;
+        }
+
+        return $itemList;
+    }
+
     public function getLanguages(): array
     {
         $modifiers = $this->getModifiers();
@@ -257,11 +314,21 @@ class Importer
 
     public function getModifiers(): array
     {
-        if (!isset($this->modifiers)) {
-            $modifiers = $this->data['modifiers'];
-            unset($modifiers['item']);
+        if (isset($this->modifiers)) {
+            return $this->modifiers;
+        }
 
+            $modifiers = $this->data['modifiers'];
+        $itemModifiers = array_column($modifiers['item'], null, 'componentId');
+
+            unset($modifiers['item']);
             $this->modifiers = array_merge(...array_values($modifiers));
+
+        foreach ($this->character->getInventory() as $item) {
+            $applyModifier = $item->isEquipped() && (!$item->canBeAttuned() || $item->isAttuned());
+            if ($applyModifier && isset($itemModifiers[$item->getId()])) {
+                $this->modifiers[] = $itemModifiers[$item->getId()];
+            }
         }
 
         return $this->modifiers;
