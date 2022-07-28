@@ -174,20 +174,17 @@ class Importer
             }
 
             foreach ($classFeatures as $feature) {
-                if ($feature['requiredLevel'] > $class['level'] &&
+                $featureName = isset($classOptions[$feature['id']]['definition']['name'])
+                    ? $feature['name'] . ' - ' . $classOptions[$feature['id']]['definition']['name']
+                    : $feature['name'];
+
+                if (in_array($featureName, $characterClass->getFeatures()) ||
+                    $feature['requiredLevel'] > $class['level'] ||
                     in_array($feature['name'], $skippedFeatures)) {
                     continue;
                 }
 
-                if (isset($classOptions[$feature['id']]['definition']['name'])) {
-                    $characterClass->addFeature(sprintf(
-                        '%s - %s',
-                        $feature['name'],
-                        $classOptions[$feature['id']]['definition']['name']
-                    ));
-                } else {
-                    $characterClass->addFeature($feature['name']);
-                }
+                $characterClass->addFeature($featureName);
             }
 
             $classList[] = $characterClass;
