@@ -310,11 +310,11 @@ class Importer
             return $this->modifiers;
         }
 
-            $modifiers = $this->data['modifiers'];
+        $modifiers = $this->data['modifiers'];
         $itemModifiers = array_column($modifiers['item'], null, 'componentId');
 
-            unset($modifiers['item']);
-            $this->modifiers = array_merge(...array_values($modifiers));
+        unset($modifiers['item']);
+        $this->modifiers = array_merge(...array_values($modifiers));
 
         foreach ($this->character->getInventory() as $item) {
             $applyModifier = $item->isEquipped() && (!$item->canBeAttuned() || $item->isAttuned());
