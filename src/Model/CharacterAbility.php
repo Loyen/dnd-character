@@ -71,9 +71,9 @@ class CharacterAbility implements \JsonSerializable
             ?? $this->value + array_sum($this->modifiers);
     }
 
-    public function getCalculatedModifier(): float
+    public function getCalculatedModifier(): int
     {
-        return floor(($this->getCalculatedValue() - 10)/2);
+        return (int) floor(($this->getCalculatedValue() - 10)/2);
     }
 
     public function jsonSerialize(): mixed
