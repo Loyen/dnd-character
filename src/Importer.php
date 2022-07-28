@@ -9,6 +9,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
+use loyen\DndbCharacterSheet\Model\CharacterClass;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
@@ -161,41 +162,35 @@ class Importer
 
         $classList = [];
         foreach ($classes as $classPosition => $class) {
-            $level = $class['level'];
-            $name = $class['definition']['name'];
-
-            $classList[$classPosition] = [
-                'level' => $level,
-                'name' => $name
-            ];
+            $characterClass = new CharacterClass($class['definition']['name']);
+            $characterClass->setLevel($class['level']);
 
             $classFeatures = $class['definition']['classFeatures'];
 
             if (isset($class['subclassDefinition'])) {
-                $classList[$classPosition]['subName'] = $class['subclassDefinition']['name'];
+                $characterClass->setSubName($class['subclassDefinition']['name']);
 
                 $classFeatures = array_merge($classFeatures, $class['subclassDefinition']['classFeatures']);
             }
 
-            $unlockedClassFeatures = \array_filter(
-                $classFeatures,
-                fn ($f) => $f['requiredLevel'] <= $level &&
-                           !in_array($f['name'], $skippedFeatures)
-            );
+            foreach ($classFeatures as $feature) {
+                if ($feature['requiredLevel'] > $class['level'] &&
+                    in_array($feature['name'], $skippedFeatures)) {
+                    continue;
+                }
 
-            foreach ($unlockedClassFeatures as &$unlockedFeature) {
-                if (isset($classOptions[$unlockedFeature['id']]['definition']['name'])) {
-                    $unlockedFeature['name'] = sprintf(
+                if (isset($classOptions[$feature['id']]['definition']['name'])) {
+                    $characterClass->addFeature(sprintf(
                         '%s - %s',
-                        $unlockedFeature['name'],
-                        $classOptions[$unlockedFeature['id']]['definition']['name']
-                    );
+                        $feature['name'],
+                        $classOptions[$feature['id']]['definition']['name']
+                    ));
+                } else {
+                    $characterClass->addFeature($feature['name']);
                 }
             }
 
-            usort($unlockedClassFeatures, fn($a, $b) => $a['name'] <=> $b['name']);
-
-            $classList[$classPosition]['features'] = array_values(array_unique(array_column($unlockedClassFeatures, 'name')));
+            $classList[] = $characterClass;
         }
 
         return $classList;
