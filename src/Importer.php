@@ -26,7 +26,7 @@ class Importer
         try {
             $client = new Client([
                 'base_uri'  => 'https://character-service.dndbeyond.com/',
-                'timeout'   => 2
+                'timeout'   => 4
             ]);
 
             $response = $client->request('GET', 'character/v5/character/' . $characterId);
