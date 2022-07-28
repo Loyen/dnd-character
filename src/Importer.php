@@ -378,7 +378,8 @@ class Importer
             $level <= 8 => 3,
             $level <= 12 => 4,
             $level <= 16 => 5,
-            $level <= 20 => 6
+            $level <= 20 => 6,
+            default => throw new CharacterException('Level out of scope')
         };
     }
 
