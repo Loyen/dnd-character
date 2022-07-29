@@ -5,6 +5,7 @@ namespace loyen\DndbCharacterSheet;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use loyen\DndbCharacterSheet\Exception\CharacterAPIException;
+use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
