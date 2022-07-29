@@ -3,6 +3,7 @@
 namespace loyen\DndbCharacterSheet\Command;
 
 use Composer\Script\Event;
+use loyen\DndbCharacterSheet\Exception\CharacterFileReadException;
 use loyen\DndbCharacterSheet\Importer;
 
 class CharacterSheet
@@ -37,6 +38,9 @@ class CharacterSheet
 
         $characterFilePath = $event->getArguments()[0] ?? throw new \Exception('No file inputted.');
         $characterFileContent = \file_get_contents($characterFilePath);
+        if (!$characterFileContent) {
+            throw new CharacterFileReadException($characterFilePath);
+        }
 
         $character = Importer::importFromJson($characterFileContent);
 
