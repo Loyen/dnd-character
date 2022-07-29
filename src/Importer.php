@@ -302,7 +302,7 @@ class Importer
 
     public function getLevel(): int
     {
-        return min(20, array_sum(array_column($this->data['classes'], 'level')));
+        return (int) min(20, array_sum(array_column($this->data['classes'], 'level')));
     }
 
     public function getModifiers(): array
