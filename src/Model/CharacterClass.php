@@ -7,6 +7,9 @@ class CharacterClass implements \JsonSerializable
     private int $level = 1;
     private string $name;
     private ?string $subName = null;
+    /**
+     * @var array<int, string> $features
+     */
     private array $features = [];
 
     public function __construct(string $name)
@@ -29,6 +32,9 @@ class CharacterClass implements \JsonSerializable
         $this->subName = $subName;
     }
 
+    /**
+     * @param array<int, string> $features
+     */
     public function setFeatures(array $features): void
     {
         $this->features = $features;
@@ -49,6 +55,9 @@ class CharacterClass implements \JsonSerializable
         return $this->subName;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getFeatures(): array
     {
         return $this->features;

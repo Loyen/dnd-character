@@ -6,6 +6,9 @@ class CharacterAbility implements \JsonSerializable
 {
     private AbilityType $type;
     private int $value = 0;
+    /**
+     * @var array<int, int> $modifiers
+     */
     private array $modifiers = [];
     private ?int $overrideValue = null;
     private ?bool $savingThrowProficient = false;
@@ -25,6 +28,9 @@ class CharacterAbility implements \JsonSerializable
         $this->value = $value;
     }
 
+    /**
+     * @param array<int, int> $modifiers
+     */
     public function setModifiers(array $modifiers): void
     {
         $this->modifiers = $modifiers;
@@ -50,6 +56,9 @@ class CharacterAbility implements \JsonSerializable
         return $this->value;
     }
 
+    /**
+     * @return array<int, int>
+     */
     public function getModifiers(): array
     {
         return $this->modifiers;

@@ -19,7 +19,13 @@ use loyen\DndbCharacterSheet\Model\MovementType;
 
 class Importer
 {
+    /**
+     * @var array<string, mixed> $data
+     */
     private array $data;
+    /**
+     * @var array<int, array<string, mixed>> $modifiers
+     */
     private array $modifiers;
     private Character $character;
 
@@ -71,6 +77,9 @@ class Importer
         return $this->character;
     }
 
+    /**
+     * @return array<string, CharacterAbility>
+     */
     public function getAbilityScores(): array
     {
         $stats = $this->data['stats'];
@@ -135,6 +144,9 @@ class Importer
         return $statsCollection;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getArmorProficiencies(): array
     {
         $modifiers = $this->getModifiers();
@@ -148,6 +160,9 @@ class Importer
         return $armors;
     }
 
+    /**
+     * @return array<int, CharacterClass>
+     */
     public function getClasses(): array
     {
         $classes = $this->data['classes'];
@@ -194,6 +209,9 @@ class Importer
         return $classList;
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getCurrencies(): array
     {
         $currencies = $this->data['currencies'];
@@ -230,6 +248,9 @@ class Importer
         );
     }
 
+    /**
+     * @return array<int, Item>
+     */
     public function getInventory(): array
     {
         $inventory = $this->data['inventory'];
@@ -285,6 +306,9 @@ class Importer
         return $itemList;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getLanguages(): array
     {
         $modifiers = $this->getModifiers();
@@ -305,6 +329,9 @@ class Importer
         return (int) min(20, array_sum(array_column($this->data['classes'], 'level')));
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getModifiers(): array
     {
         if (isset($this->modifiers)) {
@@ -327,6 +354,9 @@ class Importer
         return $this->modifiers;
     }
 
+    /**
+     * @return array<int, CharacterMovement>
+     */
     public function getMovementSpeeds(): array
     {
         $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
@@ -384,6 +414,9 @@ class Importer
         };
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getToolProficiencies(): array
     {
         $modifiers = $this->getModifiers();
@@ -399,6 +432,9 @@ class Importer
         return $tools;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getWeaponProficiences(): array
     {
         $modifiers = $this->getModifiers();

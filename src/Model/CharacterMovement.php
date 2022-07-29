@@ -4,6 +4,9 @@ namespace loyen\DndbCharacterSheet\Model;
 
 class CharacterMovement implements \JsonSerializable
 {
+    /**
+     * @param array<int, int> $modifiers
+     */
     public function __construct(
         public readonly MovementType $type,
         public readonly int $value = 0,
