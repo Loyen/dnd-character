@@ -17,6 +17,7 @@
         "composer/composer": "^2.3"
     },
     "scripts": {
+        "analyse": "phpstan analyze src",
         "from-api": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromAPI",
         "from-file": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromFile"
     },
@@ -24,5 +25,8 @@
         "platform": {
             "php": "8.1"
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.8"
     }
 }
