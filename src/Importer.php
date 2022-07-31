@@ -63,6 +63,7 @@ class Importer
         $this->character->setInventory($this->getInventory());
         $this->character->setAbilityScores($this->getAbilityScores());
         $this->character->setClasses($this->getClasses());
+        $this->character->setLevel($this->getLevel());
         $this->character->setCurrencies($this->getCurrencies());
         $this->character->setHealth($this->getHealth());
         $this->character->setProficiencyBonus($this->getProficiencyBonus());
@@ -236,9 +237,8 @@ class Importer
             $healthModifiers[] = -$this->data['removedHitPoints'];
         }
 
-        $level = $this->getLevel();
         $constituionScore = $this->character->getAbilityScores()[AbilityType::CON->name];
-        $baseHitPoints += $level * $constituionScore->getCalculatedModifier();
+        $baseHitPoints += $this->character->getLevel() * $constituionScore->getCalculatedModifier();
 
         return new CharacterHealth(
             $baseHitPoints,
@@ -402,7 +402,7 @@ class Importer
 
     public function getProficiencyBonus(): int
     {
-        $level = $this->getLevel();
+        $level = $this->character->getLevel();
 
         return match (true) {
             $level <= 4 => 2,

@@ -10,6 +10,7 @@ class Character implements \JsonSerializable
      */
     private array $abilityScores;
     private int $proficiencyBonus;
+    private int $level;
     /**
      * @var array<int, CharacterClass> $classes
      */
@@ -80,6 +81,16 @@ class Character implements \JsonSerializable
     public function getInventory(): array
     {
         return $this->inventory;
+    }
+
+    public function setLevel(int $level): void
+    {
+        $this->level = $level;
+    }
+
+    public function getLevel(): int
+    {
+        return $this->level;
     }
 
     /**
