@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use loyen\DndbCharacterSheet\Exception\CharacterAPIException;
 use loyen\DndbCharacterSheet\Exception\CharacterException;
+use loyen\DndbCharacterSheet\Exception\CharacterFileReadException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
@@ -43,6 +44,16 @@ class Importer
         } catch (GuzzleException $e) {
             throw new CharacterAPIException('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
         }
+    }
+
+    public static function importFromFile(string $filePath): Character
+    {
+        $characterFileContent = \file_get_contents($filePath);
+        if (!$characterFileContent) {
+            throw new CharacterFileReadException($filePath);
+        }
+
+        return self::importFromJson($characterFileContent);
     }
 
     public static function importFromJson(string $jsonString): Character

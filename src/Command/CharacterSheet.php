@@ -37,12 +37,7 @@ class CharacterSheet
         require_once $vendorDir . '/autoload.php';
 
         $characterFilePath = $event->getArguments()[0] ?? throw new \Exception('No file inputted.');
-        $characterFileContent = \file_get_contents($characterFilePath);
-        if (!$characterFileContent) {
-            throw new CharacterFileReadException($characterFilePath);
-        }
-
-        $character = Importer::importFromJson($characterFileContent);
+        $character = Importer::importFromFile($characterFilePath);
 
         echo \json_encode(
             $character,
