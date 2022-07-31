@@ -81,40 +81,46 @@ final class ImporterTest extends TestCase
 
         $this->assertInstanceOf(Character::class, $character);
         $this->assertEquals($characterName, $character->getName());
-        $this->assertEquals($characterLevel, $character->getLevel());
+        $this->assertEquals($characterLevel, $character->getLevel(), 'Character Level');
         $this->assertInstanceOf(CharacterHealth::class, $character->getHealth());
-        $this->assertEquals($characterHealth, $character->getHealth()->getMaxHitPoints());
+        $this->assertEquals($characterHealth, $character->getHealth()->getMaxHitPoints(), 'Maximum HP');
         $actualCharacterAbilityScores = $character->getAbilityScores();
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualCharacterAbilityScores);
         $this->assertEquals(
             $characterAbilityScores['STR'],
-            $actualCharacterAbilityScores['STR']->getCalculatedValue()
+            $actualCharacterAbilityScores['STR']->getCalculatedValue(),
+            'STR ability score'
         );
         $this->assertEquals(
             $characterAbilityScores['DEX'],
-            $actualCharacterAbilityScores['DEX']->getCalculatedValue()
+            $actualCharacterAbilityScores['DEX']->getCalculatedValue(),
+            'DEX ability score'
         );
         $this->assertEquals(
             $characterAbilityScores['CON'],
-            $actualCharacterAbilityScores['CON']->getCalculatedValue()
+            $actualCharacterAbilityScores['CON']->getCalculatedValue(),
+            'CON ability score'
         );
         $this->assertEquals(
             $characterAbilityScores['INT'],
-            $actualCharacterAbilityScores['INT']->getCalculatedValue()
+            $actualCharacterAbilityScores['INT']->getCalculatedValue(),
+            'INT ability score'
         );
         $this->assertEquals(
             $characterAbilityScores['WIS'],
-            $actualCharacterAbilityScores['WIS']->getCalculatedValue()
+            $actualCharacterAbilityScores['WIS']->getCalculatedValue(),
+            'WIS ability score'
         );
         $this->assertEquals(
             $characterAbilityScores['CHA'],
-            $actualCharacterAbilityScores['CHA']->getCalculatedValue()
+            $actualCharacterAbilityScores['CHA']->getCalculatedValue(),
+            'CHA ability score'
         );
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
         $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
-        $this->assertEquals($characterWallet, $character->getCurrencies());
-        $this->assertContainsOnly('array', $character->getProficiencies());
+        $this->assertEquals($characterWallet, $character->getCurrencies(), 'Wallet');
+        $this->assertContainsOnly('array', $character->getProficiencies(), 'Proficiencies');
     }
 
     public function testInvalidCharacterImport()
