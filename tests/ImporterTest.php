@@ -83,7 +83,7 @@ final class ImporterTest extends TestCase
         $this->assertEquals($characterName, $character->getName());
         $this->assertEquals($characterLevel, $character->getLevel());
         $this->assertInstanceOf(CharacterHealth::class, $character->getHealth());
-        $this->assertEquals($characterHealth, $character->getHealth()->value);
+        $this->assertEquals($characterHealth, $character->getHealth()->getMaxHitPoints());
         $actualCharacterAbilityScores = $character->getAbilityScores();
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualCharacterAbilityScores);
         $this->assertEquals(
