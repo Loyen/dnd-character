@@ -16,14 +16,21 @@ class CharacterHealth implements \JsonSerializable
     {
     }
 
+    public function getMaxHitPoints(): int
+    {
+        return ($this->overrideValue ?? $this->value);
+    }
+
+    public function getCurrentHitPoints(): int
+    {
+        return $this->getMaxHitPoints() + array_sum($this->modifiers);
+    }
+
     public function jsonSerialize(): mixed
     {
-        $maxHitPoints = $this->overrideValue ?? $this->value;
-        $currentHitPoints = $maxHitPoints + array_sum($this->modifiers);
-
         return [
-            'value' => $currentHitPoints,
-            'max' => $maxHitPoints,
+            'value' => $this->getCurrentHitPoints(),
+            'max' => $this->getMaxHitPoints(),
             'temporary' => $this->temporaryHitPoints
         ];
     }
