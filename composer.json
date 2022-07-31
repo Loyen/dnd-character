@@ -18,6 +18,7 @@
     },
     "scripts": {
         "analyse": "phpstan analyze src",
+        "test": "phpunit",
         "from-api": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromAPI",
         "from-file": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromFile"
     },
@@ -26,7 +27,13 @@
             "php": "8.1"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\loyen\\DndbCharacterSheet\\": "tests/"
+        }
+    },
     "require-dev": {
-        "phpstan/phpstan": "^1.8"
+        "phpstan/phpstan": "^1.8",
+        "phpunit/phpunit": "^9.5"
     }
 }
