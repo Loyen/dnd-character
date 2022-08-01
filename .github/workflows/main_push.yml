@@ -1,0 +1,22 @@
+name: 'Changes related to main or pull requests'
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    container: composer:2
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Run PHPStan
+      run: composer run-script analyse
+
+    - name: Run PHPUnit
+      run: composer run-script test
