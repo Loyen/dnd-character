@@ -132,6 +132,15 @@ class Importer
             'subType'
         );
 
+        foreach ($this->getItemModifiers() as $itemModifier) {
+            $entityId = $itemModifier['entityId'];
+            if (9 === $itemModifier['modifierTypeId']) {
+                $overrideList[$entityId] = $itemModifier['value'];
+            } else {
+                $modifiersList[$entityId][] = $itemModifier['value'];
+            }
+        }
+
         $statsCollection = [];
         foreach ($stats as $stat) {
             $statId = $stat['id'];
@@ -350,19 +359,29 @@ class Importer
         }
 
         $modifiers = $this->data['modifiers'];
-        $itemModifiers = array_column($modifiers['item'], null, 'componentId');
 
         unset($modifiers['item']);
         $this->modifiers = array_merge(...array_values($modifiers));
 
+        return $this->modifiers;
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getItemModifiers(): array
+    {
+        $itemModifiers = array_column($this->data['modifiers']['item'], null, 'componentId');
+
+        $itemModifierList = [];
         foreach ($this->character->getInventory() as $item) {
             $applyModifier = $item->isEquipped() && (!$item->canBeAttuned() || $item->isAttuned());
             if ($applyModifier && isset($itemModifiers[$item->getId()])) {
-                $this->modifiers[] = $itemModifiers[$item->getId()];
+                $itemModifierList[] = $itemModifiers[$item->getId()];
             }
         }
 
-        return $this->modifiers;
+        return $itemModifierList;
     }
 
     /**
