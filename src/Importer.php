@@ -99,7 +99,8 @@ class Importer
         $statsModifiers = array_filter(
             $modifiers,
             fn ($m) => 1472902489 === $m['entityTypeId'] &&
-                       null !== $m['value']
+                       null !== $m['value'] &&
+                       1960452172 === $m['componentTypeId']
         );
 
         $modifiersList = [];
