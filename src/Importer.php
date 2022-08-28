@@ -386,7 +386,7 @@ class Importer
     }
 
     /**
-     * @return array<int, CharacterMovement>
+     * @return array<string, CharacterMovement>
      */
     public function getMovementSpeeds(): array
     {
@@ -407,7 +407,7 @@ class Importer
         );
 
         $speedCollection = [
-            new CharacterMovement(
+            MovementType::WALK->name() => new CharacterMovement(
                 MovementType::WALK,
                 $walkingSpeed,
                 $walkingModifiers
@@ -421,7 +421,7 @@ class Importer
 
         if (!empty($flyingModifiers)) {
             $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
-            $speedCollection[] = new CharacterMovement(
+            $speedCollection[MovementType::FLY->name()] = new CharacterMovement(
                 MovementType::FLY,
                 $flyingSpeed ?: $walkingSpeed,
                 $flyingSpeed ? [ 0 ] : $walkingModifiers
