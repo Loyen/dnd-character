@@ -11,6 +11,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
+use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
 use loyen\DndbCharacterSheet\Model\CharacterClass;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
@@ -73,6 +74,7 @@ class Importer
         $this->character->setName($this->data['name']);
         $this->character->setInventory($this->getInventory());
         $this->character->setAbilityScores($this->getAbilityScores());
+        $this->character->setArmorClass($this->getArmorClass());
         $this->character->setClasses($this->getClasses());
         $this->character->setLevel($this->getLevel());
         $this->character->setCurrencies($this->getCurrencies());
@@ -164,6 +166,69 @@ class Importer
         }
 
         return $statsCollection;
+    }
+
+    public function getArmorClass(): CharacterArmorClass
+    {
+        $armorClass = new CharacterArmorClass();
+        $armorClass->setDexterityAbility(
+            $this->character->getAbilityScores()[AbilityType::DEX->name]
+        );
+
+
+        $modifiers = $this->getModifiers();
+        $armorBonuses = \array_column(\array_filter(
+                $modifiers,
+                fn ($m) => 'bonus' === $m['type'] &&
+                            \in_array(
+                                $m['subType'],
+                                [
+                                    'armored-armor-class',
+                                    'armor-class'
+                                ],
+                                true
+                            ) &&
+                            $m['modifierTypeId'] === 1 &&
+                            $m['modifierSubTypeId'] !== 1
+            ),
+            'value'
+        );
+
+        $itemModifiers = $this->getItemModifiers();
+        foreach ($this->character->getInventory() as $item) {
+
+            $itemFullyEquipped = $item->isEquipped() && (!$item->canBeAttuned() || $item->isAttuned());
+            if (!$itemFullyEquipped) {
+                continue;
+            }
+
+            if (\in_array($item->getArmorTypeId(), [ 1, 2, 3 ], true)) {
+                $armorClass->setArmor($item);
+            } else if ($item->getArmorClass() !== null) {
+                $armorBonuses[$item->getId()] = $item->getArmorClass();
+            }
+
+            foreach ($item->getModifierIds() as $modifierId) {
+                if (!isset($itemModifiers[$modifierId])) {
+                    continue;
+                }
+
+                $m = $itemModifiers[$modifierId];
+
+                if (
+                    $m['type'] === 'bonus' &&
+                    ($m['subType'] === 'armor-class' || $m['subType'] === 'armored-armor-class') &&
+                    $m['isGranted'] === true
+                ) {
+                    $armorBonuses[] = $itemModifiers[$modifierId]['value'];
+                }
+
+            }
+        }
+
+        $armorClass->setModifiers($armorBonuses);
+
+        return $armorClass;
     }
 
     /**
@@ -299,6 +364,14 @@ class Importer
             $item->setIsEquipped($iItemDefinition['canEquip'] && $iItem['equipped']);
             $item->setIsMagical($iItemDefinition['magic']);
 
+            if (isset($iItemDefinition['armorClass'])) {
+                $item->setArmorClass($iItemDefinition['armorClass']);
+            }
+
+            if (isset($iItemDefinition['armorTypeId'])) {
+                $item->setArmorTypeId($iItemDefinition['armorTypeId']);
+            }
+
             if (isset($iItemDefinition['damageType'])) {
                 $item->setDamageType($iItemDefinition['damageType']);
             }
@@ -319,6 +392,13 @@ class Importer
                 foreach ($iItemDefinition['properties'] as $p) {
                     $item->addProperty($p['name']);
                 }
+            }
+
+            if (isset($iItemDefinition['grantedModifiers'])) {
+                $item->setModifierIds(\array_values(\array_unique(\array_column(
+                    $iItemDefinition['grantedModifiers'],
+                    'id'
+                ))));
             }
 
             $itemList[] = $item;
@@ -372,13 +452,20 @@ class Importer
      */
     public function getItemModifiers(): array
     {
-        $itemModifiers = array_column($this->data['modifiers']['item'], null, 'componentId');
+        $itemModifiers = array_column($this->data['modifiers']['item'], null, 'id');
 
         $itemModifierList = [];
         foreach ($this->character->getInventory() as $item) {
             $applyModifier = $item->isEquipped() && (!$item->canBeAttuned() || $item->isAttuned());
-            if ($applyModifier && isset($itemModifiers[$item->getId()])) {
-                $itemModifierList[] = $itemModifiers[$item->getId()];
+            if (!$applyModifier) {
+                continue;
+            }
+
+            foreach ($item->getModifierIds() as $modifierId) {
+                if (!isset($itemModifiers[$modifierId])) {
+                    continue;
+                }
+                $itemModifierList[$modifierId] = $itemModifiers[$modifierId];
             }
         }
 

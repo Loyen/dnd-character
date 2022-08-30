@@ -26,6 +26,7 @@ final class ImporterTest extends TestCase
                 'Will Ager',
                 1,
                 11,
+                15,
                 [
                     'STR' => 13,
                     'DEX' => 13,
@@ -47,6 +48,7 @@ final class ImporterTest extends TestCase
                 'Shuwan Tellalot',
                 3,
                 22,
+                13,
                 [
                     'STR' => 12,
                     'DEX' => 14,
@@ -74,6 +76,7 @@ final class ImporterTest extends TestCase
         string $characterName,
         int $characterLevel,
         int $characterHealth,
+        int $characterArmorClass,
         array $characterAbilityScores,
         array $characterWallet
     ) {
@@ -84,6 +87,8 @@ final class ImporterTest extends TestCase
         $this->assertEquals($characterLevel, $character->getLevel(), 'Character Level');
         $this->assertInstanceOf(CharacterHealth::class, $character->getHealth());
         $this->assertEquals($characterHealth, $character->getHealth()->getMaxHitPoints(), 'Maximum HP');
+        $this->assertInstanceOf(CharacterArmorClass::class, $character->getArmorClass());
+        $this->assertEquals($characterArmorClass, $character->getArmorClass()->getCalculatedValue(), 'Armor Class');
         $actualCharacterAbilityScores = $character->getAbilityScores();
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualCharacterAbilityScores);
         $this->assertEquals(

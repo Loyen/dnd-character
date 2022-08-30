@@ -11,6 +11,9 @@ class Item implements \JsonSerializable
     private ?string $subType = null; // subType || type
     private ?int $quantity = null; // quantity
 
+    private ?int $armorClass = null; // armorClass
+    private ?int $armorTypeId = null; // armorTypeId
+
     private ?string $damageType = null; //damageType
     private ?string $damage = null; // damage.diceString
 
@@ -23,6 +26,11 @@ class Item implements \JsonSerializable
     private bool $isEquipped = false; // canEquip && isEquip
     private bool $isMagical = false; // magic
     private array $properties = []; // properties
+
+    /**
+     * @var array<int, int> $modifierIds
+     */
+    private array $modifierIds = []; // grantedModifiers.id
 
     public function __construct(string $name, string $type)
     {
@@ -48,6 +56,16 @@ class Item implements \JsonSerializable
     public function setQuantity(?int $quantity): void
     {
         $this->quantity = $quantity;
+    }
+
+    public function setArmorClass(int $armorClass): void
+    {
+        $this->armorClass = $armorClass;
+    }
+
+    public function setArmorTypeId(int $armorTypeId): void
+    {
+        $this->armorTypeId = $armorTypeId;
     }
 
     public function setDamage(?string $damage): void
@@ -95,6 +113,14 @@ class Item implements \JsonSerializable
         $this->isMagical = $isMagical;
     }
 
+    /**
+     * @param array<int, int> $modifierIds
+     */
+    public function setModifierIds(array $modifierIds): void
+    {
+        $this->modifierIds = $modifierIds;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -113,6 +139,16 @@ class Item implements \JsonSerializable
     public function getQuantity(): ?int
     {
         return $this->quantity;
+    }
+
+    public function getArmorClass(): ?int
+    {
+        return $this->armorClass;
+    }
+
+    public function getArmorTypeId(): ?int
+    {
+        return $this->armorTypeId;
     }
 
     public function getDamage(): ?string
@@ -165,6 +201,14 @@ class Item implements \JsonSerializable
         return $this->isMagical;
     }
 
+    /**
+     * @return array<int, int>
+     */
+    public function getModifierIds(): array
+    {
+        return $this->modifierIds;
+    }
+
     public function addProperty(string $property): void
     {
         $this->properties[] = $property;
@@ -177,6 +221,7 @@ class Item implements \JsonSerializable
             'type' => $this->type,
             'subType' => $this->subType,
             'quantity' => $this->quantity,
+            'armorClass' => $this->armorClass,
             'damageType' => $this->damageType,
             'damage' => $this->damage,
             'range' => $this->range,

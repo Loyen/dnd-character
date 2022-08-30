@@ -5,6 +5,7 @@ namespace loyen\DndbCharacterSheet\Model;
 class Character implements \JsonSerializable
 {
     private string $name;
+    private CharacterArmorClass $armorClass;
     /**
      * @var array<string, CharacterAbility> $abilityScores
      */
@@ -58,6 +59,17 @@ class Character implements \JsonSerializable
     {
         return $this->abilityScores;
     }
+
+    public function setArmorClass(CharacterArmorClass $armorClass): void
+    {
+        $this->armorClass = $armorClass;
+    }
+
+    public function getArmorClass(): CharacterArmorClass
+    {
+        return $this->armorClass;
+    }
+
 
     /**
      * @param array<int, CharacterClass> $classes
