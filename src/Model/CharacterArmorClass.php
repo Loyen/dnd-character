@@ -4,7 +4,7 @@ namespace loyen\DndbCharacterSheet\Model;
 
 class CharacterArmorClass implements \JsonSerializable
 {
-    private ?CharacterAbility $dexterityAbility;
+    private ?CharacterAbility $ability = null;
     private int $value = 10;
     private ?int $overrideValue = null;
     private ?Item $armor = null;
@@ -18,9 +18,9 @@ class CharacterArmorClass implements \JsonSerializable
         $this->armor = $armor;
     }
 
-    public function setDexterityAbility(CharacterAbility $dexterityAbility): void
+    public function setAbility(CharacterAbility $Ability): void
     {
-        $this->dexterityAbility = $dexterityAbility;
+        $this->ability = $Ability;
     }
 
     /**
@@ -46,9 +46,9 @@ class CharacterArmorClass implements \JsonSerializable
         return $this->armor;
     }
 
-    public function getDexterityAbility(): ?CharacterAbility
+    public function getAbility(): ?CharacterAbility
     {
-        return $this->dexterityAbility;
+        return $this->ability;
     }
 
     /**
@@ -77,7 +77,7 @@ class CharacterArmorClass implements \JsonSerializable
 
         $value = $this->armor?->getArmorClass() ?? $this->value;
 
-        $dexterityModifier = max(0, $this->dexterityAbility?->getCalculatedModifier());
+        $dexterityModifier = max(0, $this->ability?->getCalculatedModifier());
         if ($this->armor?->getArmorTypeId() === 2) {
             $dexterityModifier = min(2, $dexterityModifier);
         }

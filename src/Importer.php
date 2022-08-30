@@ -171,32 +171,10 @@ class Importer
     public function getArmorClass(): CharacterArmorClass
     {
         $armorClass = new CharacterArmorClass();
-        $armorClass->setDexterityAbility(
-            $this->character->getAbilityScores()[AbilityType::DEX->name]
-        );
 
-
-        $modifiers = $this->getModifiers();
-        $armorBonuses = \array_column(\array_filter(
-                $modifiers,
-                fn ($m) => 'bonus' === $m['type'] &&
-                            \in_array(
-                                $m['subType'],
-                                [
-                                    'armored-armor-class',
-                                    'armor-class'
-                                ],
-                                true
-                            ) &&
-                            $m['modifierTypeId'] === 1 &&
-                            $m['modifierSubTypeId'] !== 1
-            ),
-            'value'
-        );
-
+        $armorBonuses = [];
         $itemModifiers = $this->getItemModifiers();
         foreach ($this->character->getInventory() as $item) {
-
             $itemFullyEquipped = $item->isEquipped() && (!$item->canBeAttuned() || $item->isAttuned());
             if (!$itemFullyEquipped) {
                 continue;
@@ -226,7 +204,45 @@ class Importer
             }
         }
 
+        $modifiers = $this->getModifiers();
+        foreach ($modifiers as $modifierId => $m) {
+            $isArmored = $m['type'] === 'bonus' &&
+                         \in_array(
+                             $m['subType'],
+                             [
+                                 'armored-armor-class',
+                                 'armor-class'
+                             ],
+                             true
+                         ) &&
+                         $m['modifierTypeId'] === 1 &&
+                         $m['modifierSubTypeId'] !== 1;
+            $isUnarmored = $m['type'] === 'set' &&
+                           $m['subType'] === 'unarmored-armor-class' &&
+                           $m['modifierTypeId'] === 9 &&
+                           $m['modifierSubTypeId'] === 1006;
+            if ($isArmored || $isUnarmored) {
+                if ($m['subType'] !== 'unarmored-armor-class') {
+                    $armorBonuses[] = $m['value'];
+                } else if ($armorClass->getArmor() === null) {
+                    // If Natural Armor, use CON instead of DEX
+                    if ($m['componentId'] === 571068) {
+                        $armorClass->setAbility(
+                            $this->character->getAbilityScores()[AbilityType::CON->name]
+                        );
+                    }
+                    $armorBonuses[$modifierId] = $m['value'];
+                }
+            }
+        }
+
         $armorClass->setModifiers($armorBonuses);
+
+        if ($armorClass->getAbility() === null) {
+            $armorClass->setAbility(
+                $this->character->getAbilityScores()[AbilityType::DEX->name]
+            );
+        }
 
         return $armorClass;
     }
