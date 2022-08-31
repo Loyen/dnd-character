@@ -80,6 +80,14 @@ class Character implements \JsonSerializable
     }
 
     /**
+     * @return array<int, CharacterClass>
+     */
+    public function getClasses(): array
+    {
+        return $this->classes;
+    }
+
+    /**
      * @param array<int, Item> $inventory
      */
     public function setInventory(array $inventory): void
@@ -103,14 +111,6 @@ class Character implements \JsonSerializable
     public function getLevel(): int
     {
         return $this->level;
-    }
-
-    /**
-     * @return array<int, CharacterClass>
-     */
-    public function getClasses(): array
-    {
-        return $this->classes;
     }
 
     /**
