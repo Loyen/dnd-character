@@ -43,9 +43,19 @@ class Item implements \JsonSerializable
         $this->id = $id;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
     public function setTypeId(int $typeId): void
     {
         $this->typeId = $typeId;
+    }
+
+    public function getTypeId(): int
+    {
+        return $this->typeId;
     }
 
     public function setSubType(?string $subType): void
@@ -53,9 +63,19 @@ class Item implements \JsonSerializable
         $this->subType = $subType;
     }
 
+    public function getSubType(): ?string
+    {
+        return $this->subType;
+    }
+
     public function setQuantity(?int $quantity): void
     {
         $this->quantity = $quantity;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
     }
 
     public function setArmorClass(int $armorClass): void
@@ -63,9 +83,19 @@ class Item implements \JsonSerializable
         $this->armorClass = $armorClass;
     }
 
+    public function getArmorClass(): ?int
+    {
+        return $this->armorClass;
+    }
+
     public function setArmorTypeId(int $armorTypeId): void
     {
         $this->armorTypeId = $armorTypeId;
+    }
+
+    public function getArmorTypeId(): ?int
+    {
+        return $this->armorTypeId;
     }
 
     public function setDamage(?string $damage): void
@@ -73,9 +103,19 @@ class Item implements \JsonSerializable
         $this->damage = $damage;
     }
 
+    public function getDamage(): ?string
+    {
+        return $this->damage;
+    }
+
     public function setDamageType(?string $damageType): void
     {
         $this->damageType = $damageType;
+    }
+
+    public function getDamageType(): ?string
+    {
+        return $this->damageType;
     }
 
     public function setRange(?int $range): void
@@ -83,9 +123,19 @@ class Item implements \JsonSerializable
         $this->range = $range;
     }
 
+    public function getRange(): ?int
+    {
+        return $this->range;
+    }
+
     public function setLongRange(?int $longRange): void
     {
         $this->longRange = $longRange;
+    }
+
+    public function getLongRange(): ?int
+    {
+        return $this->longRange;
     }
 
     public function setCanAttune(bool $canAttune): void
@@ -93,9 +143,19 @@ class Item implements \JsonSerializable
         $this->canAttune = $canAttune;
     }
 
+    public function canBeAttuned(): bool
+    {
+        return $this->canAttune;
+    }
+
     public function setIsAttuned(bool $isAttuned): void
     {
         $this->isAttuned = $isAttuned;
+    }
+
+    public function isAttuned(): bool
+    {
+        return $this->isAttuned;
     }
 
     public function setIsConsumable(bool $isConsumable): void
@@ -103,14 +163,29 @@ class Item implements \JsonSerializable
         $this->isConsumable = $isConsumable;
     }
 
+    public function isConsumable(): bool
+    {
+        return $this->isConsumable;
+    }
+
     public function setIsEquipped(bool $isEquipped): void
     {
         $this->isEquipped = $isEquipped;
     }
 
+    public function isEquipped(): bool
+    {
+        return $this->isEquipped;
+    }
+
     public function setIsMagical(bool $isMagical): void
     {
         $this->isMagical = $isMagical;
+    }
+
+    public function isMagical(): bool
+    {
+        return $this->isMagical;
     }
 
     /**
@@ -121,92 +196,17 @@ class Item implements \JsonSerializable
         $this->modifierIds = $modifierIds;
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getTypeId(): int
-    {
-        return $this->typeId;
-    }
-
-    public function getSubType(): ?string
-    {
-        return $this->subType;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function getArmorClass(): ?int
-    {
-        return $this->armorClass;
-    }
-
-    public function getArmorTypeId(): ?int
-    {
-        return $this->armorTypeId;
-    }
-
-    public function getDamage(): ?string
-    {
-        return $this->damage;
-    }
-
-    public function getDamageType(): ?string
-    {
-        return $this->damageType;
-    }
-
-    public function getRange(): ?int
-    {
-        return $this->range;
-    }
-
-    public function getLongRange(): ?int
-    {
-        return $this->longRange;
-    }
-
-    public function getProperties(): array
-    {
-        return $this->properties;
-    }
-
-    public function canBeAttuned(): bool
-    {
-        return $this->canAttune;
-    }
-
-    public function isAttuned(): bool
-    {
-        return $this->isAttuned;
-    }
-
-    public function isConsumable(): bool
-    {
-        return $this->isConsumable;
-    }
-
-    public function isEquipped(): bool
-    {
-        return $this->isEquipped;
-    }
-
-    public function isMagical(): bool
-    {
-        return $this->isMagical;
-    }
-
     /**
      * @return array<int, int>
      */
     public function getModifierIds(): array
     {
         return $this->modifierIds;
+    }
+
+    public function getProperties(): array
+    {
+        return $this->properties;
     }
 
     public function addProperty(string $property): void
