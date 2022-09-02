@@ -172,7 +172,7 @@ class Importer
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterProficiency>
      */
     public function getAbilityProficiencies(): array
     {

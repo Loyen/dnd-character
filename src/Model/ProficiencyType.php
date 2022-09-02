@@ -9,6 +9,9 @@ enum ProficiencyType: int
     case WEAPON = 1782728300;
     case WEAPONGROUP = 660121713;
 
+    /**
+     * @return array<int, int>
+     */
     public static function getValues(): array
     {
         return \array_column(

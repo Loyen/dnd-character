@@ -26,7 +26,7 @@ class Character implements \JsonSerializable
      */
     private array $movementSpeeds;
     /**
-     * @var array<string, array<int, string>> $proficiencies
+     * @var array<string, array<int, CharacterProficiency|string>> $proficiencies
      */
     private array $proficiencies;
     /**
@@ -166,7 +166,7 @@ class Character implements \JsonSerializable
     }
 
     /**
-     * @param array<string, array<int, string>> $proficiencies
+     * @param array<string, array<int, CharacterProficiency|string>> $proficiencies
      */
     public function setProficiencies(array $proficiencies): void
     {
@@ -174,7 +174,7 @@ class Character implements \JsonSerializable
     }
 
     /**
-     * @return array<string, array<int, string>>
+     * @return array<string, array<int, CharacterProficiency|string>>
      */
     public function getProficiencies(): array
     {
