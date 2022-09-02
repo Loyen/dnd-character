@@ -15,9 +15,11 @@ use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
 use loyen\DndbCharacterSheet\Model\CharacterClass;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
+use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
+use loyen\DndbCharacterSheet\Model\ProficiencyType;
 
 class Importer
 {
@@ -82,6 +84,7 @@ class Importer
         $this->character->setProficiencyBonus($this->getProficiencyBonus());
         $this->character->setMovementSpeeds($this->getMovementSpeeds());
         $this->character->setProficiencies([
+            'abilities' => $this->getAbilityProficiencies(),
             'armor'     => $this->getArmorProficiencies(),
             'languages' => $this->getLanguages(),
             'tools'     => $this->getToolProficiencies(),
@@ -166,6 +169,33 @@ class Importer
         }
 
         return $statsCollection;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getAbilityProficiencies(): array
+    {
+        $abilityProficiencies = [];
+
+        foreach ($this->getModifiers() as $m) {
+            $mId = $m['entityId'];
+            if (isset($abilityProficiencies[$mId])
+                || $m['entityTypeId'] !== ProficiencyType::ABILITY->value
+            ) {
+                continue;
+            }
+
+            $abilityProficiencies[$mId] = new CharacterProficiency(
+                ProficiencyType::from($m['entityTypeId']),
+                $m['friendlySubtypeName'],
+                $m['type'] === 'expertise'
+            );
+        }
+
+        \uasort($abilityProficiencies, fn ($a, $b) => $a->name <=> $b->name);
+
+        return \array_values($abilityProficiencies);
     }
 
     public function getArmorClass(): CharacterArmorClass
