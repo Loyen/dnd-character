@@ -129,10 +129,11 @@ class Importer
             }
         }
 
-        $savingThrowsProficiencies = array_column(array_filter(
-            $modifiers,
-            fn ($m) => $m['type'] === 'proficiency' &&
-                                      \str_ends_with($m['subType'], '-saving-throws')
+        $savingThrowsProficiencies = array_column(
+            array_filter(
+                $modifiers,
+                fn ($m) => $m['type'] === 'proficiency' &&
+                                          \str_ends_with($m['subType'], '-saving-throws')
             ),
             'type',
             'subType'
@@ -180,7 +181,8 @@ class Importer
 
         foreach ($this->getModifiers() as $m) {
             $mId = $m['entityId'];
-            if (isset($abilityProficiencies[$mId])
+            if (
+                isset($abilityProficiencies[$mId])
                 || $m['entityTypeId'] !== ProficiencyType::ABILITY->value
             ) {
                 continue;
@@ -230,7 +232,6 @@ class Importer
                 ) {
                     $armorBonuses[] = $itemModifiers[$modifierId]['value'];
                 }
-
             }
         }
 
@@ -286,7 +287,8 @@ class Importer
 
         foreach ($this->getModifiers() as $m) {
             $mId = $m['entityId'];
-            if (isset($armorProficiencies[$mId])
+            if (
+                isset($armorProficiencies[$mId])
                 || $m['entityTypeId'] !== ProficiencyType::ARMOR->value
             ) {
                 continue;
@@ -338,9 +340,11 @@ class Importer
                     ? $feature['name'] . ' - ' . $classOptions[$feature['id']]['definition']['name']
                     : $feature['name'];
 
-                if (in_array($featureName, $characterClass->getFeatures()) ||
+                if (
+                    in_array($featureName, $characterClass->getFeatures()) ||
                     $feature['requiredLevel'] > $class['level'] ||
-                    in_array($feature['name'], $skippedFeatures)) {
+                    in_array($feature['name'], $skippedFeatures)
+                ) {
                     continue;
                 }
 
@@ -473,7 +477,8 @@ class Importer
 
         foreach ($this->getModifiers() as $m) {
             $mId = $m['entityId'];
-            if (isset($languages[$mId])
+            if (
+                isset($languages[$mId])
                 || $m['type'] !== 'language'
             ) {
                 continue;
@@ -550,7 +555,8 @@ class Importer
             1697  // speed-walking
         ];
 
-        $walkingModifiers = \array_column(\array_filter(
+        $walkingModifiers = \array_column(
+            \array_filter(
                 $modifiers,
                 fn ($m) => 1 === $m['modifierTypeId'] &&
                                  \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
@@ -605,8 +611,9 @@ class Importer
         $toolProficiencies = [];
         foreach ($this->getModifiers() as $m) {
             $mId = $m['entityId'];
-            if (isset($toolProficiencies[$mId])
-            || $m['entityTypeId'] !== ProficiencyType::TOOL->value
+            if (
+                isset($toolProficiencies[$mId])
+                || $m['entityTypeId'] !== ProficiencyType::TOOL->value
             ) {
                 continue;
             }
@@ -636,7 +643,8 @@ class Importer
         $weaponProficiencies = [];
         foreach ($this->getModifiers() as $m) {
             $mId = $m['entityId'];
-            if (isset($weaponProficiencies[$mId])
+            if (
+                isset($weaponProficiencies[$mId])
                 || !\in_array($m['entityTypeId'], $weaponEntityIdList, true)
             ) {
                 continue;

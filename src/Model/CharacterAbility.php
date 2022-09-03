@@ -82,7 +82,7 @@ class CharacterAbility implements \JsonSerializable
 
     public function getCalculatedModifier(): int
     {
-        return (int) \floor(($this->getCalculatedValue() - 10)/2);
+        return (int) \floor(($this->getCalculatedValue() - 10) / 2);
     }
 
     public function jsonSerialize(): mixed

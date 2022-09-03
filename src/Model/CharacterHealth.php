@@ -12,8 +12,7 @@ class CharacterHealth implements \JsonSerializable
         public readonly array $modifiers = [],
         public readonly int $temporaryHitPoints = 0,
         public readonly ?int $overrideValue = null,
-    )
-    {
+    ) {
     }
 
     public function getMaxHitPoints(): int

@@ -11,8 +11,9 @@ enum AbilityType: int
     case WIS = 5;
     case CHA = 6;
 
-    public function name(): string {
-        return match($this) {
+    public function name(): string
+    {
+        return match ($this) {
             self::STR => 'Strength',
             self::DEX => 'Dexterity',
             self::CON => 'Consitution',

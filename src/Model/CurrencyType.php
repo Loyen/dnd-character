@@ -10,8 +10,9 @@ enum CurrencyType: string
     case EP = 'ep';
     case PP = 'pp';
 
-    public function name(): string {
-        return match($this) {
+    public function name(): string
+    {
+        return match ($this) {
             self::CP => 'Copper',
             self::SP => 'Silver',
             self::GP => 'Gold',

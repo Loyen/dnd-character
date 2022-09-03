@@ -10,8 +10,9 @@ enum MovementType
     case SWIM;
     case CLIMB;
 
-    public function name(): string {
-        return match($this) {
+    public function name(): string
+    {
+        return match ($this) {
             self::WALK => 'Walking',
             self::FLY => 'Flying',
             self::BURROW => 'Burrowing',

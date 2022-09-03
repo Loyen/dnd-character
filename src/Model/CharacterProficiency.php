@@ -9,7 +9,6 @@ class CharacterProficiency implements \JsonSerializable
         public readonly string $name,
         public readonly bool $expertise = false,
     ) {
-
     }
 
     public function jsonSerialize(): mixed
