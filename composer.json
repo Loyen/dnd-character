@@ -18,6 +18,11 @@
         "twig/twig": "^3.0"
     },
     "scripts": {
+        "validate": [
+            "@lint",
+            "@analyse",
+            "@test"
+        ],
         "lint": "phpcs",
         "format": "phpcbf",
         "analyse": "phpstan analyze src",
