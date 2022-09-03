@@ -18,6 +18,8 @@
         "twig/twig": "^3.0"
     },
     "scripts": {
+        "lint": "phpcs",
+        "format": "phpcbf",
         "analyse": "phpstan analyze src",
         "test": "phpunit",
         "from-api": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromAPI",
@@ -35,6 +37,7 @@
     },
     "require-dev": {
         "phpstan/phpstan": "^1.8",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.7"
     }
 }

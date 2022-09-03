@@ -15,6 +15,9 @@ jobs:
     - name: Install dependencies
       run: composer install --no-progress
 
+    - name: Run PHPCS
+      run: composer run-script lint
+
     - name: Run PHPStan
       run: composer run-script analyse
 
