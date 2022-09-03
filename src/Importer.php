@@ -101,7 +101,7 @@ class Importer
     {
         $stats = $this->data['stats'];
         $modifiers = $this->getModifiers();
-        $statsModifiers = array_filter(
+        $statsModifiers = \array_filter(
             $modifiers,
             fn ($m) => 1472902489 === $m['entityTypeId'] &&
                        null !== $m['value'] &&
@@ -132,7 +132,7 @@ class Importer
         $savingThrowsProficiencies = array_column(array_filter(
             $modifiers,
             fn ($m) => $m['type'] === 'proficiency' &&
-                       str_ends_with($m['subType'], '-saving-throws')
+                                      \str_ends_with($m['subType'], '-saving-throws')
             ),
             'type',
             'subType'
@@ -151,7 +151,7 @@ class Importer
         foreach ($stats as $stat) {
             $statId = $stat['id'];
             $characterAbilityType = AbilityType::from($statId);
-            $savingThrowCode = strtolower($characterAbilityType->name()) . '-saving-throws';
+            $savingThrowCode = \strtolower($characterAbilityType->name()) . '-saving-throws';
 
             $ability = new CharacterAbility($characterAbilityType);
             $ability->setValue($stat['value']);
@@ -310,7 +310,7 @@ class Importer
     public function getClasses(): array
     {
         $classes = $this->data['classes'];
-        $classOptions = array_column($this->data['options']['class'], null, 'componentId');
+        $classOptions = \array_column($this->data['options']['class'], null, 'componentId');
 
         // Do not include any of these in the features list
         $skippedFeatures = [
@@ -492,7 +492,7 @@ class Importer
 
     public function getLevel(): int
     {
-        return (int) min(20, array_sum(array_column($this->data['classes'], 'level')));
+        return (int) \min(20, \array_sum(\array_column($this->data['classes'], 'level')));
     }
 
     /**
@@ -517,7 +517,7 @@ class Importer
      */
     public function getItemModifiers(): array
     {
-        $itemModifiers = array_column($this->data['modifiers']['item'], null, 'id');
+        $itemModifiers = \array_column($this->data['modifiers']['item'], null, 'id');
 
         $itemModifierList = [];
         foreach ($this->character->getInventory() as $item) {
@@ -550,10 +550,10 @@ class Importer
             1697  // speed-walking
         ];
 
-        $walkingModifiers = array_column(array_filter(
+        $walkingModifiers = \array_column(\array_filter(
                 $modifiers,
                 fn ($m) => 1 === $m['modifierTypeId'] &&
-                                 in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
+                                 \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
             'value'
         );
@@ -566,13 +566,13 @@ class Importer
             )
         ];
 
-        $flyingModifiers = array_filter(
+        $flyingModifiers = \array_filter(
             $modifiers,
             fn ($m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
         );
 
         if (!empty($flyingModifiers)) {
-            $flyingSpeed = \max(array_column($flyingModifiers, 'value'));
+            $flyingSpeed = \max(\array_column($flyingModifiers, 'value'));
             $speedCollection[MovementType::FLY->name()] = new CharacterMovement(
                 MovementType::FLY,
                 $flyingSpeed ?: $walkingSpeed,

@@ -77,12 +77,12 @@ class CharacterArmorClass implements \JsonSerializable
 
         $value = $this->armor?->getArmorClass() ?? $this->value;
 
-        $dexterityModifier = max(0, $this->ability?->getCalculatedModifier());
+        $dexterityModifier = \max(0, $this->ability?->getCalculatedModifier());
         if ($this->armor?->getArmorTypeId() === 2) {
-            $dexterityModifier = min(2, $dexterityModifier);
+            $dexterityModifier = \min(2, $dexterityModifier);
         }
 
-        return $value + $dexterityModifier + array_sum($this->modifiers);
+        return $value + $dexterityModifier + \array_sum($this->modifiers);
     }
 
     public function jsonSerialize(): mixed

@@ -19,7 +19,7 @@ class CharacterSheet
         $characterId = \array_pop($arguments);
 
         $characterId = $characterId ?? throw new \Exception('No character ID inputted.');
-        $characterId = intval($characterId);
+        $characterId = \intval($characterId);
 
         $character = Importer::importFromApiById($characterId);
 

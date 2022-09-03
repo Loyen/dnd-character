@@ -17,12 +17,11 @@ class CharacterMovement implements \JsonSerializable
 
     public function getCalculatedValue(): int
     {
-        return $this->value + array_sum($this->modifiers);
+        return $this->value + \array_sum($this->modifiers);
     }
 
     public function jsonSerialize(): mixed
     {
-
         return [
             'name' => $this->type->name(),
             'value' => $this->getCalculatedValue()
