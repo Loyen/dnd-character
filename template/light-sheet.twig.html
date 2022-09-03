@@ -141,20 +141,20 @@
             <div class="extras">
                 <div class="items armor">
                     <b class="title">Armor</b>
-                    {% for feat in character.proficiencies.armor %}
-                        <div class="item">{{ feat }}</div>
+                    {% for armor in character.proficiencies.armor %}
+                        <div class="item">{{ armor.name }}</div>
                     {% endfor %}
                 </div>
                 <div class="items tools">
                     <b class="title">Tools</b>
-                    {% for feat in character.proficiencies.tools %}
-                        <div class="item">{{ feat }}</div>
+                    {% for tool in character.proficiencies.tools %}
+                        <div class="item">{{ tool.name }}</div>
                     {% endfor %}
                 </div>
                 <div class="items languages">
                     <b class="title">Languages</b>
-                    {% for feat in character.proficiencies.languages %}
-                        <div class="item">{{ feat }}</div>
+                    {% for language in character.proficiencies.languages %}
+                        <div class="item">{{ language.name }}</div>
                     {% endfor %}
                 </div>
                 <div class="items abilities">
@@ -165,8 +165,8 @@
                 </div>
                 <div class="items weapons">
                     <b class="title">Weapons</b>
-                    {% for feat in character.proficiencies.weapons %}
-                        <div class="item">{{ feat }}</div>
+                    {% for weapon in character.proficiencies.weapons %}
+                        <div class="item">{{ weapon.name }}</div>
                     {% endfor %}
                 </div>
             </div>

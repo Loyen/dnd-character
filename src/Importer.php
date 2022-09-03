@@ -278,19 +278,30 @@ class Importer
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterProficiency>
      */
     public function getArmorProficiencies(): array
     {
-        $modifiers = $this->getModifiers();
-        $armors = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => $m['entityTypeId'] === 174869515
-            ),
-            'friendlySubtypeName'
-        )));
+        $armorProficiencies = [];
 
-        return $armors;
+        foreach ($this->getModifiers() as $m) {
+            $mId = $m['entityId'];
+            if (isset($armorProficiencies[$mId])
+                || $m['entityTypeId'] !== ProficiencyType::ARMOR->value
+            ) {
+                continue;
+            }
+
+            $armorProficiencies[$mId] = new CharacterProficiency(
+                ProficiencyType::from($m['entityTypeId']),
+                $m['friendlySubtypeName'],
+                $m['type'] === 'expertise'
+            );
+        }
+
+        \uasort($armorProficiencies, fn ($a, $b) => $a->name <=> $b->name);
+
+        return \array_values($armorProficiencies);
     }
 
     /**
@@ -454,21 +465,29 @@ class Importer
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterProficiency>
      */
     public function getLanguages(): array
     {
-        $modifiers = $this->getModifiers();
-        $languages = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => $m['type'] === 'language'
-            ),
-            'friendlySubtypeName'
-        )));
+        $languages = [];
 
-        sort($languages);
+        foreach ($this->getModifiers() as $m) {
+            $mId = $m['entityId'];
+            if (isset($languages[$mId])
+                || $m['type'] !== 'language'
+            ) {
+                continue;
+            }
 
-        return $languages;
+            $languages[$mId] = new CharacterProficiency(
+                ProficiencyType::from($m['entityTypeId']),
+                $m['friendlySubtypeName']
+            );
+        }
+
+        \uasort($languages, fn ($a, $b) => $a->name <=> $b->name);
+
+        return \array_values($languages);
     }
 
     public function getLevel(): int
@@ -579,43 +598,59 @@ class Importer
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterProficiency>
      */
     public function getToolProficiencies(): array
     {
-        $modifiers = $this->getModifiers();
-        $tools = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => $m['entityTypeId'] === 2103445194
-            ),
-            'friendlySubtypeName'
-        )));
+        $toolProficiencies = [];
+        foreach ($this->getModifiers() as $m) {
+            $mId = $m['entityId'];
+            if (isset($toolProficiencies[$mId])
+            || $m['entityTypeId'] !== ProficiencyType::TOOL->value
+            ) {
+                continue;
+            }
 
-        sort($tools);
+            $toolProficiencies[$mId] = new CharacterProficiency(
+                ProficiencyType::from($m['entityTypeId']),
+                $m['friendlySubtypeName'],
+                $m['type'] === 'expertise'
+            );
+        }
 
-        return $tools;
+        \uasort($toolProficiencies, fn ($a, $b) => $a->name <=> $b->name);
+
+        return \array_values($toolProficiencies);
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterProficiency>
      */
     public function getWeaponProficiences(): array
     {
-        $modifiers = $this->getModifiers();
         $weaponEntityIdList = [
-            660121713, // Type
-            1782728300, // Weapon-specific
+            ProficiencyType::WEAPONGROUP->value,
+            ProficiencyType::WEAPON->value,
         ];
 
-        $weapons = array_values(array_unique(array_column(array_filter(
-                $modifiers,
-                fn ($m) => in_array($m['entityTypeId'], $weaponEntityIdList)
-            ),
-            'friendlySubtypeName'
-        )));
+        $weaponProficiencies = [];
+        foreach ($this->getModifiers() as $m) {
+            $mId = $m['entityId'];
+            if (isset($weaponProficiencies[$mId])
+                || !\in_array($m['entityTypeId'], $weaponEntityIdList, true)
+            ) {
+                continue;
+            }
 
-        sort($weapons);
+            $weaponProficiencies[$mId] = new CharacterProficiency(
+                ProficiencyType::from($m['entityTypeId']),
+                $m['friendlySubtypeName'],
+                $m['type'] === 'expertise'
+            );
+        }
 
-        return $weapons;
+        \uasort($weaponProficiencies, fn ($a, $b) => $a->name <=> $b->name);
+
+        return \array_values($weaponProficiencies);
     }
 }
