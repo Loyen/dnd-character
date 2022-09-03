@@ -12,7 +12,7 @@ class Sheet
         private ?Environment $twig = null
     ) {
         $this->twig = $twig ?? new Environment(
-            new FilesystemLoader(dirname(__DIR__) . '/template')
+            new FilesystemLoader(\dirname(\__DIR__) . '/template')
         );
     }
 

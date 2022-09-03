@@ -129,8 +129,8 @@ class Importer
             }
         }
 
-        $savingThrowsProficiencies = array_column(
-            array_filter(
+        $savingThrowsProficiencies = \array_column(
+            \array_filter(
                 $modifiers,
                 fn ($m) => $m['type'] === 'proficiency' &&
                                           \str_ends_with($m['subType'], '-saving-throws')
@@ -332,7 +332,7 @@ class Importer
             if (isset($class['subclassDefinition'])) {
                 $characterClass->setSubName($class['subclassDefinition']['name']);
 
-                $classFeatures = array_merge($classFeatures, $class['subclassDefinition']['classFeatures']);
+                $classFeatures = \array_merge($classFeatures, $class['subclassDefinition']['classFeatures']);
             }
 
             foreach ($classFeatures as $feature) {
@@ -341,9 +341,9 @@ class Importer
                     : $feature['name'];
 
                 if (
-                    in_array($featureName, $characterClass->getFeatures()) ||
+                    \in_array($featureName, $characterClass->getFeatures()) ||
                     $feature['requiredLevel'] > $class['level'] ||
-                    in_array($feature['name'], $skippedFeatures)
+                    \in_array($feature['name'], $skippedFeatures)
                 ) {
                     continue;
                 }
@@ -512,7 +512,7 @@ class Importer
         $modifiers = $this->data['modifiers'];
 
         unset($modifiers['item']);
-        $this->modifiers = array_merge(...array_values($modifiers));
+        $this->modifiers = \array_merge(...\array_values($modifiers));
 
         return $this->modifiers;
     }
