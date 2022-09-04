@@ -138,7 +138,7 @@ class Importer
 
         foreach ($this->getItemModifiers() as $itemModifier) {
             $entityId = $itemModifier['entityId'];
-            if (9 === $itemModifier['modifierTypeId']) {
+            if ($itemModifier['modifierTypeId'] === 9) {
                 $overrideList[$entityId] = $itemModifier['value'];
             } else {
                 $modifierList[$entityId][] = $itemModifier['value'];
@@ -205,9 +205,12 @@ class Importer
                 $m = $itemModifiers[$modifierId];
 
                 if (
-                    $m['type'] === 'bonus' &&
-                    ($m['subType'] === 'armor-class' || $m['subType'] === 'armored-armor-class') &&
-                    $m['isGranted'] === true
+                    $m['type'] === 'bonus'
+                    && (
+                        $m['subType'] === 'armor-class'
+                        || $m['subType'] === 'armored-armor-class'
+                    )
+                    && $m['isGranted'] === true
                 ) {
                     $armorBonuses[] = $itemModifiers[$modifierId]['value'];
                 }
@@ -216,21 +219,21 @@ class Importer
 
         $modifiers = $this->getModifiers();
         foreach ($modifiers as $modifierId => $m) {
-            $isArmored = $m['type'] === 'bonus' &&
-                         \in_array(
-                             $m['subType'],
-                             [
-                                 'armored-armor-class',
-                                 'armor-class'
-                             ],
-                             true
-                         ) &&
-                         $m['modifierTypeId'] === 1 &&
-                         $m['modifierSubTypeId'] !== 1;
-            $isUnarmored = $m['type'] === 'set' &&
-                           $m['subType'] === 'unarmored-armor-class' &&
-                           $m['modifierTypeId'] === 9 &&
-                           $m['modifierSubTypeId'] === 1006;
+            $isArmored = $m['type'] === 'bonus'
+                && \in_array(
+                    $m['subType'],
+                    [
+                        'armored-armor-class',
+                        'armor-class'
+                    ],
+                    true
+                )
+                && $m['modifierTypeId'] === 1
+                && $m['modifierSubTypeId'] !== 1;
+            $isUnarmored = $m['type'] === 'set'
+                && $m['subType'] === 'unarmored-armor-class'
+                && $m['modifierTypeId'] === 9
+                && $m['modifierSubTypeId'] === 1006;
             if ($isArmored || $isUnarmored) {
                 if ($m['subType'] !== 'unarmored-armor-class') {
                     $armorBonuses[] = $m['value'];
@@ -302,9 +305,9 @@ class Importer
                     : $feature['name'];
 
                 if (
-                    \in_array($featureName, $characterClass->getFeatures()) ||
-                    $feature['requiredLevel'] > $class['level'] ||
-                    \in_array($feature['name'], $skippedFeatures)
+                    \in_array($featureName, $characterClass->getFeatures())
+                    || $feature['requiredLevel'] > $class['level']
+                    || \in_array($feature['name'], $skippedFeatures)
                 ) {
                     continue;
                 }
@@ -502,8 +505,8 @@ class Importer
         $walkingModifiers = \array_column(
             \array_filter(
                 $modifiers,
-                fn ($m) => 1 === $m['modifierTypeId'] &&
-                                 \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
+                fn ($m) => 1 === $m['modifierTypeId']
+                    && \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
             'value'
         );
