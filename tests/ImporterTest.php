@@ -10,6 +10,7 @@ use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
 use loyen\DndbCharacterSheet\Model\CharacterClass;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
+use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\Item;
 use PHPUnit\Framework\TestCase;
 
@@ -127,6 +128,31 @@ final class ImporterTest extends TestCase
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
         $this->assertEquals($characterWallet, $character->getCurrencies(), 'Wallet');
         $this->assertContainsOnly('array', $character->getProficiencies(), 'Proficiencies');
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $character->getProficiencies()['abilities'],
+            'Abilities proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $character->getProficiencies()['armor'],
+            'Armor proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $character->getProficiencies()['languages'],
+            'Languages proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $character->getProficiencies()['tools'],
+            'Tools proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $character->getProficiencies()['weapons'],
+            'Weapons proficiencies'
+        );
     }
 
     public function testInvalidCharacterImport()
