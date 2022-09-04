@@ -437,26 +437,9 @@ class Importer
      */
     public function getLanguages(): array
     {
-        $languages = [];
-
-        foreach ($this->getModifiers() as $m) {
-            $mId = $m['entityId'];
-            if (
-                isset($languages[$mId])
-                || $m['type'] !== 'language'
-            ) {
-                continue;
-            }
-
-            $languages[$mId] = new CharacterProficiency(
-                ProficiencyType::from($m['entityTypeId']),
-                $m['friendlySubtypeName']
-            );
-        }
-
-        \uasort($languages, fn ($a, $b) => $a->name <=> $b->name);
-
-        return \array_values($languages);
+        return $this->getProficienciesByFilter(
+            fn ($m) => $m['entityTypeId'] !== 906033267
+        );
     }
 
     public function getLevel(): int
