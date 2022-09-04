@@ -100,24 +100,31 @@ class Importer
     public function getAbilityScores(): array
     {
         $stats = $this->data['stats'];
-        $modifiers = $this->getModifiers();
-        $statsModifiers = \array_filter(
-            $modifiers,
-            fn ($m) => 1472902489 === $m['entityTypeId'] &&
-                       null !== $m['value'] &&
-                       1960452172 === $m['componentTypeId']
-        );
 
-        $modifiersList = [];
-        foreach ($statsModifiers as $statModifier) {
-            $entityId = $statModifier['entityId'];
-            $modifiersList[$entityId][] = $statModifier['value'];
+        $modifierList = [];
+        $savingThrowsProficiencies = [];
+        foreach ($this->getModifiers() as $m) {
+            $mId = $m['entityId'];
+
+            if (
+                $m['value'] !== null
+                && $m['entityTypeId'] === 1472902489
+                && $m['componentTypeId'] === 1960452172
+            ) {
+                $modifierList[$mId][] = $m['value'];
+            } elseif (
+                $m['type'] === 'proficiency'
+                && \str_ends_with($m['subType'], '-saving-throws')
+            ) {
+                $savingThrowCode = $m['subType'];
+                $savingThrowsProficiencies[$savingThrowCode] = $m['type'];
+            }
         }
 
         foreach ($this->data['bonusStats'] as $bonusStat) {
             if (!empty($bonusStat['value'])) {
                 $entityId = $bonusStat['id'];
-                $modifiersList[$entityId][] = $bonusStat['value'];
+                $modifierList[$entityId][] = $bonusStat['value'];
             }
         }
 
@@ -129,22 +136,12 @@ class Importer
             }
         }
 
-        $savingThrowsProficiencies = \array_column(
-            \array_filter(
-                $modifiers,
-                fn ($m) => $m['type'] === 'proficiency' &&
-                                          \str_ends_with($m['subType'], '-saving-throws')
-            ),
-            'type',
-            'subType'
-        );
-
         foreach ($this->getItemModifiers() as $itemModifier) {
             $entityId = $itemModifier['entityId'];
             if (9 === $itemModifier['modifierTypeId']) {
                 $overrideList[$entityId] = $itemModifier['value'];
             } else {
-                $modifiersList[$entityId][] = $itemModifier['value'];
+                $modifierList[$entityId][] = $itemModifier['value'];
             }
         }
 
@@ -158,8 +155,8 @@ class Importer
             $ability->setValue($stat['value']);
             $ability->setSavingThrowProficient(isset($savingThrowsProficiencies[$savingThrowCode]));
 
-            if (isset($modifiersList[$statId])) {
-                $ability->setModifiers($modifiersList[$statId]);
+            if (isset($modifierList[$statId])) {
+                $ability->setModifiers($modifierList[$statId]);
             }
 
             if (isset($overrideList[$statId])) {
