@@ -18,7 +18,10 @@ class CharacterSheet
         $arguments = $event->getArguments();
         $characterId = \array_pop($arguments);
 
-        $characterId = $characterId ?? throw new \Exception('No character ID inputted.');
+        if ($characterId === null) {
+            throw new \Exception('No character ID inputted.');
+        }
+
         $characterId = \intval($characterId);
 
         $character = Importer::importFromApiById($characterId);
