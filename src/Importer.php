@@ -311,9 +311,9 @@ class Importer
                     : $feature['name'];
 
                 if (
-                    \in_array($featureName, $characterClass->getFeatures())
+                    \in_array($featureName, $characterClass->getFeatures(), true)
                     || $feature['requiredLevel'] > $class['level']
-                    || \in_array($feature['name'], $skippedFeatures)
+                    || \in_array($feature['name'], $skippedFeatures, true)
                 ) {
                     continue;
                 }
