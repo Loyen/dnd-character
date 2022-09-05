@@ -230,11 +230,13 @@ class Importer
                 )
                 && $m['modifierTypeId'] === 1
                 && $m['modifierSubTypeId'] !== 1;
+                
             $isUnarmored = $m['type'] === 'set'
                 && $m['subType'] === 'unarmored-armor-class'
                 && $m['modifierTypeId'] === 9
                 && $m['modifierSubTypeId'] === 1006;
-            if ($isArmored || $isUnarmored) {
+
+            if ($m['value'] !== null && ($isArmored || $isUnarmored)) {
                 if ($m['subType'] !== 'unarmored-armor-class') {
                     $armorBonuses[] = $m['value'];
                 } else if ($armorClass->getArmor() === null) {
