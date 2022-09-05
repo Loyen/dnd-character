@@ -82,7 +82,7 @@ class CharacterArmorClass implements \JsonSerializable
             $dexterityModifier = \min(2, $dexterityModifier);
         }
 
-        return $value + $dexterityModifier + \array_sum($this->modifiers);
+        return (int) ($value + $dexterityModifier + \array_sum($this->modifiers));
     }
 
     public function jsonSerialize(): mixed

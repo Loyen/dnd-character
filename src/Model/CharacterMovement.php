@@ -16,7 +16,7 @@ class CharacterMovement implements \JsonSerializable
 
     public function getCalculatedValue(): int
     {
-        return $this->value + \array_sum($this->modifiers);
+        return (int) ($this->value + \array_sum($this->modifiers));
     }
 
     public function jsonSerialize(): mixed
