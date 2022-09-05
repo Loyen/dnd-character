@@ -67,6 +67,11 @@ class Importer
     public function __construct(string $jsonString)
     {
         $this->data = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
+
+        $modifiers = $this->data['modifiers'];
+
+        unset($modifiers['item']);
+        $this->modifiers = \array_merge(...\array_values($modifiers));
     }
 
     public function createCharacter(): Character
@@ -103,7 +108,7 @@ class Importer
 
         $modifierList = [];
         $savingThrowsProficiencies = [];
-        foreach ($this->getModifiers() as $m) {
+        foreach ($this->modifiers as $m) {
             $mId = $m['entityId'];
 
             if (
@@ -217,8 +222,7 @@ class Importer
             }
         }
 
-        $modifiers = $this->getModifiers();
-        foreach ($modifiers as $modifierId => $m) {
+        foreach ($this->modifiers as $modifierId => $m) {
             $isArmored = $m['type'] === 'bonus'
                 && \in_array(
                     $m['subType'],
@@ -230,7 +234,7 @@ class Importer
                 )
                 && $m['modifierTypeId'] === 1
                 && $m['modifierSubTypeId'] !== 1;
-                
+
             $isUnarmored = $m['type'] === 'set'
                 && $m['subType'] === 'unarmored-armor-class'
                 && $m['modifierTypeId'] === 9
@@ -452,23 +456,6 @@ class Importer
     /**
      * @return array<int, array<string, mixed>>
      */
-    public function getModifiers(): array
-    {
-        if (isset($this->modifiers)) {
-            return $this->modifiers;
-        }
-
-        $modifiers = $this->data['modifiers'];
-
-        unset($modifiers['item']);
-        $this->modifiers = \array_merge(...\array_values($modifiers));
-
-        return $this->modifiers;
-    }
-
-    /**
-     * @return array<int, array<string, mixed>>
-     */
     public function getItemModifiers(): array
     {
         $itemModifiers = \array_column($this->data['modifiers']['item'], null, 'id');
@@ -497,7 +484,6 @@ class Importer
     public function getMovementSpeeds(): array
     {
         $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
-        $modifiers = $this->getModifiers();
 
         $walkingSpeedModifierSubTypes = [
             1685, // unarmored-movement
@@ -506,7 +492,7 @@ class Importer
 
         $walkingModifiers = \array_column(
             \array_filter(
-                $modifiers,
+                $this->modifiers,
                 fn (array $m) => 1 === $m['modifierTypeId']
                     && \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
@@ -522,7 +508,7 @@ class Importer
         ];
 
         $flyingModifiers = \array_filter(
-            $modifiers,
+            $this->modifiers,
             fn (array $m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
         );
 
@@ -558,7 +544,7 @@ class Importer
     public function getProficienciesByFilter(callable $function): array
     {
         $proficiencies = [];
-        foreach ($this->getModifiers() as $m) {
+        foreach ($this->modifiers as $m) {
             $mId = $m['entityId'];
             if (
                 isset($proficiencies[$mId])
