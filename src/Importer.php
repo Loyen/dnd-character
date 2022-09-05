@@ -344,7 +344,7 @@ class Importer
 
     public function getHealth(): CharacterHealth
     {
-        $baseHitPoints = $this->data['baseHitPoints'];
+        $baseHitPoints = (int) $this->data['baseHitPoints'];
 
         $healthModifiers = [];
         if (isset($this->data['bonusHitPoints'])) {
@@ -355,7 +355,7 @@ class Importer
         }
 
         $constituionScore = $this->character->getAbilityScores()[AbilityType::CON->name];
-        $baseHitPoints += $this->character->getLevel() * $constituionScore->getCalculatedModifier();
+        $baseHitPoints += (int) \floor($this->character->getLevel() * $constituionScore->getCalculatedModifier());
 
         return new CharacterHealth(
             $baseHitPoints,
