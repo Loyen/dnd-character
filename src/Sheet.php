@@ -8,8 +8,10 @@ use Twig\Loader\FilesystemLoader;
 
 class Sheet
 {
+    private Environment $twig;
+
     public function __construct(
-        private ?Environment $twig = null
+        ?Environment $twig = null
     ) {
         $this->twig = $twig ?? new Environment(
             new FilesystemLoader(\dirname(__DIR__) . '/template')
@@ -20,8 +22,8 @@ class Sheet
         Character $character,
         string $template = 'light-sheet.twig.html'
     ): string {
-        return $this->twig?->load($template)->render([
+        return $this->twig->load($template)->render([
             'character' => $character
-        ]) ?? '';
+        ]);
     }
 }
