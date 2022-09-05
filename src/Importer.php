@@ -513,7 +513,8 @@ class Importer
         );
 
         if (!empty($flyingModifiers)) {
-            $flyingSpeed = \max(\array_column($flyingModifiers, 'value'));
+            $flyingSpeed = \array_column($flyingModifiers, 'value');
+            $flyingSpeed = !empty($flyingSpeed) ? \max($flyingSpeed) : false;
             $speedCollection[MovementType::FLY->name()] = new CharacterMovement(
                 MovementType::FLY,
                 $flyingSpeed ?: $walkingSpeed,
