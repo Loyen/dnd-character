@@ -293,7 +293,7 @@ class Importer
         ];
 
         $classList = [];
-        foreach ($classes as $classPosition => $class) {
+        foreach ($classes as $class) {
             $characterClass = new CharacterClass($class['definition']['name']);
             $characterClass->setLevel($class['level']);
 
