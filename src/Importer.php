@@ -175,7 +175,7 @@ class Importer
     public function getAbilityProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn ($m) => $m['entityTypeId'] !== ProficiencyType::ABILITY->value
+            fn (array $m) => $m['entityTypeId'] !== ProficiencyType::ABILITY->value
         );
     }
 
@@ -266,7 +266,7 @@ class Importer
     public function getArmorProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn ($m) => $m['entityTypeId'] !== ProficiencyType::ARMOR->value
+            fn (array $m) => $m['entityTypeId'] !== ProficiencyType::ARMOR->value
         );
     }
 
@@ -438,7 +438,7 @@ class Importer
     public function getLanguages(): array
     {
         return $this->getProficienciesByFilter(
-            fn ($m) => $m['entityTypeId'] !== 906033267
+            fn (array $m) => $m['entityTypeId'] !== 906033267
         );
     }
 
@@ -505,7 +505,7 @@ class Importer
         $walkingModifiers = \array_column(
             \array_filter(
                 $modifiers,
-                fn ($m) => 1 === $m['modifierTypeId']
+                fn (array $m) => 1 === $m['modifierTypeId']
                     && \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
             'value'
@@ -521,7 +521,7 @@ class Importer
 
         $flyingModifiers = \array_filter(
             $modifiers,
-            fn ($m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
+            fn (array $m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
         );
 
         if (!empty($flyingModifiers)) {
@@ -583,7 +583,7 @@ class Importer
     public function getToolProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn ($m) => $m['entityTypeId'] !== ProficiencyType::TOOL->value
+            fn (array $m) => $m['entityTypeId'] !== ProficiencyType::TOOL->value
         );
     }
 
@@ -598,7 +598,7 @@ class Importer
         ];
 
         return $this->getProficienciesByFilter(
-            fn ($m) => !\in_array($m['entityTypeId'], $weaponEntityIdList, true)
+            fn (array $m) => !\in_array($m['entityTypeId'], $weaponEntityIdList, true)
         );
     }
 }
