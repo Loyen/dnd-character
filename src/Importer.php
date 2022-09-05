@@ -43,7 +43,7 @@ class Importer
 
             $response = $client->request('GET', 'character/v5/character/' . $characterId);
 
-            return (new self($response->getBody()))->createCharacter();
+            return (new self((string) $response->getBody()))->createCharacter();
         } catch (GuzzleException $e) {
             throw new CharacterAPIException('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
         }
