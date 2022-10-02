@@ -231,6 +231,8 @@ class Importer
             }
         }
 
+        $isWearingArmor = !empty($armorBonuses);
+
         foreach ($this->modifiers as $modifierId => $m) {
             $isArmored = $m['type'] === 'bonus'
                 && \in_array(
@@ -249,25 +251,37 @@ class Importer
                 && $m['modifierTypeId'] === 9
                 && $m['modifierSubTypeId'] === 1006;
 
-            if ($m['value'] !== null && ($isArmored || $isUnarmored)) {
-                if ($m['subType'] !== 'unarmored-armor-class') {
-                    $armorBonuses[] = $m['value'];
-                } else if ($armorClass->getArmor() === null) {
-                    // If Natural Armor, use CON instead of DEX
+            if ($isArmored || $isUnarmored) {
+                if (!$isWearingArmor) {
+                    /**
+                     * Natural Armor = CON instead of DEX.
+                     * Unarmored Defense = DEX + WIS.
+                     */
                     if ($m['componentId'] === 571068) {
-                        $armorClass->setAbility(
+                        $armorClass->addAbilityScore(
                             $this->character->getAbilityScores()[AbilityType::CON->name]
                         );
+                    } elseif ($m['componentId'] === 226) {
+                        $armorClass->addAbilityScore(
+                            $this->character->getAbilityScores()[AbilityType::DEX->name]
+                        );
+                        $armorClass->addAbilityScore(
+                            $this->character->getAbilityScores()[AbilityType::WIS->name]
+                        );
                     }
-                    $armorBonuses[$modifierId] = $m['value'];
+                } elseif (
+                    $m['value'] !== null
+                    && $m['subType'] !== 'unarmored-armor-class'
+                ) {
+                    $armorBonuses[] = $m['value'];
                 }
             }
         }
 
         $armorClass->setModifiers($armorBonuses);
 
-        if ($armorClass->getAbility() === null) {
-            $armorClass->setAbility(
+        if (empty($armorClass->getAbilityScores())) {
+            $armorClass->addAbilityScore(
                 $this->character->getAbilityScores()[AbilityType::DEX->name]
             );
         }

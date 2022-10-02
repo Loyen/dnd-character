@@ -4,7 +4,10 @@ namespace loyen\DndbCharacterSheet\Model;
 
 class CharacterArmorClass implements \JsonSerializable
 {
-    private ?CharacterAbility $ability = null;
+    /**
+     * @var array<int, CharacterAbility> $abilityScores
+     */
+    private array $abilityScores = [];
     private int $value = 10;
     private ?int $overrideValue = null;
     private ?Item $armor = null;
@@ -18,9 +21,9 @@ class CharacterArmorClass implements \JsonSerializable
         $this->armor = $armor;
     }
 
-    public function setAbility(CharacterAbility $Ability): void
+    public function addAbilityScore(CharacterAbility $abilityScore): void
     {
-        $this->ability = $Ability;
+        $this->abilityScores[] = $abilityScore;
     }
 
     /**
@@ -46,9 +49,12 @@ class CharacterArmorClass implements \JsonSerializable
         return $this->armor;
     }
 
-    public function getAbility(): ?CharacterAbility
+    /**
+     * @return array<int, CharacterAbility>
+     */
+    public function getAbilityScores(): array
     {
-        return $this->ability;
+        return $this->abilityScores;
     }
 
     /**
@@ -77,17 +83,16 @@ class CharacterArmorClass implements \JsonSerializable
 
         $value = $this->armor?->getArmorClass() ?? $this->value;
 
-        $dexterityModifier = \max(0, $this->ability?->getCalculatedModifier());
-        if ($this->armor?->getArmorTypeId() === 2) {
-            $dexterityModifier = \min(2, $dexterityModifier);
+        $abilityScoreModifier = 0;
+        foreach ($this->abilityScores as $ability) {
+            $abilityScoreModifier += $ability->getCalculatedModifier();
         }
 
-        return (int) ($value + $dexterityModifier + \array_sum($this->modifiers));
+        return (int) ($value + $abilityScoreModifier + \array_sum($this->modifiers));
     }
 
     public function jsonSerialize(): mixed
     {
-
         return $this->getCalculatedValue();
     }
 }

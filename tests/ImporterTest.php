@@ -66,6 +66,28 @@ final class ImporterTest extends TestCase
                     'sp' => 20,
                     'cp' => 5
                 ]
+            ],
+            [
+                __DIR__ . '/Fixtures/character_82291589.json',
+                'Luke "Wu" Eetes',
+                1,
+                9,
+                14,
+                [
+                    'STR' => 10,
+                    'DEX' => 16,
+                    'CON' => 12,
+                    'INT' => 8,
+                    'WIS' => 13,
+                    'CHA' => 15
+                ],
+                [
+                    'pp' => 0,
+                    'gp' => 0,
+                    'ep' => 0,
+                    'sp' => 0,
+                    'cp' => 0
+                ]
             ]
         ];
     }
