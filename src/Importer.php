@@ -108,13 +108,22 @@ class Importer
 
         $modifierList = [];
         $savingThrowsProficiencies = [];
+        $acceptedComponentTypeIds = [
+            1960452172, // origin,
+            306912077, // racial
+            12168134, // ability-score
+        ];
         foreach ($this->modifiers as $m) {
             $mId = $m['entityId'];
 
             if (
                 $m['value'] !== null
                 && $m['entityTypeId'] === 1472902489
-                && $m['componentTypeId'] === 1960452172
+                && \in_array(
+                    $m['componentTypeId'],
+                    $acceptedComponentTypeIds,
+                    true
+                )
             ) {
                 $modifierList[$mId][] = $m['value'];
             } elseif (
