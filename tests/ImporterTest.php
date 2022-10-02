@@ -38,11 +38,11 @@ final class ImporterTest extends TestCase
                     'CHA' => 13
                 ],
                 [
-                    'pp' => 0,
+                    'cp' => 100,
+                    'sp' => 30,
                     'gp' => 25,
                     'ep' => 0,
-                    'sp' => 30,
-                    'cp' => 100
+                    'pp' => 0,
                 ]
             ],
             [
@@ -60,11 +60,11 @@ final class ImporterTest extends TestCase
                     'CHA' => 15
                 ],
                 [
-                    'pp' => 1,
+                    'cp' => 5,
+                    'sp' => 20,
                     'gp' => 100,
                     'ep' => 0,
-                    'sp' => 20,
-                    'cp' => 5
+                    'pp' => 1,
                 ]
             ],
             [
@@ -82,11 +82,11 @@ final class ImporterTest extends TestCase
                     'CHA' => 15
                 ],
                 [
-                    'pp' => 0,
+                    'cp' => 0,
+                    'sp' => 0,
                     'gp' => 0,
                     'ep' => 0,
-                    'sp' => 0,
-                    'cp' => 0
+                    'pp' => 0,
                 ]
             ]
         ];
@@ -107,40 +107,40 @@ final class ImporterTest extends TestCase
         $character = Importer::importFromFile($filePath);
 
         $this->assertInstanceOf(Character::class, $character);
-        $this->assertEquals($characterName, $character->getName());
-        $this->assertEquals($characterLevel, $character->getLevel(), 'Character Level');
+        $this->assertSame($characterName, $character->getName());
+        $this->assertSame($characterLevel, $character->getLevel(), 'Character Level');
         $this->assertInstanceOf(CharacterHealth::class, $character->getHealth());
-        $this->assertEquals($characterHealth, $character->getHealth()->getMaxHitPoints(), 'Maximum HP');
+        $this->assertSame($characterHealth, $character->getHealth()->getMaxHitPoints(), 'Maximum HP');
         $this->assertInstanceOf(CharacterArmorClass::class, $character->getArmorClass());
-        $this->assertEquals($characterArmorClass, $character->getArmorClass()->getCalculatedValue(), 'Armor Class');
+        $this->assertSame($characterArmorClass, $character->getArmorClass()->getCalculatedValue(), 'Armor Class');
         $actualCharacterAbilityScores = $character->getAbilityScores();
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualCharacterAbilityScores);
-        $this->assertEquals(
+        $this->assertSame(
             $characterAbilityScores['STR'],
             $actualCharacterAbilityScores['STR']->getCalculatedValue(),
             'STR ability score'
         );
-        $this->assertEquals(
+        $this->assertSame(
             $characterAbilityScores['DEX'],
             $actualCharacterAbilityScores['DEX']->getCalculatedValue(),
             'DEX ability score'
         );
-        $this->assertEquals(
+        $this->assertSame(
             $characterAbilityScores['CON'],
             $actualCharacterAbilityScores['CON']->getCalculatedValue(),
             'CON ability score'
         );
-        $this->assertEquals(
+        $this->assertSame(
             $characterAbilityScores['INT'],
             $actualCharacterAbilityScores['INT']->getCalculatedValue(),
             'INT ability score'
         );
-        $this->assertEquals(
+        $this->assertSame(
             $characterAbilityScores['WIS'],
             $actualCharacterAbilityScores['WIS']->getCalculatedValue(),
             'WIS ability score'
         );
-        $this->assertEquals(
+        $this->assertSame(
             $characterAbilityScores['CHA'],
             $actualCharacterAbilityScores['CHA']->getCalculatedValue(),
             'CHA ability score'
@@ -148,7 +148,7 @@ final class ImporterTest extends TestCase
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
         $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
-        $this->assertEquals($characterWallet, $character->getCurrencies(), 'Wallet');
+        $this->assertSame($characterWallet, $character->getCurrencies(), 'Wallet');
         $this->assertContainsOnly('array', $character->getProficiencies(), 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
