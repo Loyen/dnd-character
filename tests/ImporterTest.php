@@ -177,7 +177,7 @@ final class ImporterTest extends TestCase
         );
     }
 
-    public function testInvalidCharacterImport()
+    public function testInvalidCharacterImportThrowsException()
     {
         $this->expectException(CharacterInvalidImportException::class);
         Importer::importFromJson('[]');
