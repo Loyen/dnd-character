@@ -112,6 +112,7 @@ class Importer
             1960452172, // origin,
             306912077, // racial
             12168134, // ability-score
+            1088085227, // squat nimbleness
         ];
         foreach ($this->modifiers as $m) {
             $mId = $m['entityId'];
