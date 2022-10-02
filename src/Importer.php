@@ -256,7 +256,7 @@ class Importer
                 if (!$isWearingArmor) {
                     /**
                      * Natural Armor = CON instead of DEX.
-                     * Unarmored Defense = DEX + WIS.
+                     * Unarmored Defense = DEX + WIS or DEX + CON.
                      */
                     if ($m['componentId'] === 571068) {
                         $armorClass->addAbilityScore(
@@ -269,6 +269,15 @@ class Importer
                         $armorClass->addAbilityScore(
                             $this->character->getAbilityScores()[AbilityType::WIS->name]
                         );
+                        $unarmoredDefense = true;
+                    } elseif ($m['componentId'] === 52) {
+                        $armorClass->addAbilityScore(
+                            $this->character->getAbilityScores()[AbilityType::DEX->name]
+                        );
+                        $armorClass->addAbilityScore(
+                            $this->character->getAbilityScores()[AbilityType::CON->name]
+                        );
+                        $unarmoredDefense = true;
                     }
                 } elseif (
                     $m['value'] !== null
