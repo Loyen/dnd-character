@@ -269,7 +269,6 @@ class Importer
                         $armorClass->addAbilityScore(
                             $this->character->getAbilityScores()[AbilityType::WIS->name]
                         );
-                        $unarmoredDefense = true;
                     } elseif ($m['componentId'] === 52) {
                         $armorClass->addAbilityScore(
                             $this->character->getAbilityScores()[AbilityType::DEX->name]
@@ -277,7 +276,6 @@ class Importer
                         $armorClass->addAbilityScore(
                             $this->character->getAbilityScores()[AbilityType::CON->name]
                         );
-                        $unarmoredDefense = true;
                     }
                 } elseif (
                     $m['value'] !== null
