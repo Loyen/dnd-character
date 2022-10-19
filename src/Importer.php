@@ -9,6 +9,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Exception\CharacterFileReadException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
+use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
@@ -206,7 +207,13 @@ class Importer
                 continue;
             }
 
-            if (\in_array($item->getArmorTypeId(), [ 1, 2, 3 ], true)) {
+            $wearableArmorTypeIds = [
+                ArmorType::LightArmor->value,
+                ArmorType::MediumArmor->value,
+                ArmorType::HeavyArmor->value,
+            ];
+
+            if (\in_array($item->getArmorTypeId(), $wearableArmorTypeIds, true)) {
                 $armorClass->setArmor($item);
             } else if ($item->getArmorClass() !== null) {
                 $armorBonuses[$item->getId()] = $item->getArmorClass();
