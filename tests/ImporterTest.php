@@ -22,100 +22,45 @@ final class ImporterTest extends TestCase
 {
     public function dataCharacters(): array
     {
-        return [
-            [
-                __DIR__ . '/Fixtures/character_61111699.json',
-                'Will Ager',
-                1,
-                11,
-                15,
-                [
-                    'STR' => 13,
-                    'DEX' => 13,
-                    'CON' => 13,
-                    'INT' => 13,
-                    'WIS' => 13,
-                    'CHA' => 13
-                ],
-                [
-                    'cp' => 100,
-                    'sp' => 30,
-                    'gp' => 25,
-                    'ep' => 0,
-                    'pp' => 0,
-                ]
-            ],
-            [
-                __DIR__ . '/Fixtures/character_78966354.json',
-                'Shuwan Tellalot',
-                3,
-                22,
-                13,
-                [
-                    'STR' => 12,
-                    'DEX' => 14,
-                    'CON' => 12,
-                    'INT' => 13,
-                    'WIS' => 8,
-                    'CHA' => 15
-                ],
-                [
-                    'cp' => 5,
-                    'sp' => 20,
-                    'gp' => 100,
-                    'ep' => 0,
-                    'pp' => 1,
-                ]
-            ],
-            [
-                __DIR__ . '/Fixtures/character_82291589.json',
-                'Luke "Wu" Eetes',
-                1,
-                9,
-                14,
-                [
-                    'STR' => 10,
-                    'DEX' => 16,
-                    'CON' => 12,
-                    'INT' => 8,
-                    'WIS' => 13,
-                    'CHA' => 15
-                ],
-                [
-                    'cp' => 0,
-                    'sp' => 0,
-                    'gp' => 0,
-                    'ep' => 0,
-                    'pp' => 0,
-                ]
-            ]
-        ];
+        $characterList = [];
+
+        $characterFileDir = __DIR__ . '/Fixtures/';
+
+        foreach (glob($characterFileDir . 'character_*_expected.json') as $filePath) {
+            $characterData = \json_decode(
+                \file_get_contents($filePath),
+                true
+            );
+
+            $characterData['apiFilePath'] = $characterFileDir
+                . 'character_'
+                . $characterData['id']
+                . '_api_response.json';
+
+            $characterList[] = [
+                $characterData
+            ];
+        }
+
+        return $characterList;
     }
 
     /**
      * @dataProvider dataCharacters
      */
-    public function testImportFromFile(
-        string $filePath,
-        string $characterName,
-        int $characterLevel,
-        int $characterHealth,
-        int $characterArmorClass,
-        array $characterAbilityScores,
-        array $characterWallet
-    ) {
-        $character = Importer::importFromFile($filePath);
+    public function testImportFromFile(array $expectedCharacterData) {
+        $character = Importer::importFromFile($expectedCharacterData['apiFilePath']);
 
         $this->assertInstanceOf(Character::class, $character);
-        $this->assertSame($characterName, $character->getName());
-        $this->assertSame($characterLevel, $character->getLevel(), 'Character Level');
-        $this->assertCharacterHealth($characterHealth, $character->getHealth());
-        $this->assertCharacterArmorClass($characterArmorClass, $character->getArmorClass());
-        $this->assertCharacterAbilityScores($characterAbilityScores, $character->getAbilityScores());
+        $this->assertSame($expectedCharacterData['name'], $character->getName());
+        $this->assertSame($expectedCharacterData['level'], $character->getLevel(), 'Character Level');
+        $this->assertCharacterHealth($expectedCharacterData['health'], $character->getHealth());
+        $this->assertCharacterArmorClass($expectedCharacterData['armorClass'], $character->getArmorClass());
+        $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
         $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
-        $this->assertSame($characterWallet, $character->getCurrencies(), 'Wallet');
+        $this->assertSame($expectedCharacterData['wallet'], $character->getCurrencies(), 'Wallet');
         $this->assertCharacterProficiencies($character->getProficiencies());
     }
 
@@ -125,7 +70,7 @@ final class ImporterTest extends TestCase
         Importer::importFromJson('[]');
     }
 
-    private function assertCharacterAbilityScores($expectedScores, $actualScores)
+    private function assertCharacterAbilityScores(array $expectedScores, array $actualScores)
     {
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualScores);
         $this->assertSame(

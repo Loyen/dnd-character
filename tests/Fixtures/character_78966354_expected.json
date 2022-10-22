@@ -1,0 +1,22 @@
+{
+    "id": 78966354,
+    "name": "Shuwan Tellalot",
+    "level": 3,
+    "health": 22,
+    "armorClass": 13,
+    "abilityScores": {
+        "STR": 12,
+        "DEX": 14,
+        "CON": 12,
+        "INT": 13,
+        "WIS": 8,
+        "CHA": 15
+    },
+    "wallet": {
+        "cp": 5,
+        "sp": 20,
+        "gp": 100,
+        "ep": 0,
+        "pp": 1
+    }
+}

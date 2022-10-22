@@ -1,0 +1,22 @@
+{
+    "id": 61111699,
+    "name": "Will Ager",
+    "level": 1,
+    "health": 11,
+    "armorClass": 15,
+    "abilityScores": {
+        "STR": 13,
+        "DEX": 13,
+        "CON": 13,
+        "INT": 13,
+        "WIS": 13,
+        "CHA": 13
+    },
+    "wallet": {
+        "cp": 100,
+        "sp": 30,
+        "gp": 25,
+        "ep": 0,
+        "pp": 0
+    }
+}

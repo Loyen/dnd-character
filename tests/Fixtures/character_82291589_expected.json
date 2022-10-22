@@ -1,0 +1,22 @@
+{
+    "id": 82291589,
+    "name": "Luke \"Wu\" Eetes",
+    "level": 1,
+    "health": 9,
+    "armorClass": 14,
+    "abilityScores": {
+        "STR": 10,
+        "DEX": 16,
+        "CON": 12,
+        "INT": 8,
+        "WIS": 13,
+        "CHA": 15
+    },
+    "wallet": {
+        "cp": 0,
+        "sp": 0,
+        "gp": 0,
+        "ep": 0,
+        "pp": 0
+    }
+}
