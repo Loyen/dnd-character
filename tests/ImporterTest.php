@@ -48,7 +48,8 @@ final class ImporterTest extends TestCase
     /**
      * @dataProvider dataCharacters
      */
-    public function testImportFromFile(array $expectedCharacterData) {
+    public function testImportFromFile(array $expectedCharacterData)
+    {
         $character = Importer::importFromFile($expectedCharacterData['apiFilePath']);
 
         $this->assertInstanceOf(Character::class, $character);
