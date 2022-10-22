@@ -109,77 +109,96 @@ final class ImporterTest extends TestCase
         $this->assertInstanceOf(Character::class, $character);
         $this->assertSame($characterName, $character->getName());
         $this->assertSame($characterLevel, $character->getLevel(), 'Character Level');
-        $this->assertInstanceOf(CharacterHealth::class, $character->getHealth());
-        $this->assertSame($characterHealth, $character->getHealth()->getMaxHitPoints(), 'Maximum HP');
-        $this->assertInstanceOf(CharacterArmorClass::class, $character->getArmorClass());
-        $this->assertSame($characterArmorClass, $character->getArmorClass()->getCalculatedValue(), 'Armor Class');
-        $actualCharacterAbilityScores = $character->getAbilityScores();
-        $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualCharacterAbilityScores);
-        $this->assertSame(
-            $characterAbilityScores['STR'],
-            $actualCharacterAbilityScores['STR']->getCalculatedValue(),
-            'STR ability score'
-        );
-        $this->assertSame(
-            $characterAbilityScores['DEX'],
-            $actualCharacterAbilityScores['DEX']->getCalculatedValue(),
-            'DEX ability score'
-        );
-        $this->assertSame(
-            $characterAbilityScores['CON'],
-            $actualCharacterAbilityScores['CON']->getCalculatedValue(),
-            'CON ability score'
-        );
-        $this->assertSame(
-            $characterAbilityScores['INT'],
-            $actualCharacterAbilityScores['INT']->getCalculatedValue(),
-            'INT ability score'
-        );
-        $this->assertSame(
-            $characterAbilityScores['WIS'],
-            $actualCharacterAbilityScores['WIS']->getCalculatedValue(),
-            'WIS ability score'
-        );
-        $this->assertSame(
-            $characterAbilityScores['CHA'],
-            $actualCharacterAbilityScores['CHA']->getCalculatedValue(),
-            'CHA ability score'
-        );
+        $this->assertCharacterHealth($characterHealth, $character->getHealth());
+        $this->assertCharacterArmorClass($characterArmorClass, $character->getArmorClass());
+        $this->assertCharacterAbilityScores($characterAbilityScores, $character->getAbilityScores());
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
         $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
         $this->assertSame($characterWallet, $character->getCurrencies(), 'Wallet');
-        $this->assertContainsOnly('array', $character->getProficiencies(), 'Proficiencies');
-        $this->assertContainsOnlyInstancesOf(
-            CharacterProficiency::class,
-            $character->getProficiencies()['abilities'],
-            'Abilities proficiencies'
-        );
-        $this->assertContainsOnlyInstancesOf(
-            CharacterProficiency::class,
-            $character->getProficiencies()['armor'],
-            'Armor proficiencies'
-        );
-        $this->assertContainsOnlyInstancesOf(
-            CharacterProficiency::class,
-            $character->getProficiencies()['languages'],
-            'Languages proficiencies'
-        );
-        $this->assertContainsOnlyInstancesOf(
-            CharacterProficiency::class,
-            $character->getProficiencies()['tools'],
-            'Tools proficiencies'
-        );
-        $this->assertContainsOnlyInstancesOf(
-            CharacterProficiency::class,
-            $character->getProficiencies()['weapons'],
-            'Weapons proficiencies'
-        );
+        $this->assertCharacterProficiencies($character->getProficiencies());
     }
 
     public function testInvalidCharacterImportThrowsException()
     {
         $this->expectException(CharacterInvalidImportException::class);
         Importer::importFromJson('[]');
+    }
+
+    private function assertCharacterAbilityScores($expectedScores, $actualScores)
+    {
+        $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualScores);
+        $this->assertSame(
+            $expectedScores['STR'],
+            $actualScores['STR']->getCalculatedValue(),
+            'STR ability score'
+        );
+        $this->assertSame(
+            $expectedScores['DEX'],
+            $actualScores['DEX']->getCalculatedValue(),
+            'DEX ability score'
+        );
+        $this->assertSame(
+            $expectedScores['CON'],
+            $actualScores['CON']->getCalculatedValue(),
+            'CON ability score'
+        );
+        $this->assertSame(
+            $expectedScores['INT'],
+            $actualScores['INT']->getCalculatedValue(),
+            'INT ability score'
+        );
+        $this->assertSame(
+            $expectedScores['WIS'],
+            $actualScores['WIS']->getCalculatedValue(),
+            'WIS ability score'
+        );
+        $this->assertSame(
+            $expectedScores['CHA'],
+            $actualScores['CHA']->getCalculatedValue(),
+            'CHA ability score'
+        );
+    }
+
+    private function assertCharacterArmorClass(int $expectedArmorClass, ?CharacterArmorClass $actualArmorClass)
+    {
+        $this->assertInstanceOf(CharacterArmorClass::class, $actualArmorClass);
+        $this->assertSame($expectedArmorClass, $actualArmorClass->getCalculatedValue(), 'Armor Class');
+    }
+
+    private function assertCharacterHealth(int $expectedHealth, ?CharacterHealth $actualHealth)
+    {
+        $this->assertInstanceOf(CharacterHealth::class, $actualHealth);
+        $this->assertSame($expectedHealth, $actualHealth->getMaxHitPoints(), 'Maximum HP');
+    }
+
+    private function assertCharacterProficiencies(array $actualProficiencies)
+    {
+        $this->assertContainsOnly('array', $actualProficiencies, 'Proficiencies');
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $actualProficiencies['abilities'],
+            'Abilities proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $actualProficiencies['armor'],
+            'Armor proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $actualProficiencies['languages'],
+            'Languages proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $actualProficiencies['tools'],
+            'Tools proficiencies'
+        );
+        $this->assertContainsOnlyInstancesOf(
+            CharacterProficiency::class,
+            $actualProficiencies['weapons'],
+            'Weapons proficiencies'
+        );
     }
 }
