@@ -525,7 +525,8 @@ class Importer
 
         $walkingSpeedModifierSubTypes = [
             1685, // unarmored-movement
-            1697  // speed-walking
+            1697, // speed-walking (ex. Squat Nimbleness)
+            40,   // mobile feat
         ];
 
         $walkingModifiers = \array_column(
