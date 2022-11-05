@@ -59,7 +59,7 @@ final class ImporterTest extends TestCase
         $this->assertCharacterArmorClass($expectedCharacterData['armorClass'], $character->getArmorClass());
         $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
-        $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $character->getMovementSpeeds());
+        $this->assertCharacterMovementSpeeds($expectedCharacterData['movementSpeeds'], $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
         $this->assertSame($expectedCharacterData['wallet'], $character->getCurrencies(), 'Wallet');
         $this->assertCharacterProficiencies($character->getProficiencies());
@@ -116,6 +116,16 @@ final class ImporterTest extends TestCase
     {
         $this->assertInstanceOf(CharacterHealth::class, $actualHealth);
         $this->assertSame($expectedHealth, $actualHealth->getMaxHitPoints(), 'Maximum HP');
+    }
+
+    private function assertCharacterMovementSpeeds(array $expectedMovementSpeeds, array $actualMovementSpeeds)
+    {
+        $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $actualMovementSpeeds);
+        $this->assertSame(
+            \json_encode($expectedMovementSpeeds),
+            \json_encode($actualMovementSpeeds),
+            'Movement speeds'
+        );
     }
 
     private function assertCharacterProficiencies(array $actualProficiencies)

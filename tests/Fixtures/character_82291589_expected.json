@@ -4,6 +4,9 @@
     "level": 1,
     "health": 9,
     "armorClass": 14,
+    "movementSpeeds": {
+        "Walking": 30
+    },
     "abilityScores": {
         "STR": 10,
         "DEX": 16,

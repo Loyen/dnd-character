@@ -21,9 +21,6 @@ class CharacterMovement implements \JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return [
-            'name' => $this->type->name(),
-            'value' => $this->getCalculatedValue()
-        ];
+        return $this->getCalculatedValue();
     }
 }
