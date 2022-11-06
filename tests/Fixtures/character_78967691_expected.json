@@ -1,0 +1,25 @@
+{
+    "id": 78967691,
+    "name": "Ann Pesé",
+    "level": 1,
+    "health": 15,
+    "armorClass": 16,
+    "movementSpeeds": {
+        "Walking": 30
+    },
+    "abilityScores": {
+        "STR": 16,
+        "DEX": 12,
+        "CON": 16,
+        "INT": 10,
+        "WIS": 10,
+        "CHA": 13
+    },
+    "wallet": {
+        "cp": 0,
+        "sp": 0,
+        "gp": 75,
+        "ep": 0,
+        "pp": 0
+    }
+}

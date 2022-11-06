@@ -75,17 +75,32 @@ class CharacterArmorClass implements \JsonSerializable
         return $this->value;
     }
 
+    public function isWearingArmor(): bool
+    {
+        return $this->armor !== null;
+    }
+
     public function getCalculatedValue(): int
     {
         if ($this->overrideValue) {
             return $this->overrideValue;
         }
 
-        $value = $this->armor?->getArmorClass() ?? $this->value;
-
         $abilityScoreModifier = 0;
         foreach ($this->abilityScores as $ability) {
             $abilityScoreModifier += $ability->getCalculatedModifier();
+        }
+
+        if ($this->armor !== null) {
+            $value = $this->armor->getArmorClass();
+
+            if ($this->armor->getArmorTypeId() === ArmorType::MediumArmor->value) {
+                $abilityScoreModifier = min(2, $abilityScoreModifier);
+            } elseif ($this->armor->getArmorTypeId() === ArmorType::HeavyArmor->value) {
+                $abilityScoreModifier = 0;
+            }
+        } else {
+            $value = $this->value;
         }
 
         return (int) ($value + $abilityScoreModifier + \array_sum($this->modifiers));
