@@ -22,6 +22,10 @@ class Character implements \JsonSerializable
     private array $currencies;
     private CharacterHealth $health;
     /**
+     * @var array<int, string> $features
+     */
+    private array $features;
+    /**
      * @var array<string, CharacterMovement> $movementSpeeds
      */
     private array $movementSpeeds;
@@ -127,6 +131,32 @@ class Character implements \JsonSerializable
     public function getCurrencies(): array
     {
         return $this->currencies;
+    }
+
+    /**
+     * @param array<int, string> $features
+     */
+    public function setFeatures(array $features): void
+    {
+        $this->features = $features;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getFeatures(): array
+    {
+        $features = \array_merge(
+            $this->features,
+            ...\array_map(
+                fn($c) => $c->getFeatures(),
+                $this->classes
+            )
+        );
+
+        sort($features);
+
+        return $features;
     }
 
     public function getHealth(): CharacterHealth

@@ -157,6 +157,12 @@
                         <div class="item">{{ language.name }}</div>
                     {% endfor %}
                 </div>
+                <div class="items features">
+                    <b class="title">Features</b>
+                    {% for featureName in character.features %}
+                        <div class="item">{{ featureName }}</div>
+                    {% endfor %}
+                </div>
                 <div class="items abilities">
                     <b class="title">Abilities</b>
                     {% for ability in character.proficiencies.abilities %}

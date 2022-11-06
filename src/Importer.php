@@ -84,6 +84,7 @@ class Importer
         $this->character->setAbilityScores($this->getAbilityScores());
         $this->character->setArmorClass($this->getArmorClass());
         $this->character->setClasses($this->getClasses());
+        $this->character->setFeatures($this->getFeatures());
         $this->character->setLevel($this->getLevel());
         $this->character->setCurrencies($this->getCurrencies());
         $this->character->setHealth($this->getHealth());
@@ -401,6 +402,25 @@ class Importer
             $this->data['temporaryHitPoints'] ?? 0,
             $this->data['overrideHitPoints'] ?? null,
         );
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function getFeatures(): array
+    {
+        $feats = $this->data['feats'];
+
+        $featureList = [];
+        foreach ($feats as $feat) {
+            if (\in_array($feat['definition']['name'], $featureList, true)) {
+                continue;
+            }
+
+            $featureList[] = $feat['definition']['name'];
+        }
+
+        return $featureList;
     }
 
     /**
