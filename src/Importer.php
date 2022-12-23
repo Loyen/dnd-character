@@ -235,7 +235,7 @@ class Importer
                     )
                     && $m['isGranted'] === true
                 ) {
-                    $armorBonuses[] = $itemModifiers[$modifierId]['value'];
+                    $armorBonuses[] = \intval($itemModifiers[$modifierId]['value']);
                 }
             }
         }
@@ -290,7 +290,7 @@ class Importer
                 $m['value'] !== null
                 && $m['subType'] !== 'unarmored-armor-class'
             ) {
-                $armorBonuses[] = $m['value'];
+                $armorBonuses[] = \intval($m['value']);
             }
         }
 
