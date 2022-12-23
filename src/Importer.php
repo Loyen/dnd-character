@@ -216,7 +216,7 @@ class Importer
 
             if (\in_array($item->getArmorTypeId(), $wearableArmorTypeIds, true)) {
                 $armorClass->setArmor($item);
-            } else if ($item->getArmorClass() !== null) {
+            } elseif ($item->getArmorClass() !== null) {
                 $armorBonuses[$item->getId()] = $item->getArmorClass();
             }
 
