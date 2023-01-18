@@ -10,6 +10,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterFileReadException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
+use loyen\DndbCharacterSheet\Model\BonusType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
@@ -155,7 +156,7 @@ class Importer
 
         foreach ($this->getItemModifiers() as $itemModifier) {
             $entityId = $itemModifier['entityId'];
-            if ($itemModifier['modifierTypeId'] === 9) {
+            if ($itemModifier['modifierTypeId'] === BonusType::SET->value) {
                 $overrideList[$entityId] = $itemModifier['value'];
             } else {
                 $modifierList[$entityId][] = $itemModifier['value'];
@@ -250,12 +251,12 @@ class Importer
                     ],
                     true
                 )
-                && $m['modifierTypeId'] === 1
+                && $m['modifierTypeId'] === BonusType::BONUS->value
                 && $m['modifierSubTypeId'] !== 1;
 
             $isUnarmored = $m['type'] === 'set'
                 && $m['subType'] === 'unarmored-armor-class'
-                && $m['modifierTypeId'] === 9
+                && $m['modifierTypeId'] === BonusType::SET->value
                 && $m['modifierSubTypeId'] === 1006;
 
             if (!$isArmored && !$isUnarmored) {
@@ -552,7 +553,7 @@ class Importer
         $walkingModifiers = \array_column(
             \array_filter(
                 $this->modifiers,
-                fn (array $m) => 1 === $m['modifierTypeId']
+                fn (array $m) => $m['modifierTypeId'] === BonusType::BONUS->value
                     && \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
             ),
             'value'
@@ -568,7 +569,7 @@ class Importer
 
         $flyingModifiers = \array_filter(
             $this->modifiers,
-            fn (array $m) => 9 === $m['modifierTypeId'] && 182 === $m['modifierSubTypeId']
+            fn (array $m) => $m['modifierTypeId'] === BonusType::SET->value && 182 === $m['modifierSubTypeId']
         );
 
         if (!empty($flyingModifiers)) {
