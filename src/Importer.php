@@ -19,19 +19,16 @@ use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
+use loyen\DndbCharacterSheet\Model\DnDBeyond\ApiCharacter;
+use loyen\DndbCharacterSheet\Model\DnDBeyond\ApiModifier;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
 use loyen\DndbCharacterSheet\Model\ProficiencyType;
 
 class Importer
 {
-    /**
-     * @var array<string, mixed> $data
-     */
-    private array $data;
-    /**
-     * @var array<int, array<string, mixed>> $modifiers
-     */
+    private ApiCharacter $apiCharacter;
+    /** @var array<int, ApiModifier> */
     private array $modifiers;
     private Character $character;
 
@@ -68,11 +65,12 @@ class Importer
 
     public function __construct(string $jsonString)
     {
-        $this->data = \json_decode($jsonString, true)['data'] ?? throw new CharacterInvalidImportException();
+        $this->apiCharacter = ApiCharacter::fromApi($jsonString) ?? throw new CharacterInvalidImportException();
 
-        $modifiers = $this->data['modifiers'];
+        $modifiers = $this->apiCharacter->modifiers;
 
         unset($modifiers['item']);
+
         $this->modifiers = \array_merge(...\array_values($modifiers));
     }
 
@@ -80,7 +78,7 @@ class Importer
     {
         $this->character = new Character();
 
-        $this->character->setName($this->data['name']);
+        $this->character->setName($this->apiCharacter->name);
         $this->character->setInventory($this->getInventory());
         $this->character->setAbilityScores($this->getAbilityScores());
         $this->character->setArmorClass($this->getArmorClass());
@@ -107,8 +105,7 @@ class Importer
      */
     public function getAbilityScores(): array
     {
-        $stats = $this->data['stats'];
-
+        /** @var array<int, int> */
         $modifierList = [];
         $savingThrowsProficiencies = [];
         $acceptedComponentTypeIds = [
@@ -117,68 +114,67 @@ class Importer
             12168134, // ability-score
             1088085227, // squat nimbleness
         ];
-        foreach ($this->modifiers as $m) {
-            $mId = $m['entityId'];
 
+        foreach ($this->modifiers as $m) {
             if (
-                $m['value'] !== null
-                && $m['entityTypeId'] === 1472902489
+                is_int($m->value)
+                && $m->entityTypeId === 1472902489
                 && \in_array(
-                    $m['componentTypeId'],
+                    $m->componentTypeId,
                     $acceptedComponentTypeIds,
                     true
                 )
             ) {
-                $modifierList[$mId][] = $m['value'];
+                $modifierList[$m->entityId][] = $m->value;
             } elseif (
-                $m['type'] === 'proficiency'
-                && \str_ends_with($m['subType'], '-saving-throws')
+                $m->type === 'proficiency'
+                && \str_ends_with($m->subType, '-saving-throws')
             ) {
-                $savingThrowCode = $m['subType'];
-                $savingThrowsProficiencies[$savingThrowCode] = $m['type'];
+                $savingThrowCode = $m->subType;
+                $savingThrowsProficiencies[$savingThrowCode] = $m->type;
             }
         }
 
-        foreach ($this->data['bonusStats'] as $bonusStat) {
-            if (!empty($bonusStat['value'])) {
-                $entityId = $bonusStat['id'];
-                $modifierList[$entityId][] = $bonusStat['value'];
+        foreach ($this->apiCharacter->bonusStats as $bonusStat) {
+            if (is_int($bonusStat->value)) {
+                $modifierList[$bonusStat->id][] = $bonusStat->value;
             }
         }
 
         $overrideList = [];
-        foreach ($this->data['overrideStats'] as $overrideStat) {
-            if (!empty($overrideStat['value'])) {
-                $entityId = $overrideStat['id'];
-                $overrideList[$entityId] = $overrideStat['value'];
+        foreach ($this->apiCharacter->overrideStats as $overrideStat) {
+            if (!empty($overrideStat->value)) {
+                $overrideList[$overrideStat->id] = $overrideStat->value;
             }
         }
 
         foreach ($this->getItemModifiers() as $itemModifier) {
-            $entityId = $itemModifier['entityId'];
-            if ($itemModifier['modifierTypeId'] === BonusType::SET->value) {
-                $overrideList[$entityId] = $itemModifier['value'];
+            $entityId = $itemModifier->entityId;
+            if (
+                is_int($itemModifier->value)
+                && $itemModifier->modifierTypeId === BonusType::SET->value
+            ) {
+                $overrideList[$entityId] = $itemModifier->value;
             } else {
-                $modifierList[$entityId][] = $itemModifier['value'];
+                $modifierList[$entityId][] = $itemModifier->value;
             }
         }
 
         $statsCollection = [];
-        foreach ($stats as $stat) {
-            $statId = $stat['id'];
-            $characterAbilityType = AbilityType::from($statId);
+        foreach ($this->apiCharacter->stats as $stat) {
+            $characterAbilityType = AbilityType::from($stat->id);
             $savingThrowCode = \strtolower($characterAbilityType->name()) . '-saving-throws';
 
             $ability = new CharacterAbility($characterAbilityType);
-            $ability->setValue($stat['value']);
+            $ability->setValue($stat->value);
             $ability->setSavingThrowProficient(isset($savingThrowsProficiencies[$savingThrowCode]));
 
-            if (isset($modifierList[$statId])) {
-                $ability->setModifiers($modifierList[$statId]);
+            if (isset($modifierList[$stat->id])) {
+                $ability->setModifiers($modifierList[$stat->id]);
             }
 
-            if (isset($overrideList[$statId])) {
-                $ability->setOverrideValue($overrideList[$statId]);
+            if (isset($overrideList[$stat->id])) {
+                $ability->setOverrideValue($overrideList[$stat->id]);
             }
 
             $statsCollection[$characterAbilityType->name] = $ability;
@@ -193,7 +189,7 @@ class Importer
     public function getAbilityProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (array $m) => $m['entityTypeId'] !== ProficiencyType::ABILITY->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::ABILITY->value
         );
     }
 
@@ -229,35 +225,35 @@ class Importer
                 $m = $itemModifiers[$modifierId];
 
                 if (
-                    $m['type'] === 'bonus'
+                    $m->type === 'bonus'
                     && (
-                        $m['subType'] === 'armor-class'
-                        || $m['subType'] === 'armored-armor-class'
+                        $m->subType === 'armor-class'
+                        || $m->subType === 'armored-armor-class'
                     )
-                    && $m['isGranted'] === true
+                    && $m->isGranted === true
                 ) {
-                    $armorBonuses[] = \intval($itemModifiers[$modifierId]['value']);
+                    $armorBonuses[] = \intval($itemModifiers[$modifierId]->value);
                 }
             }
         }
 
         foreach ($this->modifiers as $modifierId => $m) {
-            $isArmored = $m['type'] === 'bonus'
+            $isArmored = $m->type === 'bonus'
                 && \in_array(
-                    $m['subType'],
+                    $m->subType,
                     [
                         'armored-armor-class',
                         'armor-class'
                     ],
                     true
                 )
-                && $m['modifierTypeId'] === BonusType::BONUS->value
-                && $m['modifierSubTypeId'] !== 1;
+                && $m->modifierTypeId === BonusType::BONUS->value
+                && $m->modifierSubTypeId !== 1;
 
-            $isUnarmored = $m['type'] === 'set'
-                && $m['subType'] === 'unarmored-armor-class'
-                && $m['modifierTypeId'] === BonusType::SET->value
-                && $m['modifierSubTypeId'] === 1006;
+            $isUnarmored = $m->type === 'set'
+                && $m->subType === 'unarmored-armor-class'
+                && $m->modifierTypeId === BonusType::SET->value
+                && $m->modifierSubTypeId === 1006;
 
             if (!$isArmored && !$isUnarmored) {
                 continue;
@@ -268,18 +264,18 @@ class Importer
                  * Natural Armor = CON instead of DEX.
                  * Unarmored Defense = DEX + WIS or DEX + CON.
                  */
-                if ($m['componentId'] === 571068) {
+                if ($m->componentId === 571068) {
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::CON->name]
                     );
-                } elseif ($m['componentId'] === 226) {
+                } elseif ($m->componentId === 226) {
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::DEX->name]
                     );
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::WIS->name]
                     );
-                } elseif ($m['componentId'] === 52) {
+                } elseif ($m->componentId === 52) {
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::DEX->name]
                     );
@@ -288,10 +284,10 @@ class Importer
                     );
                 }
             } elseif (
-                $m['value'] !== null
-                && $m['subType'] !== 'unarmored-armor-class'
+                $m->value !== null
+                && $m->subType !== 'unarmored-armor-class'
             ) {
-                $armorBonuses[] = \intval($m['value']);
+                $armorBonuses[] = \intval($m->value);
             }
         }
 
@@ -312,7 +308,7 @@ class Importer
     public function getArmorProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (array $m) => $m['entityTypeId'] !== ProficiencyType::ARMOR->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::ARMOR->value
         );
     }
 
@@ -321,8 +317,8 @@ class Importer
      */
     public function getClasses(): array
     {
-        $classes = $this->data['classes'];
-        $classOptions = \array_column($this->data['options']['class'], null, 'componentId');
+        $classes = $this->apiCharacter->classes;
+        $classOptions = \array_column($this->apiCharacter->options['class'], null, 'componentId');
 
         // Do not include any of these in the features list
         $skippedFeatures = [
@@ -334,26 +330,26 @@ class Importer
 
         $classList = [];
         foreach ($classes as $class) {
-            $characterClass = new CharacterClass($class['definition']['name']);
-            $characterClass->setLevel($class['level']);
+            $characterClass = new CharacterClass($class->definition->name);
+            $characterClass->setLevel($class->level);
 
-            $classFeatures = $class['definition']['classFeatures'];
+            $classFeatures = $class->definition->classFeatures;
 
-            if (isset($class['subclassDefinition'])) {
-                $characterClass->setSubName($class['subclassDefinition']['name']);
+            if (isset($class->subclassDefinition)) {
+                $characterClass->setSubName($class->subclassDefinition->name);
 
-                $classFeatures = \array_merge($classFeatures, $class['subclassDefinition']['classFeatures']);
+                $classFeatures = \array_merge($classFeatures, $class->subclassDefinition->classFeatures);
             }
 
             foreach ($classFeatures as $feature) {
-                $featureName = isset($classOptions[$feature['id']]['definition']['name'])
-                    ? $feature['name'] . ' - ' . $classOptions[$feature['id']]['definition']['name']
-                    : $feature['name'];
+                $featureName = isset($classOptions[$feature->id]->definition->name)
+                    ? $feature->name . ' - ' . $classOptions[$feature->id]->definition->name
+                    : $feature->name;
 
                 if (
                     \in_array($featureName, $characterClass->getFeatures(), true)
-                    || $feature['requiredLevel'] > $class['level']
-                    || \in_array($feature['name'], $skippedFeatures, true)
+                    || $feature->requiredLevel > $class->level
+                    || \in_array($feature->name, $skippedFeatures, true)
                 ) {
                     continue;
                 }
@@ -372,7 +368,7 @@ class Importer
      */
     public function getCurrencies(): array
     {
-        $currencies = $this->data['currencies'];
+        $currencies = $this->apiCharacter->currencies;
 
         $currencyList = [];
         foreach (CurrencyType::cases() as $currency) {
@@ -384,14 +380,14 @@ class Importer
 
     public function getHealth(): CharacterHealth
     {
-        $baseHitPoints = (int) $this->data['baseHitPoints'];
+        $baseHitPoints = (int) $this->apiCharacter->baseHitPoints;
 
         $healthModifiers = [];
-        if (isset($this->data['bonusHitPoints'])) {
-            $healthModifiers[] = $this->data['bonusHitPoints'];
+        if (isset($this->apiCharacter->bonusHitPoints)) {
+            $healthModifiers[] = $this->apiCharacter->bonusHitPoints;
         }
-        if (isset($this->data['removedHitPoints'])) {
-            $healthModifiers[] = -$this->data['removedHitPoints'];
+        if (isset($this->apiCharacter->removedHitPoints)) {
+            $healthModifiers[] = -$this->apiCharacter->removedHitPoints;
         }
 
         $constituionScore = $this->character->getAbilityScores()[AbilityType::CON->name];
@@ -400,8 +396,8 @@ class Importer
         return new CharacterHealth(
             $baseHitPoints,
             $healthModifiers,
-            $this->data['temporaryHitPoints'] ?? 0,
-            $this->data['overrideHitPoints'] ?? null,
+            $this->apiCharacter->temporaryHitPoints ?? 0,
+            $this->apiCharacter->overrideHitPoints ?? null,
         );
     }
 
@@ -410,15 +406,15 @@ class Importer
      */
     public function getFeatures(): array
     {
-        $feats = $this->data['feats'];
+        $feats = $this->apiCharacter->feats;
 
         $featureList = [];
         foreach ($feats as $feat) {
-            if (\in_array($feat['definition']['name'], $featureList, true)) {
+            if (\in_array($feat->definition->name, $featureList, true)) {
                 continue;
             }
 
-            $featureList[] = $feat['definition']['name'];
+            $featureList[] = $feat->definition->name;
         }
 
         return $featureList;
@@ -429,64 +425,62 @@ class Importer
      */
     public function getInventory(): array
     {
-        $inventory = $this->data['inventory'];
-
         $itemList = [];
-        foreach ($inventory as $iItem) {
-            $iItemDefinition = $iItem['definition'];
+        foreach ($this->apiCharacter->inventory as $apiItem) {
+            $apiItemDefinition = $apiItem->definition;
             $item = new Item(
-                $iItemDefinition['name'],
-                $iItemDefinition['filterType']
+                $apiItemDefinition->name,
+                $apiItemDefinition->filterType
             );
-            $item->setId($iItemDefinition['id']);
-            $item->setTypeId($iItemDefinition['entityTypeId']);
+            $item->setId($apiItemDefinition->id);
+            $item->setTypeId($apiItemDefinition->entityTypeId);
 
-            $subType = $iItemDefinition['subType'] ?? $iItemDefinition['type'];
+            $subType = $apiItemDefinition->subType ?? $apiItemDefinition->type;
 
-            if ($iItemDefinition['filterType'] !== $subType) {
+            if ($apiItemDefinition->filterType !== $subType) {
                 $item->setSubType($subType);
             }
 
-            $item->setQuantity($iItem['quantity']);
-            $item->setCanAttune($iItemDefinition['canAttune']);
-            $item->setIsAttuned($iItem['isAttuned']);
-            $item->setIsConsumable($iItemDefinition['isConsumable']);
-            $item->setIsEquipped($iItemDefinition['canEquip'] && $iItem['equipped']);
-            $item->setIsMagical($iItemDefinition['magic']);
+            $item->setQuantity($apiItem->quantity);
+            $item->setCanAttune($apiItemDefinition->canAttune);
+            $item->setIsAttuned($apiItem->isAttuned);
+            $item->setIsConsumable($apiItemDefinition->isConsumable);
+            $item->setIsEquipped($apiItemDefinition->canEquip && $apiItem->equipped);
+            $item->setIsMagical($apiItemDefinition->magic);
 
-            if (isset($iItemDefinition['armorClass'])) {
-                $item->setArmorClass($iItemDefinition['armorClass']);
+            if (isset($apiItemDefinition->armorClass)) {
+                $item->setArmorClass($apiItemDefinition->armorClass);
             }
 
-            if (isset($iItemDefinition['armorTypeId'])) {
-                $item->setArmorTypeId($iItemDefinition['armorTypeId']);
+            if (isset($apiItemDefinition->armorTypeId)) {
+                $item->setArmorTypeId($apiItemDefinition->armorTypeId);
             }
 
-            if (isset($iItemDefinition['damageType'])) {
-                $item->setDamageType($iItemDefinition['damageType']);
+            if (isset($apiItemDefinition->damageType)) {
+                $item->setDamageType($apiItemDefinition->damageType);
             }
 
-            if (isset($iItemDefinition['damage']['diceString'])) {
-                $item->setDamage($iItemDefinition['damage']['diceString']);
+            if (isset($apiItemDefinition->damage?->diceString)) {
+                $item->setDamage($apiItemDefinition->damage->diceString);
             }
 
-            if (isset($iItemDefinition['range'])) {
-                $item->setRange($iItemDefinition['range']);
+            if (isset($apiItemDefinition->range)) {
+                $item->setRange($apiItemDefinition->range);
             }
 
-            if (isset($iItemDefinition['longRange'])) {
-                $item->setLongRange($iItemDefinition['longRange']);
+            if (isset($apiItemDefinition->longRange)) {
+                $item->setLongRange($apiItemDefinition->longRange);
             }
 
-            if (isset($iItemDefinition['properties'])) {
-                foreach ($iItemDefinition['properties'] as $p) {
-                    $item->addProperty($p['name']);
+            if (isset($apiItemDefinition->properties)) {
+                foreach ($apiItemDefinition->properties as $p) {
+                    $item->addProperty($p->name);
                 }
             }
 
-            if (isset($iItemDefinition['grantedModifiers'])) {
+            if (isset($apiItemDefinition->grantedModifiers)) {
                 $item->setModifierIds(\array_values(\array_unique(\array_column(
-                    $iItemDefinition['grantedModifiers'],
+                    $apiItemDefinition->grantedModifiers,
                     'id'
                 ))));
             }
@@ -503,21 +497,21 @@ class Importer
     public function getLanguages(): array
     {
         return $this->getProficienciesByFilter(
-            fn (array $m) => $m['entityTypeId'] !== 906033267
+            fn (ApiModifier $m) => $m->entityTypeId !== 906033267
         );
     }
 
     public function getLevel(): int
     {
-        return (int) \min(20, \array_sum(\array_column($this->data['classes'], 'level')));
+        return (int) \min(20, \array_sum(\array_column($this->apiCharacter->classes, 'level')));
     }
 
     /**
-     * @return array<int, array<string, mixed>>
+     * @return array<int, ApiModifier>
      */
     public function getItemModifiers(): array
     {
-        $itemModifiers = \array_column($this->data['modifiers']['item'], null, 'id');
+        $itemModifiers = \array_column($this->apiCharacter->modifiers['item'], null, 'id');
 
         $itemModifierList = [];
         foreach ($this->character->getInventory() as $item) {
@@ -542,7 +536,7 @@ class Importer
      */
     public function getMovementSpeeds(): array
     {
-        $walkingSpeed = $this->data['race']['weightSpeeds']['normal']['walk'];
+        $walkingSpeed = $this->apiCharacter->race->weightSpeeds['normal']['walk'] ?? 0;
 
         $walkingSpeedModifierSubTypes = [
             1685, // unarmored-movement
@@ -550,11 +544,13 @@ class Importer
             40,   // mobile feat
         ];
 
+        /** @var array<int, int> */
         $walkingModifiers = \array_column(
             \array_filter(
                 $this->modifiers,
-                fn (array $m) => $m['modifierTypeId'] === BonusType::BONUS->value
-                    && \in_array($m['modifierSubTypeId'], $walkingSpeedModifierSubTypes, true)
+                fn (ApiModifier $m) => is_int($m->value)
+                    && $m->modifierTypeId === BonusType::BONUS->value
+                    && \in_array($m->modifierSubTypeId, $walkingSpeedModifierSubTypes, true)
             ),
             'value'
         );
@@ -569,12 +565,12 @@ class Importer
 
         $flyingModifiers = \array_filter(
             $this->modifiers,
-            fn (array $m) => $m['modifierTypeId'] === BonusType::SET->value && 182 === $m['modifierSubTypeId']
+            fn (ApiModifier $m) => $m->modifierTypeId === BonusType::SET->value && 182 === $m->modifierSubTypeId
         );
 
         if (!empty($flyingModifiers)) {
-            $flyingSpeed = \array_column($flyingModifiers, 'value');
-            $flyingSpeed = !empty($flyingSpeed) ? \max($flyingSpeed) : false;
+            $flyingSpeed = \max(\array_column($flyingModifiers, 'value'));
+
             $speedCollection[MovementType::FLY->name()] = new CharacterMovement(
                 MovementType::FLY,
                 $flyingSpeed ?: $walkingSpeed,
@@ -606,18 +602,18 @@ class Importer
     {
         $proficiencies = [];
         foreach ($this->modifiers as $m) {
-            $mId = $m['entityId'];
             if (
-                isset($proficiencies[$mId])
+                $m->entityTypeId === null
+                || isset($proficiencies[$m->entityId])
                 || $function($m)
             ) {
                 continue;
             }
 
-            $proficiencies[$mId] = new CharacterProficiency(
-                ProficiencyType::from($m['entityTypeId']),
-                $m['friendlySubtypeName'],
-                $m['type'] === 'expertise'
+            $proficiencies[$m->entityId] = new CharacterProficiency(
+                ProficiencyType::from($m->entityTypeId),
+                $m->friendlySubtypeName,
+                $m->type === 'expertise'
             );
         }
 
@@ -632,7 +628,7 @@ class Importer
     public function getToolProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (array $m) => $m['entityTypeId'] !== ProficiencyType::TOOL->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::TOOL->value
         );
     }
 
@@ -647,7 +643,7 @@ class Importer
         ];
 
         return $this->getProficienciesByFilter(
-            fn (array $m) => !\in_array($m['entityTypeId'], $weaponEntityIdList, true)
+            fn (ApiModifier $m) => !\in_array($m->entityTypeId, $weaponEntityIdList, true)
         );
     }
 }
