@@ -26,7 +26,7 @@ class ApiFeat
     }
 
     /**
-     * @param array<int, array<string, int|string|null>> $data
+     * @param array<int, array<string, mixed>> $data
      * @return array<int, self>
      */
     public static function createCollectionFromApi(array $data): array

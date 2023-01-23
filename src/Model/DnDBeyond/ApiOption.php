@@ -24,7 +24,7 @@ class ApiOption
     }
 
     /**
-     * @param array<int, array<string, int|string|null>> $data
+     * @param array<int, array<string, mixed>> $data
      * @return array<int, self>
      */
     public static function createCollectionFromApi(array $data): array
@@ -38,7 +38,7 @@ class ApiOption
         return $optionCollection;
     }
    /**
-    * @param array<string, array<int, array<string, int|string|null>>|null> $data
+    * @param array<string, array<int, array<string, mixed>>|null> $data
     * @return array<string, array<int, self>>
     */
     public static function createCollectionPerCategoryFromApi(array $data): array
