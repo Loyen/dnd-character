@@ -130,7 +130,7 @@ final class ImporterTest extends TestCase
 
     private function assertCharacterProficiencies(array $actualProficiencies)
     {
-        $this->assertContainsOnly('array', $actualProficiencies, 'Proficiencies');
+        $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],
