@@ -117,22 +117,18 @@ class Importer
 
         foreach ($this->modifiers as $m) {
             if (
-                empty($m->value)
-                || $m->entityId === null
-                || $m->entityTypeId !== 1472902489
-                || AbilityType::tryFrom($m->entityId) === null
+                !empty($m->value)
+                && $m->entityId !== null
+                && $m->entityTypeId === 1472902489
+                && AbilityType::tryFrom($m->entityId) !== null
             ) {
-                continue;
-            }
-
-            if (
-                $m->type === 'proficiency'
-                && \str_ends_with($m->subType, '-saving-throws')
+                $modifierList[$m->entityId][] = $m->value;
+            } elseif (
+                $m->modifierTypeId === 10
+                && $m->componentTypeId === 12168134
             ) {
                 $savingThrowCode = $m->subType;
                 $savingThrowsProficiencies[$savingThrowCode] = $m->type;
-            } else {
-                $modifierList[$m->entityId][] = $m->value;
             }
         }
 
