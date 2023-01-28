@@ -16,7 +16,7 @@ enum AbilityType: int
         return match ($this) {
             self::STR => 'Strength',
             self::DEX => 'Dexterity',
-            self::CON => 'Consitution',
+            self::CON => 'Constitution',
             self::INT => 'Intelligence',
             self::WIS => 'Wisdom',
             self::CHA => 'Charisma',
