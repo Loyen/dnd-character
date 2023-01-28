@@ -17,7 +17,8 @@ class ApiInventoryItem
         public readonly ?int $equippedEntityTypeId,
         public readonly ?int $equippedEntityId,
         public readonly int $chargesUsed,
-        public readonly ?object $limitedUse,
+        /** @var array<string, mixed> */
+        public readonly ?array $limitedUse,
         public readonly int $containerEntityId,
         public readonly int $containerEntityTypeId,
         public readonly string $containerDefinitionKey,

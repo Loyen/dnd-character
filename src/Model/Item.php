@@ -7,7 +7,7 @@ class Item implements \JsonSerializable
     private int $id; // id
     private int $typeId; // entityTypeId
     private string $name; // name
-    private string $type; // filterType
+    private ?string $type; // filterType
     private ?string $subType = null; // subType || type
     private ?int $quantity = null; // quantity
 
@@ -32,7 +32,7 @@ class Item implements \JsonSerializable
      */
     private array $modifierIds = []; // grantedModifiers.id
 
-    public function __construct(string $name, string $type)
+    public function __construct(string $name, ?string $type)
     {
         $this->name = $name;
         $this->type = $type;
@@ -58,12 +58,12 @@ class Item implements \JsonSerializable
         return $this->name;
     }
 
-    public function setType(string $type): void
+    public function setType(?string $type): void
     {
         $this->type = $type;
     }
 
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
