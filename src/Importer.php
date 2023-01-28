@@ -107,31 +107,30 @@ class Importer
     {
         /** @var array<int, int> */
         $modifierList = [];
+        /** @var array<string, int> */
         $savingThrowsProficiencies = [];
-        $acceptedComponentTypeIds = [
-            1960452172, // origin,
-            306912077, // racial
-            12168134, // ability-score
-            1088085227, // squat nimbleness
-        ];
+
+        $noChoiceSelectedComponentIds = $this->getComponentIdsThatAreMissingOptionChoice();
 
         foreach ($this->modifiers as $m) {
             if (
-                is_int($m->value)
-                && $m->entityTypeId === 1472902489
-                && \in_array(
-                    $m->componentTypeId,
-                    $acceptedComponentTypeIds,
-                    true
-                )
+                empty($m->value)
+                || $m->entityId === null
+                || $m->entityTypeId !== 1472902489
+                || AbilityType::tryFrom($m->entityId) === null
+                || \in_array($m->componentId, $noChoiceSelectedComponentIds)
             ) {
-                $modifierList[$m->entityId][] = $m->value;
-            } elseif (
+                continue;
+            }
+
+            if (
                 $m->type === 'proficiency'
                 && \str_ends_with($m->subType, '-saving-throws')
             ) {
                 $savingThrowCode = $m->subType;
                 $savingThrowsProficiencies[$savingThrowCode] = $m->type;
+            } else {
+                $modifierList[$m->entityId][] = $m->value;
             }
         }
 
@@ -149,14 +148,20 @@ class Importer
         }
 
         foreach ($this->getItemModifiers() as $itemModifier) {
-            $entityId = $itemModifier->entityId;
             if (
-                is_int($itemModifier->value)
-                && $itemModifier->modifierTypeId === BonusType::SET->value
+                empty($itemModifier->value)
+                || $itemModifier->entityId === null
+                || $itemModifier->entityTypeId !== 1472902489
+                || AbilityType::tryFrom($itemModifier->entityId) === null
+                || \in_array($itemModifier->componentId, $noChoiceSelectedComponentIds)
             ) {
-                $overrideList[$entityId] = $itemModifier->value;
+                continue;
+            }
+
+            if ($itemModifier->modifierTypeId === BonusType::SET->value) {
+                $overrideList[$itemModifier->entityId] = $itemModifier->value;
             } else {
-                $modifierList[$entityId][] = $itemModifier->value;
+                $modifierList[$itemModifier->entityId][] = $itemModifier->value;
             }
         }
 
@@ -579,6 +584,28 @@ class Importer
         }
 
         return $speedCollection;
+    }
+
+    /** @return array<int, int> */
+    public function getComponentIdsThatAreMissingOptionChoice(): array
+    {
+        $missingOptionList = [];
+
+        $optionList = \array_merge(...\array_values($this->apiCharacter->options));
+        $choiceList = \array_column(
+            \array_merge(...\array_values($this->apiCharacter->choices)),
+            'componentId'
+        );
+
+        foreach ($optionList as $option) {
+            if (\in_array($option->componentId, $choiceList)) {
+                continue;
+            }
+
+            $missingOptionList[] = $option->definition->id;
+        }
+
+        return $missingOptionList;
     }
 
     public function getProficiencyBonus(): int

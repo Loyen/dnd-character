@@ -15,6 +15,8 @@ class ApiCharacter
         public readonly array $modifiers,
         /** @var array<string|int, array<int, ApiOption>> */
         public readonly array $options,
+        /** @var array<string|int, array<int, ApiChoice>> */
+        public readonly array $choices,
         /**
          * Inventory related
          */
@@ -57,6 +59,7 @@ class ApiCharacter
             ApiFeat::createCollectionFromApi($data['feats']),
             ApiModifier::createCollectionFromApi($data['modifiers']),
             ApiOption::createCollectionPerCategoryFromApi($data['options']),
+            ApiChoice::createCollectionPerCategoryFromApi($data['choices']),
             $data['currencies'],
             ApiInventoryItem::createCollectionFromApi($data['inventory']),
             ApiStat::createCollectionFromApi($data['stats']),
