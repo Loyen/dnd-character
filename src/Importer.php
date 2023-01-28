@@ -71,7 +71,12 @@ class Importer
 
         unset($modifiers['item']);
 
-        $this->modifiers = \array_merge(...\array_values($modifiers));
+        $noChoiceSelectedComponentIds = $this->getComponentIdsThatAreMissingOptionChoice();
+
+        $this->modifiers = \array_filter(
+            \array_merge(...\array_values($modifiers)),
+            fn ($m) => !\in_array($m->componentId, $noChoiceSelectedComponentIds)
+        );
     }
 
     public function createCharacter(): Character
@@ -110,15 +115,12 @@ class Importer
         /** @var array<string, int> */
         $savingThrowsProficiencies = [];
 
-        $noChoiceSelectedComponentIds = $this->getComponentIdsThatAreMissingOptionChoice();
-
         foreach ($this->modifiers as $m) {
             if (
                 empty($m->value)
                 || $m->entityId === null
                 || $m->entityTypeId !== 1472902489
                 || AbilityType::tryFrom($m->entityId) === null
-                || \in_array($m->componentId, $noChoiceSelectedComponentIds)
             ) {
                 continue;
             }
@@ -153,7 +155,6 @@ class Importer
                 || $itemModifier->entityId === null
                 || $itemModifier->entityTypeId !== 1472902489
                 || AbilityType::tryFrom($itemModifier->entityId) === null
-                || \in_array($itemModifier->componentId, $noChoiceSelectedComponentIds)
             ) {
                 continue;
             }
