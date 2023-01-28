@@ -5,7 +5,7 @@ namespace loyen\DndbCharacterSheet\Model\DnDBeyond;
 class ApiRace
 {
     public function __construct(
-        /** @var array<string, array<string, int>|null>  */
+        /** @var array<string, array<string, int>>  */
         public readonly array $weightSpeeds
     ) {
     }

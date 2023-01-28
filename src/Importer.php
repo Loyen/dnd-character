@@ -538,7 +538,20 @@ class Importer
      */
     public function getMovementSpeeds(): array
     {
-        $walkingSpeed = $this->apiCharacter->race->weightSpeeds['normal']['walk'] ?? 0;
+        /** @var array<string, CharacterMovement> */
+        $speedCollection = [];
+
+        foreach ($this->apiCharacter->race->weightSpeeds['normal'] as $type => $value) {
+            if (empty($value) || MovementType::tryFrom($type) === null) {
+                continue;
+            }
+
+            $speedCollection[MovementType::from($type)->value] = new CharacterMovement(
+                MovementType::from($type),
+                $value,
+                []
+            );
+        }
 
         $walkingSpeedModifierSubTypes = [
             1685, // unarmored-movement
@@ -557,25 +570,24 @@ class Importer
             'value'
         );
 
-        $speedCollection = [
-            MovementType::WALK->name() => new CharacterMovement(
-                MovementType::WALK,
-                $walkingSpeed,
-                $walkingModifiers
-            )
-        ];
+        $speedCollection[MovementType::WALK->value] = new CharacterMovement(
+            MovementType::WALK,
+            $speedCollection[MovementType::WALK->value]->value,
+            $walkingModifiers
+        );
 
         $flyingModifiers = \array_filter(
             $this->modifiers,
-            fn (ApiModifier $m) => $m->modifierTypeId === BonusType::SET->value && 182 === $m->modifierSubTypeId
+            fn (ApiModifier $m) => $m->modifierTypeId === BonusType::SET->value
+                && 182 === $m->modifierSubTypeId
         );
 
         if (!empty($flyingModifiers)) {
             $flyingSpeed = \max(\array_column($flyingModifiers, 'value'));
 
-            $speedCollection[MovementType::FLY->name()] = new CharacterMovement(
+            $speedCollection[MovementType::FLY->value] = new CharacterMovement(
                 MovementType::FLY,
-                $flyingSpeed ?: $walkingSpeed,
+                $flyingSpeed ?: $speedCollection[MovementType::WALK->value]->value,
                 $flyingSpeed ? [ 0 ] : $walkingModifiers
             );
         }

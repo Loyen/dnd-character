@@ -5,7 +5,7 @@
     "health": 15,
     "armorClass": 16,
     "movementSpeeds": {
-        "Walking": 30
+        "walk": 30
     },
     "abilityScores": {
         "STR": 16,

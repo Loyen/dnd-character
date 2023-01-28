@@ -128,7 +128,7 @@
                 <div class="stat proficiency" data-name="PRO">{{ character.proficiencyBonus }}</div>
                 <div class="stat armorclass" data-name="AC">{{ character.armorClass.calculatedValue }}</div>
                 <div class="stat hitpoints" data-name="HP">{{ character.health.maxHitPoints }}</div>
-                <div class="stat speed" data-name="SPD">{{ character.movementSpeeds.Walking.calculatedValue }}</div>
+                <div class="stat speed" data-name="SPD">{{ character.movementSpeeds.walk.calculatedValue }}</div>
             </div>
             <div class="scores">
                 <div class="score{% if character.abilityScores.STR.savingThrowProficient %} saving-throw{% endif %}" data-name="STR">{{ character.abilityScores.STR.calculatedModifier }}</div>
