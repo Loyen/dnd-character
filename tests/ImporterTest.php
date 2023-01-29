@@ -75,34 +75,63 @@ final class ImporterTest extends TestCase
     {
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualScores);
         $this->assertSame(
-            $expectedScores['STR'],
-            $actualScores['STR']->getCalculatedValue(),
-            'STR ability score'
+            [
+                'STR' => $expectedScores['STR']['score'],
+                'DEX' => $expectedScores['DEX']['score'],
+                'CON' => $expectedScores['CON']['score'],
+                'INT' => $expectedScores['INT']['score'],
+                'WIS' => $expectedScores['WIS']['score'],
+                'CHA' => $expectedScores['CHA']['score']
+            ],
+            [
+                'STR' => $actualScores['STR']->getCalculatedValue(),
+                'DEX' => $actualScores['DEX']->getCalculatedValue(),
+                'CON' => $actualScores['CON']->getCalculatedValue(),
+                'INT' => $actualScores['INT']->getCalculatedValue(),
+                'WIS' => $actualScores['WIS']->getCalculatedValue(),
+                'CHA' => $actualScores['CHA']->getCalculatedValue()
+            ],
+            'Ability scores'
         );
+
         $this->assertSame(
-            $expectedScores['DEX'],
-            $actualScores['DEX']->getCalculatedValue(),
-            'DEX ability score'
+            [
+                'STR' => $expectedScores['STR']['modifier'],
+                'DEX' => $expectedScores['DEX']['modifier'],
+                'CON' => $expectedScores['CON']['modifier'],
+                'INT' => $expectedScores['INT']['modifier'],
+                'WIS' => $expectedScores['WIS']['modifier'],
+                'CHA' => $expectedScores['CHA']['modifier']
+            ],
+            [
+                'STR' => $actualScores['STR']->getCalculatedModifier(),
+                'DEX' => $actualScores['DEX']->getCalculatedModifier(),
+                'CON' => $actualScores['CON']->getCalculatedModifier(),
+                'INT' => $actualScores['INT']->getCalculatedModifier(),
+                'WIS' => $actualScores['WIS']->getCalculatedModifier(),
+                'CHA' => $actualScores['CHA']->getCalculatedModifier()
+            ],
+            'Ability modifiers'
         );
+
         $this->assertSame(
-            $expectedScores['CON'],
-            $actualScores['CON']->getCalculatedValue(),
-            'CON ability score'
-        );
-        $this->assertSame(
-            $expectedScores['INT'],
-            $actualScores['INT']->getCalculatedValue(),
-            'INT ability score'
-        );
-        $this->assertSame(
-            $expectedScores['WIS'],
-            $actualScores['WIS']->getCalculatedValue(),
-            'WIS ability score'
-        );
-        $this->assertSame(
-            $expectedScores['CHA'],
-            $actualScores['CHA']->getCalculatedValue(),
-            'CHA ability score'
+            [
+                'STR' => $expectedScores['STR']['savingThrowProficient'],
+                'DEX' => $expectedScores['DEX']['savingThrowProficient'],
+                'CON' => $expectedScores['CON']['savingThrowProficient'],
+                'INT' => $expectedScores['INT']['savingThrowProficient'],
+                'WIS' => $expectedScores['WIS']['savingThrowProficient'],
+                'CHA' => $expectedScores['CHA']['savingThrowProficient']
+            ],
+            [
+                'STR' => $actualScores['STR']->isSavingThrowProficient(),
+                'DEX' => $actualScores['DEX']->isSavingThrowProficient(),
+                'CON' => $actualScores['CON']->isSavingThrowProficient(),
+                'INT' => $actualScores['INT']->isSavingThrowProficient(),
+                'WIS' => $actualScores['WIS']->isSavingThrowProficient(),
+                'CHA' => $actualScores['CHA']->isSavingThrowProficient()
+            ],
+            'Ability saving throw proficiencies'
         );
     }
 

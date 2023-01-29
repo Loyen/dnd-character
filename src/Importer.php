@@ -115,6 +115,8 @@ class Importer
         /** @var array<string, int> */
         $savingThrowsProficiencies = [];
 
+        $savingThrowComponentId = null;
+
         foreach ($this->modifiers as $m) {
             if (
                 !empty($m->value)
@@ -126,7 +128,12 @@ class Importer
             } elseif (
                 $m->modifierTypeId === 10
                 && $m->componentTypeId === 12168134
+                && (
+                    $savingThrowComponentId === null
+                    || $savingThrowComponentId === $m->componentId
+                )
             ) {
+                $savingThrowComponentId = $m->componentId;
                 $savingThrowCode = $m->subType;
                 $savingThrowsProficiencies[$savingThrowCode] = $m->type;
             }

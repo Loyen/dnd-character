@@ -8,12 +8,36 @@
         "walk": 30
     },
     "abilityScores": {
-        "STR": 10,
-        "DEX": 16,
-        "CON": 12,
-        "INT": 8,
-        "WIS": 13,
-        "CHA": 15
+        "STR": {
+            "score": 10,
+            "modifier": 0,
+            "savingThrowProficient": true
+        },
+        "DEX": {
+            "score": 16,
+            "modifier": 3,
+            "savingThrowProficient": true
+        },
+        "CON": {
+            "score": 12,
+            "modifier": 1,
+            "savingThrowProficient": false
+        },
+        "INT": {
+            "score": 8,
+            "modifier": -1,
+            "savingThrowProficient": false
+        },
+        "WIS": {
+            "score": 13,
+            "modifier": 1,
+            "savingThrowProficient": false
+        },
+        "CHA": {
+            "score": 15,
+            "modifier": 2,
+            "savingThrowProficient": false
+        }
     },
     "wallet": {
         "cp": 0,
