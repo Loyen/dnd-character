@@ -5,7 +5,7 @@ namespace loyen\DndbCharacterSheet\Model;
 class CharacterHealth implements \JsonSerializable
 {
     /**
-     * @param array<int, mixed> $modifiers
+     * @param array<int, int> $modifiers
      */
     public function __construct(
         public readonly int $value = 0,
