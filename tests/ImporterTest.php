@@ -55,9 +55,9 @@ final class ImporterTest extends TestCase
         $this->assertInstanceOf(Character::class, $character);
         $this->assertSame($expectedCharacterData['name'], $character->getName());
         $this->assertSame($expectedCharacterData['level'], $character->getLevel(), 'Character Level');
+        $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());
         $this->assertCharacterHealth($expectedCharacterData['health'], $character->getHealth());
         $this->assertCharacterArmorClass($expectedCharacterData['armorClass'], $character->getArmorClass());
-        $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
         $this->assertCharacterMovementSpeeds($expectedCharacterData['movementSpeeds'], $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
