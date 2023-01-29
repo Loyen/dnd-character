@@ -545,20 +545,9 @@ class Importer
      */
     public function getMovementSpeeds(): array
     {
-        /** @var array<string, CharacterMovement> */
-        $speedCollection = [];
-
-        foreach ($this->apiCharacter->race->weightSpeeds['normal'] as $type => $value) {
-            if (empty($value) || MovementType::tryFrom($type) === null) {
-                continue;
-            }
-
-            $speedCollection[MovementType::from($type)->value] = new CharacterMovement(
-                MovementType::from($type),
-                $value,
-                []
-            );
-        }
+        $movementSpeeds = $this->apiCharacter->race->weightSpeeds['normal'];
+        /** @var array<string, array<int, int>> */
+        $movementModifiers = [];
 
         $walkingSpeedModifierSubTypes = [
             1685, // unarmored-movement
@@ -566,37 +555,44 @@ class Importer
             40,   // mobile feat
         ];
 
-        /** @var array<int, int> */
-        $walkingModifiers = \array_column(
-            \array_filter(
-                $this->modifiers,
-                fn (ApiModifier $m) => is_int($m->value)
-                    && $m->modifierTypeId === BonusType::BONUS->value
-                    && \in_array($m->modifierSubTypeId, $walkingSpeedModifierSubTypes, true)
-            ),
-            'value'
-        );
+        foreach ($this->modifiers as $m) {
+            if (
+                $m->modifierTypeId === BonusType::BONUS->value
+                && $m->value !== null
+            ) {
+                if (\in_array($m->modifierSubTypeId, $walkingSpeedModifierSubTypes, true)) {
+                    $movementModifiers[MovementType::WALK->value] ??= [];
+                    $movementModifiers[MovementType::WALK->value][] = $m->value;
+                }
+            } elseif ($m->modifierTypeId === BonusType::SET->value) {
+                if ($m->modifierSubTypeId === 181) { // innate-speed-walking
+                    $movementSpeeds[MovementType::WALK->value] = $m->value;
+                } elseif ($m->modifierSubTypeId === 182) { // innate-speed-flying
+                    $movementSpeeds[MovementType::FLY->value] = $m->value;
+                }
+            }
+        }
 
-        $speedCollection[MovementType::WALK->value] = new CharacterMovement(
-            MovementType::WALK,
-            $speedCollection[MovementType::WALK->value]->value,
-            $walkingModifiers
-        );
+        /** @var array<string, CharacterMovement> */
+        $speedCollection = [];
 
-        $flyingModifiers = \array_filter(
-            $this->modifiers,
-            fn (ApiModifier $m) => $m->modifierTypeId === BonusType::SET->value
-                && 182 === $m->modifierSubTypeId
-        );
+        foreach (MovementType::cases() as $movementType) {
+            if (
+                $movementSpeeds[$movementType->value] === 0
+                && empty($movementModifiers[$movementType->value])
+            ) {
+                continue;
+            }
 
-        if (!empty($flyingModifiers)) {
-            $flyingSpeed = \max(\array_column($flyingModifiers, 'value'));
-
-            $speedCollection[MovementType::FLY->value] = new CharacterMovement(
-                MovementType::FLY,
-                $flyingSpeed ?: $speedCollection[MovementType::WALK->value]->value,
-                $flyingSpeed ? [ 0 ] : $walkingModifiers
-            );
+            if ($movementSpeeds[$movementType->value] === null) {
+                $speedCollection[$movementType->value] = &$speedCollection[MovementType::WALK->value];
+            } else {
+                $speedCollection[$movementType->value] = new CharacterMovement(
+                    $movementType,
+                    $movementSpeeds[$movementType->value],
+                    $movementModifiers[$movementType->value] ?? []
+                );
+            }
         }
 
         return $speedCollection;
