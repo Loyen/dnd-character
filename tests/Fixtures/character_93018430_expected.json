@@ -1,0 +1,50 @@
+{
+    "id": 93018430,
+    "name": "Claire Eick",
+    "level": 5,
+    "health": 38,
+    "armorClass": 18,
+    "movementSpeeds": {
+        "walk": 25,
+        "fly": 50
+    },
+    "abilityScores": {
+        "STR": {
+            "score": 13,
+            "modifier": 1,
+            "savingThrowProficient": false
+        },
+        "DEX": {
+            "score": 14,
+            "modifier": 2,
+            "savingThrowProficient": false
+        },
+        "CON": {
+            "score": 14,
+            "modifier": 2,
+            "savingThrowProficient": false
+        },
+        "INT": {
+            "score": 10,
+            "modifier": 0,
+            "savingThrowProficient": false
+        },
+        "WIS": {
+            "score": 16,
+            "modifier": 3,
+            "savingThrowProficient": true
+        },
+        "CHA": {
+            "score": 8,
+            "modifier": -1,
+            "savingThrowProficient": true
+        }
+    },
+    "wallet": {
+        "cp": 0,
+        "sp": 0,
+        "gp": 10,
+        "ep": 0,
+        "pp": 0
+    }
+}
