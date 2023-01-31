@@ -15,6 +15,7 @@ use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
 use loyen\DndbCharacterSheet\Model\CharacterClass;
+use loyen\DndbCharacterSheet\Model\CharacterFeature;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CharacterProficiency;
@@ -363,7 +364,11 @@ class Importer
                     continue;
                 }
 
-                $characterClass->addFeature($featureName);
+                $classFeature = new CharacterFeature(
+                    $featureName
+                );
+
+                $characterClass->addFeature($classFeature);
             }
 
             $classList[] = $characterClass;
@@ -411,7 +416,7 @@ class Importer
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterFeature>
      */
     public function getFeatures(): array
     {
@@ -423,7 +428,11 @@ class Importer
                 continue;
             }
 
-            $featureList[] = $feat->definition->name;
+            $characterFeature = new CharacterFeature(
+                $feat->definition->name
+            );
+
+            $featureList[] = $characterFeature;
         }
 
         return $featureList;

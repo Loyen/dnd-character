@@ -159,8 +159,8 @@
                 </div>
                 <div class="items features">
                     <b class="title">Features</b>
-                    {% for featureName in character.features %}
-                        <div class="item">{{ featureName }}</div>
+                    {% for feature in character.features %}
+                        <div class="item">{{ feature.name }}</div>
                     {% endfor %}
                 </div>
                 <div class="items abilities">

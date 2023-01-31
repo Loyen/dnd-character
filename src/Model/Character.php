@@ -22,7 +22,7 @@ class Character implements \JsonSerializable
     private array $currencies;
     private CharacterHealth $health;
     /**
-     * @var array<int, string> $features
+     * @var array<int, CharacterFeature> $features
      */
     private array $features;
     /**
@@ -134,7 +134,7 @@ class Character implements \JsonSerializable
     }
 
     /**
-     * @param array<int, string> $features
+     * @param array<int, CharacterFeature> $features
      */
     public function setFeatures(array $features): void
     {
@@ -142,7 +142,7 @@ class Character implements \JsonSerializable
     }
 
     /**
-     * @return array<int, string>
+     * @return array<int, CharacterFeature>
      */
     public function getFeatures(): array
     {
