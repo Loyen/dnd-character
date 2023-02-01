@@ -11,6 +11,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\BonusType;
+use loyen\DndbCharacterSheet\Model\SourceMaterial;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
@@ -351,6 +352,10 @@ class Importer
                 $classFeatures = \array_merge($classFeatures, $class->subclassDefinition->classFeatures);
             }
 
+            $sourceList = $class->subclassDefinition?->sources
+                ? SourceMaterial::createCollection($class->subclassDefinition->sources)
+                : [];
+
             foreach ($classFeatures as $feature) {
                 $featureName = isset($classOptions[$feature->id]->definition->name)
                     ? $feature->name . ' - ' . $classOptions[$feature->id]->definition->name
@@ -365,7 +370,8 @@ class Importer
                 }
 
                 $classFeature = new CharacterFeature(
-                    $featureName
+                    $featureName,
+                    $sourceList
                 );
 
                 $characterClass->addFeature($classFeature);
@@ -429,7 +435,10 @@ class Importer
             }
 
             $characterFeature = new CharacterFeature(
-                $feat->definition->name
+                $feat->definition->name,
+                $feat->definition->sources
+                    ? SourceMaterial::createCollection($feat->definition->sources)
+                    : []
             );
 
             $featureList[] = $characterFeature;
