@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class ImporterTest extends TestCase
 {
-    public function dataCharacters(): array
+    public static function dataCharacters(): array
     {
         $characterList = [];
 
