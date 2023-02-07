@@ -12,12 +12,12 @@ use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\Item;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers loyen\DndbCharacterSheet\Importer
- * @covers loyen\DndbCharacterSheet\Model\Character
- */
+#[CoversClass(Importer::class)]
+#[CoversClass(Character::class)]
 final class ImporterTest extends TestCase
 {
     public static function dataCharacters(): array
@@ -45,9 +45,7 @@ final class ImporterTest extends TestCase
         return $characterList;
     }
 
-    /**
-     * @dataProvider dataCharacters
-     */
+    #[DataProvider('dataCharacters')]
     public function testImportFromFile(array $expectedCharacterData)
     {
         $character = Importer::importFromFile($expectedCharacterData['apiFilePath']);
