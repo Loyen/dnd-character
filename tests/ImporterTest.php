@@ -37,7 +37,9 @@ final class ImporterTest extends TestCase
                 . $characterData['id']
                 . '_api_response.json';
 
-            $characterList[] = [
+            $characterName = $characterData['id'] . ' - ' . $characterData['name'];
+
+            $characterList[$characterName] = [
                 $characterData
             ];
         }
