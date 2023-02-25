@@ -1,0 +1,49 @@
+{
+    "id": 62199671,
+    "name": "Joyas Dustbridge",
+    "level": 9,
+    "health": 85,
+    "armorClass": 18,
+    "movementSpeeds": {
+        "walk": 30
+    },
+    "abilityScores": {
+        "STR": {
+            "score": 10,
+            "modifier": 0,
+            "savingThrowProficient": true
+        },
+        "DEX": {
+            "score": 20,
+            "modifier": 5,
+            "savingThrowProficient": false
+        },
+        "CON": {
+            "score": 16,
+            "modifier": 3,
+            "savingThrowProficient": true
+        },
+        "INT": {
+            "score": 10,
+            "modifier": 0,
+            "savingThrowProficient": false
+        },
+        "WIS": {
+            "score": 14,
+            "modifier": 2,
+            "savingThrowProficient": false
+        },
+        "CHA": {
+            "score": 12,
+            "modifier": 1,
+            "savingThrowProficient": false
+        }
+    },
+    "wallet": {
+        "cp": 5,
+        "sp": 7,
+        "gp": 237,
+        "ep": 0,
+        "pp": 0
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "id": 61921412,
+    "name": "Litt Tyv",
+    "level": 8,
+    "health": 59,
+    "armorClass": 16,
+    "movementSpeeds": {
+        "walk": 35
+    },
+    "abilityScores": {
+        "STR": {
+            "score": 12,
+            "modifier": 1,
+            "savingThrowProficient": false
+        },
+        "DEX": {
+            "score": 20,
+            "modifier": 5,
+            "savingThrowProficient": true
+        },
+        "CON": {
+            "score": 14,
+            "modifier": 2,
+            "savingThrowProficient": false
+        },
+        "INT": {
+            "score": 8,
+            "modifier": -1,
+            "savingThrowProficient": true
+        },
+        "WIS": {
+            "score": 10,
+            "modifier": 0,
+            "savingThrowProficient": false
+        },
+        "CHA": {
+            "score": 16,
+            "modifier": 3,
+            "savingThrowProficient": false
+        }
+    },
+    "wallet": {
+        "cp": 0,
+        "sp": 0,
+        "gp": 15,
+        "ep": 0,
+        "pp": 0
+    }
+}

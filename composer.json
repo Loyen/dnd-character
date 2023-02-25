@@ -27,8 +27,8 @@
         "format": "phpcbf",
         "analyse": "phpstan analyze",
         "test": "phpunit",
-        "from-api": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromAPI",
-        "from-file": "loyen\\DndbCharacterSheet\\Command\\CharacterSheet::fromFile"
+        "from-api": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromApi",
+        "from-file": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromFile"
     },
     "config": {
         "platform": {

@@ -1,0 +1,47 @@
+characters:
+- name: Ann Pesé
+  race: Variant Human
+  class: Barbarian
+  level: 1
+  notes: >
+    Unarmored defense (10 + DEX + CON + Shield bonus)
+      Should not be applied due to armor
+    Override score (WIS 10)
+    Other modifier bonus (CON +1)
+    Armor - Chain mail (AC 16)
+- name: Claire Eick
+  race: Aarakocra
+  class:
+  - Cleric
+  - Druid
+  level: 5
+  notes: >
+    Flyingspeed of 50ft
+    Multiclass
+    Saving throws from only first class chosen
+- name: Luke "Wu" Eetes
+  race: Variant Human
+  class: Monk
+  level: 1
+  notes: >
+    Unarmored defense (10 + DEX + WIS)
+- name: Shuwan Tellalot
+  race: Variant Human
+  class:
+  - Fighter
+  - Bard
+  level: 3
+  notes: >
+    Multiclass
+    Saving throws from only first class chosen
+    Armor - Leather (AC 11)
+- name: Will Ager
+  race: Variant Human
+  class: Fighter
+  level: 1
+  notes: >
+    Defense fighting style (+1 AC)
+    Override score (STR 13)
+    Other modifier bonus (INT +1)
+    Armor - Leather (AC 11)
+    Shield (+2 AC)

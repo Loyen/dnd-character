@@ -2,7 +2,7 @@
 
 namespace loyen\DndbCharacterSheet\Model;
 
-use loyen\DndbCharacterSheet\Model\DnDBeyond\ApiBookSource;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiBookSource;
 
 class SourceMaterial implements \JsonSerializable
 {
