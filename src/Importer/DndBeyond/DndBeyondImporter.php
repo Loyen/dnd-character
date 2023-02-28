@@ -6,6 +6,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\BonusType;
@@ -324,9 +325,17 @@ class DndBeyondImporter
                 $classFeatures = \array_merge($classFeatures, $class->subclassDefinition->classFeatures);
             }
 
-            $sourceList = $class->subclassDefinition?->sources
-                ? SourceMaterial::createCollection($class->subclassDefinition->sources)
-                : [];
+            $sourceList = [];
+            if (isset($class->subclassDefinition->sources)) {
+                foreach ($class->subclassDefinition->sources as $apiSource) {
+                    $source = Source::tryFrom($apiSource->sourceId) ?? Source::UnknownSource;
+
+                    $sourceList[] = new SourceMaterial(
+                        $source->name(),
+                        $apiSource->pageNumber
+                    );
+                }
+            }
 
             foreach ($classFeatures as $feature) {
                 $featureName = isset($classOptions[$feature->id]->definition->name)
@@ -406,11 +415,21 @@ class DndBeyondImporter
                 continue;
             }
 
+            $sourceList = [];
+            if (isset($feat->definition->sources)) {
+                foreach ($feat->definition->sources as $apiSource) {
+                    $source = Source::tryFrom($apiSource->sourceId) ?? Source::UnknownSource;
+
+                    $sourceList[] = new SourceMaterial(
+                        $source->name(),
+                        $apiSource->pageNumber
+                    );
+                }
+            }
+
             $characterFeature = new CharacterFeature(
                 $feat->definition->name,
-                $feat->definition->sources
-                    ? SourceMaterial::createCollection($feat->definition->sources)
-                    : []
+                $sourceList
             );
 
             $featureList[] = $characterFeature;

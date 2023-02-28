@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Model;
+namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model;
 
 enum Source: int
 {
