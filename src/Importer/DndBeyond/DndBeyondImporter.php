@@ -189,13 +189,13 @@ class DndBeyondImporter
                 continue;
             }
 
-            $wearableArmorTypeIds = [
-                ArmorType::LightArmor->value,
-                ArmorType::MediumArmor->value,
-                ArmorType::HeavyArmor->value,
+            $wearableArmorTypes = [
+                ArmorType::LightArmor,
+                ArmorType::MediumArmor,
+                ArmorType::HeavyArmor,
             ];
 
-            if (\in_array($item->getArmorTypeId(), $wearableArmorTypeIds, true)) {
+            if (\in_array($item->getArmorType(), $wearableArmorTypes, true)) {
                 $armorClass->setArmor($item);
             } elseif ($item->getArmorClass() !== null) {
                 $armorBonuses[$item->getId()] = $item->getArmorClass();
@@ -470,8 +470,11 @@ class DndBeyondImporter
                 $item->setArmorClass($apiItemDefinition->armorClass);
             }
 
-            if (isset($apiItemDefinition->armorTypeId)) {
-                $item->setArmorTypeId($apiItemDefinition->armorTypeId);
+            if (
+                isset($apiItemDefinition->armorTypeId)
+                && ArmorType::tryFrom($apiItemDefinition->armorTypeId)
+            ) {
+                $item->setArmorType(ArmorType::from($apiItemDefinition->armorTypeId));
             }
 
             if (isset($apiItemDefinition->damageType)) {

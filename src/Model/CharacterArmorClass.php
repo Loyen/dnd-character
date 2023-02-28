@@ -94,9 +94,9 @@ class CharacterArmorClass implements \JsonSerializable
         if ($this->armor !== null) {
             $value = $this->armor->getArmorClass();
 
-            if ($this->armor->getArmorTypeId() === ArmorType::MediumArmor->value) {
+            if ($this->armor->getArmorType() === ArmorType::MediumArmor) {
                 $abilityScoreModifier = min(2, $abilityScoreModifier);
-            } elseif ($this->armor->getArmorTypeId() === ArmorType::HeavyArmor->value) {
+            } elseif ($this->armor->getArmorType() === ArmorType::HeavyArmor) {
                 $abilityScoreModifier = 0;
             }
         } else {

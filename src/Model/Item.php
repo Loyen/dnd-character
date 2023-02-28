@@ -12,7 +12,7 @@ class Item implements \JsonSerializable
     private ?int $quantity = null; // quantity
 
     private ?int $armorClass = null; // armorClass
-    private ?int $armorTypeId = null; // armorTypeId
+    private ?ArmorType $armorType = null; // armorTypeId
 
     private ?string $damageType = null; //damageType
     private ?string $damage = null; // damage.diceString
@@ -108,14 +108,14 @@ class Item implements \JsonSerializable
         return $this->armorClass;
     }
 
-    public function setArmorTypeId(int $armorTypeId): void
+    public function setArmorType(ArmorType $armorType): void
     {
-        $this->armorTypeId = $armorTypeId;
+        $this->armorType = $armorType;
     }
 
-    public function getArmorTypeId(): ?int
+    public function getArmorType(): ?ArmorType
     {
-        return $this->armorTypeId;
+        return $this->armorType;
     }
 
     public function setDamage(?string $damage): void
