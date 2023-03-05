@@ -7,6 +7,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Exception\CharacterInvalidImport
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
+use loyen\DndbCharacterSheet\Importer\ImporterInterface;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\BonusType;
@@ -24,16 +25,16 @@ use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
 use loyen\DndbCharacterSheet\Model\ProficiencyType;
 
-class DndBeyondImporter
+class DndBeyondImporter implements ImporterInterface
 {
     private ApiCharacter $apiCharacter;
     /** @var array<int, ApiModifier> */
     private array $modifiers;
     private Character $character;
 
-    public static function import(string $jsonString): Character
+    public static function import(string $inputString): Character
     {
-        return (new self($jsonString))->createCharacter();
+        return (new self($inputString))->createCharacter();
     }
 
     public function __construct(string $jsonString)

@@ -6,5 +6,5 @@ use loyen\DndbCharacterSheet\Model\Character;
 
 interface ImporterInterface
 {
-    public static function import(): Character;
+    public static function import(string $inputString): Character;
 }
