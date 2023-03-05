@@ -6,6 +6,7 @@ class CharacterFeature implements \JsonSerializable
 {
     public function __construct(
         public readonly string $name,
+        public readonly string $description,
         /** @var array<int, SourceMaterial> */
         public readonly array $sources
     ) {

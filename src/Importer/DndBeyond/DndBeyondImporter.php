@@ -352,6 +352,7 @@ class DndBeyondImporter
 
                 $classFeature = new CharacterFeature(
                     $featureName,
+                    $feature->description,
                     $sourceList
                 );
 
@@ -429,6 +430,7 @@ class DndBeyondImporter
 
             $characterFeature = new CharacterFeature(
                 $feat->definition->name,
+                $feat->definition->description,
                 $sourceList
             );
 
