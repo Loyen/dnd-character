@@ -2,10 +2,10 @@
 
 namespace loyen\DndbCharacterSheet\Model;
 
-enum ArmorType: int
+enum ArmorType
 {
-    case LightArmor = 1;
-    case MediumArmor = 2;
-    case HeavyArmor = 3;
-    case Shield = 4;
+    case LightArmor;
+    case MediumArmor;
+    case HeavyArmor;
+    case Shield;
 }

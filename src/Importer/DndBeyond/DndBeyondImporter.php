@@ -475,9 +475,11 @@ class DndBeyondImporter implements ImporterInterface
 
             if (
                 isset($apiItemDefinition->armorTypeId)
-                && ArmorType::tryFrom($apiItemDefinition->armorTypeId)
+                && $this->getArmorTypeFromArmorTypeId($apiItemDefinition->armorTypeId) !== null
             ) {
-                $item->setArmorType(ArmorType::from($apiItemDefinition->armorTypeId));
+                $item->setArmorType(
+                    $this->getArmorTypeFromArmorTypeId($apiItemDefinition->armorTypeId)
+                );
             }
 
             if (isset($apiItemDefinition->damageType)) {
@@ -699,5 +701,16 @@ class DndBeyondImporter implements ImporterInterface
         return $this->getProficienciesByFilter(
             fn (ApiModifier $m) => !\in_array($m->entityTypeId, $weaponEntityIdList, true)
         );
+    }
+
+    private function getArmorTypeFromArmorTypeId(int $typeId): ?ArmorType
+    {
+        return match ($typeId) {
+            1 => ArmorType::LightArmor,
+            2 => ArmorType::MediumArmor,
+            3 => ArmorType::HeavyArmor,
+            4 => ArmorType::Shield,
+            default => null
+        };
     }
 }
