@@ -2,8 +2,8 @@
 
 namespace Tests\loyen\DndbCharacterSheet\Importer\DndBeyond;
 
+use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\DndBeyondImporter;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;

@@ -3,7 +3,7 @@
 namespace loyen\DndbCharacterSheet\Importer\DndBeyond;
 
 use loyen\DndbCharacterSheet\Exception\CharacterException;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Exception\CharacterInvalidImportException;
+use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;

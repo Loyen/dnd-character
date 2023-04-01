@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Exception;
+namespace loyen\DndbCharacterSheet\Exception;
 
 use loyen\DndbCharacterSheet\Exception\CharacterException;
 
