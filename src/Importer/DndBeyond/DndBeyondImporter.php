@@ -333,7 +333,7 @@ class DndBeyondImporter implements ImporterInterface
 
                     $sourceList[] = new SourceMaterial(
                         $source->name(),
-                        $apiSource->pageNumber
+                        'pg ' . $apiSource->pageNumber
                     );
                 }
             }
@@ -424,7 +424,7 @@ class DndBeyondImporter implements ImporterInterface
 
                     $sourceList[] = new SourceMaterial(
                         $source->name(),
-                        $apiSource->pageNumber
+                        'pg ' . $apiSource->pageNumber
                     );
                 }
             }

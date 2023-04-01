@@ -8,14 +8,14 @@ class SourceMaterial implements \JsonSerializable
 {
     public function __construct(
         public readonly string $title,
-        public readonly ?int $pageNumber
+        public readonly ?string $extra = null
     ) {
     }
 
     public function jsonSerialize(): mixed
     {
-        return $this->pageNumber !== null
-            ? $this->title . ', pg ' . $this->pageNumber
+        return $this->extra !== null
+            ? $this->title . ', ' . $this->extra
             : $this->title;
     }
 }
