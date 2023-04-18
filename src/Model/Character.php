@@ -7,34 +7,34 @@ class Character implements \JsonSerializable
     private string $name;
     private CharacterArmorClass $armorClass;
     /**
-     * @var array<string, CharacterAbility> $abilityScores
+     * @var array<string, CharacterAbility>
      */
     private array $abilityScores;
     private int $proficiencyBonus;
     private int $level;
     /**
-     * @var array<int, CharacterClass> $classes
+     * @var array<int, CharacterClass>
      */
     private array $classes;
     /**
-     * @var array<string, int> $currencies
+     * @var array<string, int>
      */
     private array $currencies;
     private CharacterHealth $health;
     /**
-     * @var array<int, CharacterFeature> $features
+     * @var array<int, CharacterFeature>
      */
     private array $features;
     /**
-     * @var array<string, CharacterMovement> $movementSpeeds
+     * @var array<string, CharacterMovement>
      */
     private array $movementSpeeds;
     /**
-     * @var array<string, array<int, CharacterProficiency>> $proficiencies
+     * @var array<string, array<int, CharacterProficiency>>
      */
     private array $proficiencies;
     /**
-     * @var array<int, Item> $inventory
+     * @var array<int, Item>
      */
     private array $inventory;
 
@@ -73,7 +73,6 @@ class Character implements \JsonSerializable
     {
         return $this->armorClass;
     }
-
 
     /**
      * @param array<int, CharacterClass> $classes
@@ -149,7 +148,7 @@ class Character implements \JsonSerializable
         $features = \array_merge(
             $this->features,
             ...\array_map(
-                fn($c) => $c->getFeatures(),
+                fn ($c) => $c->getFeatures(),
                 $this->classes
             )
         );

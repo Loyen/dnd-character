@@ -16,7 +16,7 @@ class CharacterFeature implements \JsonSerializable
     {
         return [
             'name' => $this->name,
-            'sources' => $this->sources
+            'sources' => $this->sources,
         ];
     }
 }

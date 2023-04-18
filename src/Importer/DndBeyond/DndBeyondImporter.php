@@ -11,7 +11,6 @@ use loyen\DndbCharacterSheet\Importer\ImporterInterface;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\BonusType;
-use loyen\DndbCharacterSheet\Model\SourceMaterial;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
@@ -24,6 +23,7 @@ use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
 use loyen\DndbCharacterSheet\Model\ProficiencyType;
+use loyen\DndbCharacterSheet\Model\SourceMaterial;
 
 class DndBeyondImporter implements ImporterInterface
 {
@@ -71,10 +71,10 @@ class DndBeyondImporter implements ImporterInterface
         $this->character->setMovementSpeeds($this->getMovementSpeeds());
         $this->character->setProficiencies([
             'abilities' => $this->getAbilityProficiencies(),
-            'armor'     => $this->getArmorProficiencies(),
+            'armor' => $this->getArmorProficiencies(),
             'languages' => $this->getLanguages(),
-            'tools'     => $this->getToolProficiencies(),
-            'weapons'   => $this->getWeaponProficiences(),
+            'tools' => $this->getToolProficiencies(),
+            'weapons' => $this->getWeaponProficiences(),
         ]);
 
         return $this->character;
@@ -228,7 +228,7 @@ class DndBeyondImporter implements ImporterInterface
                     $m->subType,
                     [
                         'armored-armor-class',
-                        'armor-class'
+                        'armor-class',
                     ],
                     true
                 )
@@ -245,7 +245,7 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             if (!$armorClass->isWearingArmor()) {
-                /**
+                /*
                  * Natural Armor = CON instead of DEX.
                  * Unarmored Defense = DEX + WIS or DEX + CON.
                  */
@@ -310,7 +310,7 @@ class DndBeyondImporter implements ImporterInterface
             'Ability Score Improvement',
             'Hit Points',
             'Proficiencies',
-            'Fast Movement'
+            'Fast Movement',
         ];
 
         $classList = [];

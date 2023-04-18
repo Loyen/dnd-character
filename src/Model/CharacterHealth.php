@@ -17,7 +17,7 @@ class CharacterHealth implements \JsonSerializable
 
     public function getMaxHitPoints(): int
     {
-        return ($this->overrideValue ?? $this->value);
+        return $this->overrideValue ?? $this->value;
     }
 
     public function getCurrentHitPoints(): int
@@ -30,7 +30,7 @@ class CharacterHealth implements \JsonSerializable
         return [
             'value' => $this->getCurrentHitPoints(),
             'max' => $this->getMaxHitPoints(),
-            'temporary' => $this->temporaryHitPoints
+            'temporary' => $this->temporaryHitPoints,
         ];
     }
 }

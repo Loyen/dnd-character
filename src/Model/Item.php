@@ -14,7 +14,7 @@ class Item implements \JsonSerializable
     private ?int $armorClass = null; // armorClass
     private ?ArmorType $armorType = null; // armorTypeId
 
-    private ?string $damageType = null; //damageType
+    private ?string $damageType = null; // damageType
     private ?string $damage = null; // damage.diceString
 
     private ?int $range = null; // range
@@ -28,7 +28,7 @@ class Item implements \JsonSerializable
     private array $properties = []; // properties
 
     /**
-     * @var array<int, int> $modifierIds
+     * @var array<int, int>
      */
     private array $modifierIds = []; // grantedModifiers.id
 
@@ -251,7 +251,7 @@ class Item implements \JsonSerializable
             'isConsumable' => $this->isConsumable,
             'isEquipped' => $this->isEquipped,
             'isMagical' => $this->isMagical,
-            'properties' => $this->properties
+            'properties' => $this->properties,
         ];
     }
 }

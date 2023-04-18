@@ -63,6 +63,7 @@ class ApiModifier
 
     /**
      * @param array<int, array<string, array<string, mixed>>> $data
+     *
      * @return array<string|int, array<int, self>>
      */
     public static function createCollectionFromApi(array $data): array

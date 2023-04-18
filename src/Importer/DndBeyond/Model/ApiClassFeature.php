@@ -31,6 +31,7 @@ class ApiClassFeature
 
     /**
      * @param array<int, array<string, mixed>> $data
+     *
      * @return array<int, self>
      */
     public static function createCollectionFromApi(array $data): array

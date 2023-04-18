@@ -8,7 +8,7 @@ class CharacterClass implements \JsonSerializable
     private string $name;
     private ?string $subName = null;
     /**
-     * @var array<int, CharacterFeature> $features
+     * @var array<int, CharacterFeature>
      */
     private array $features = [];
 

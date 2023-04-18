@@ -5,14 +5,14 @@ namespace loyen\DndbCharacterSheet\Model;
 class CharacterArmorClass implements \JsonSerializable
 {
     /**
-     * @var array<int, CharacterAbility> $abilityScores
+     * @var array<int, CharacterAbility>
      */
     private array $abilityScores = [];
     private int $value = 10;
     private ?int $overrideValue = null;
     private ?Item $armor = null;
     /**
-     * @var array<int, int> $modifiers
+     * @var array<int, int>
      */
     private array $modifiers = [];
 

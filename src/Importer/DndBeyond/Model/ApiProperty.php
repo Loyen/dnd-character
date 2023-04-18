@@ -27,6 +27,7 @@ class ApiProperty
 
     /**
      * @param array<int, array<string, int|string|null>> $data
+     *
      * @return array<int, self>
      */
     public static function createCollectionFromApi(array $data): array

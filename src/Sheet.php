@@ -23,7 +23,7 @@ class Sheet
         string $template = 'light-sheet.twig.html'
     ): string {
         return $this->twig->load($template)->render([
-            'character' => $character
+            'character' => $character,
         ]);
     }
 }

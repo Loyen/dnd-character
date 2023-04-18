@@ -28,8 +28,8 @@ class DndBeyondApi
 
         try {
             $client = new Client([
-                'base_uri'  => 'https://character-service.dndbeyond.com/',
-                'timeout'   => 20
+                'base_uri' => 'https://character-service.dndbeyond.com/',
+                'timeout' => 20,
             ]);
 
             $response = $client->request('GET', 'character/v5/character/' . $characterId);
@@ -69,7 +69,6 @@ class DndBeyondApi
 
         $fileContent = \file_get_contents($filePath)
             ?: throw new CharacterFileReadException('Failed to read inputted file.');
-
         $character = DndBeyondImporter::import($fileContent);
 
         if (\in_array('--json', $arguments, true)) {

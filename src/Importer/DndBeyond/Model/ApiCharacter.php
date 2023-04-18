@@ -18,14 +18,14 @@ class ApiCharacter
         /** @var array<string|int, array<int, ApiChoice>> */
         public readonly array $choices,
         /**
-         * Inventory related
+         * Inventory related.
          */
         /** @var array<string, int> */
         public readonly array $currencies,
         /** @var array<int, ApiInventoryItem> */
         public readonly array $inventory,
         /**
-         * Ability scores related
+         * Ability scores related.
          */
         /** @var array<int, ApiStat> */
         public readonly array $stats,
@@ -34,7 +34,7 @@ class ApiCharacter
         /** @var array<int, ApiStat> */
         public readonly array $overrideStats,
         /**
-         * Hitpoints related
+         * Hitpoints related.
          */
         public readonly int $baseHitPoints,
         public readonly ?int $bonusHitPoints,

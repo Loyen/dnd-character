@@ -25,6 +25,7 @@ class ApiBookSource
 
     /**
      * @param array<int, array<string, int|null>> $data
+     *
      * @return array<int, self>
      */
     public static function createCollectionFromApi(array $data): array

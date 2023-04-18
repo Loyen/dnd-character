@@ -15,7 +15,7 @@ class CharacterProficiency implements \JsonSerializable
     {
         return [
             'name' => $this->name,
-            'expertise' => $this->expertise
+            'expertise' => $this->expertise,
         ];
     }
 }

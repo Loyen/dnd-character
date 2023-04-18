@@ -7,7 +7,7 @@ class CharacterAbility implements \JsonSerializable
     private AbilityType $type;
     private int $value = 0;
     /**
-     * @var array<int, int> $modifiers
+     * @var array<int, int>
      */
     private array $modifiers = [];
     private ?int $overrideValue = null;
@@ -91,7 +91,7 @@ class CharacterAbility implements \JsonSerializable
             'name' => $this->type->name(),
             'value' => $this->getCalculatedValue(),
             'modifier' => $this->getCalculatedModifier(),
-            'savingThrowProficient' => $this->savingThrowProficient
+            'savingThrowProficient' => $this->savingThrowProficient,
         ];
     }
 }

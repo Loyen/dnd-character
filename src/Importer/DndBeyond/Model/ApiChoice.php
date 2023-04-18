@@ -50,6 +50,7 @@ class ApiChoice
 
     /**
      * @param array<int, array<string, mixed>> $data
+     *
      * @return array<int, self>
      */
     public static function createCollectionFromApi(array $data): array
@@ -62,10 +63,12 @@ class ApiChoice
 
         return $choiceCollection;
     }
-   /**
-    * @param array<string, array<int, array<string, mixed>>|null> $data
-    * @return array<string, array<int, self>>
-    */
+
+    /**
+     * @param array<string, array<int, array<string, mixed>>|null> $data
+     *
+     * @return array<string, array<int, self>>
+     */
     public static function createCollectionPerCategoryFromApi(array $data): array
     {
         $choiceCollectionPerCategory = [];

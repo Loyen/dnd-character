@@ -40,7 +40,7 @@ final class DndBeyondImporterTest extends TestCase
             $characterName = $characterData['id'] . ' - ' . $characterData['name'];
 
             $characterList[$characterName] = [
-                $characterData
+                $characterData,
             ];
         }
 
@@ -83,7 +83,7 @@ final class DndBeyondImporterTest extends TestCase
                 'CON' => $expectedScores['CON']['score'],
                 'INT' => $expectedScores['INT']['score'],
                 'WIS' => $expectedScores['WIS']['score'],
-                'CHA' => $expectedScores['CHA']['score']
+                'CHA' => $expectedScores['CHA']['score'],
             ],
             [
                 'STR' => $actualScores['STR']->getCalculatedValue(),
@@ -91,7 +91,7 @@ final class DndBeyondImporterTest extends TestCase
                 'CON' => $actualScores['CON']->getCalculatedValue(),
                 'INT' => $actualScores['INT']->getCalculatedValue(),
                 'WIS' => $actualScores['WIS']->getCalculatedValue(),
-                'CHA' => $actualScores['CHA']->getCalculatedValue()
+                'CHA' => $actualScores['CHA']->getCalculatedValue(),
             ],
             'Ability scores'
         );
@@ -103,7 +103,7 @@ final class DndBeyondImporterTest extends TestCase
                 'CON' => $expectedScores['CON']['modifier'],
                 'INT' => $expectedScores['INT']['modifier'],
                 'WIS' => $expectedScores['WIS']['modifier'],
-                'CHA' => $expectedScores['CHA']['modifier']
+                'CHA' => $expectedScores['CHA']['modifier'],
             ],
             [
                 'STR' => $actualScores['STR']->getCalculatedModifier(),
@@ -111,7 +111,7 @@ final class DndBeyondImporterTest extends TestCase
                 'CON' => $actualScores['CON']->getCalculatedModifier(),
                 'INT' => $actualScores['INT']->getCalculatedModifier(),
                 'WIS' => $actualScores['WIS']->getCalculatedModifier(),
-                'CHA' => $actualScores['CHA']->getCalculatedModifier()
+                'CHA' => $actualScores['CHA']->getCalculatedModifier(),
             ],
             'Ability modifiers'
         );
@@ -123,7 +123,7 @@ final class DndBeyondImporterTest extends TestCase
                 'CON' => $expectedScores['CON']['savingThrowProficient'],
                 'INT' => $expectedScores['INT']['savingThrowProficient'],
                 'WIS' => $expectedScores['WIS']['savingThrowProficient'],
-                'CHA' => $expectedScores['CHA']['savingThrowProficient']
+                'CHA' => $expectedScores['CHA']['savingThrowProficient'],
             ],
             [
                 'STR' => $actualScores['STR']->isSavingThrowProficient(),
@@ -131,7 +131,7 @@ final class DndBeyondImporterTest extends TestCase
                 'CON' => $actualScores['CON']->isSavingThrowProficient(),
                 'INT' => $actualScores['INT']->isSavingThrowProficient(),
                 'WIS' => $actualScores['WIS']->isSavingThrowProficient(),
-                'CHA' => $actualScores['CHA']->isSavingThrowProficient()
+                'CHA' => $actualScores['CHA']->isSavingThrowProficient(),
             ],
             'Ability saving throw proficiencies'
         );
