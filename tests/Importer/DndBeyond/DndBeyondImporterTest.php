@@ -20,15 +20,18 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Character::class)]
 final class DndBeyondImporterTest extends TestCase
 {
+    /**
+     * @return array<string, mixed>
+     */
     public static function dataCharacters(): array
     {
         $characterList = [];
 
         $characterFileDir = __DIR__ . '/Fixtures/';
 
-        foreach (glob($characterFileDir . 'character_*_expected.json') as $filePath) {
+        foreach (\glob($characterFileDir . 'character_*_expected.json') ?: [] as $filePath) {
             $characterData = \json_decode(
-                \file_get_contents($filePath),
+                \file_get_contents($filePath) ?: '',
                 true
             );
 
@@ -47,11 +50,14 @@ final class DndBeyondImporterTest extends TestCase
         return $characterList;
     }
 
+    /**
+     * @param array<string, mixed> $expectedCharacterData
+     */
     #[DataProvider('dataCharacters')]
-    public function testImport(array $expectedCharacterData)
+    public function testImport(array $expectedCharacterData): void
     {
         $character = DndBeyondImporter::import(
-            \file_get_contents($expectedCharacterData['apiFilePath'])
+            \file_get_contents($expectedCharacterData['apiFilePath']) ?: ''
         );
 
         $this->assertInstanceOf(Character::class, $character);
@@ -67,13 +73,17 @@ final class DndBeyondImporterTest extends TestCase
         $this->assertCharacterProficiencies($character->getProficiencies());
     }
 
-    public function testInvalidCharacterImportThrowsException()
+    public function testInvalidCharacterImportThrowsException(): void
     {
         $this->expectException(CharacterInvalidImportException::class);
         DndBeyondImporter::import('[]');
     }
 
-    private function assertCharacterAbilityScores(array $expectedScores, array $actualScores)
+    /**
+     * @param array<string, array{score: int, modifier: int, savingThrowProficient: bool}> $expectedScores
+     * @param array<string, CharacterAbility> $actualScores
+     */
+    private function assertCharacterAbilityScores(array $expectedScores, array $actualScores): void
     {
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualScores);
         $this->assertSame(
@@ -137,19 +147,23 @@ final class DndBeyondImporterTest extends TestCase
         );
     }
 
-    private function assertCharacterArmorClass(int $expectedArmorClass, ?CharacterArmorClass $actualArmorClass)
+    private function assertCharacterArmorClass(int $expectedArmorClass, ?CharacterArmorClass $actualArmorClass): void
     {
         $this->assertInstanceOf(CharacterArmorClass::class, $actualArmorClass);
         $this->assertSame($expectedArmorClass, $actualArmorClass->getCalculatedValue(), 'Armor Class');
     }
 
-    private function assertCharacterHealth(int $expectedHealth, ?CharacterHealth $actualHealth)
+    private function assertCharacterHealth(int $expectedHealth, ?CharacterHealth $actualHealth): void
     {
         $this->assertInstanceOf(CharacterHealth::class, $actualHealth);
         $this->assertSame($expectedHealth, $actualHealth->getMaxHitPoints(), 'Maximum HP');
     }
 
-    private function assertCharacterMovementSpeeds(array $expectedMovementSpeeds, array $actualMovementSpeeds)
+    /**
+     * @param array<string, int> $expectedMovementSpeeds
+     * @param array<string, CharacterMovement> $actualMovementSpeeds
+     */
+    private function assertCharacterMovementSpeeds(array $expectedMovementSpeeds, array $actualMovementSpeeds): void
     {
         $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $actualMovementSpeeds);
         $this->assertSame(
@@ -159,7 +173,10 @@ final class DndBeyondImporterTest extends TestCase
         );
     }
 
-    private function assertCharacterProficiencies(array $actualProficiencies)
+    /**
+     * @param array<string, array<int, CharacterProficiency>> $actualProficiencies
+     */
+    private function assertCharacterProficiencies(array $actualProficiencies): void
     {
         $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
