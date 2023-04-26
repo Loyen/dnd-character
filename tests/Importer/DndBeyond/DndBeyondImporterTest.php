@@ -81,7 +81,7 @@ final class DndBeyondImporterTest extends TestCase
 
     /**
      * @param array<string, array{score: int, modifier: int, savingThrowProficient: bool}> $expectedScores
-     * @param array<string, CharacterAbility> $actualScores
+     * @param array<string, CharacterAbility>                                              $actualScores
      */
     private function assertCharacterAbilityScores(array $expectedScores, array $actualScores): void
     {
@@ -160,7 +160,7 @@ final class DndBeyondImporterTest extends TestCase
     }
 
     /**
-     * @param array<string, int> $expectedMovementSpeeds
+     * @param array<string, int>               $expectedMovementSpeeds
      * @param array<string, CharacterMovement> $actualMovementSpeeds
      */
     private function assertCharacterMovementSpeeds(array $expectedMovementSpeeds, array $actualMovementSpeeds): void
