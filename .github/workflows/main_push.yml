@@ -15,11 +15,11 @@ jobs:
     - name: Install dependencies
       run: composer install --no-progress
 
-    - name: Run PHPCS
-      run: composer run-script check
+    - name: Check coding standard
+      run: ./vendor/bin/php-cs-fixer fix --dry-run
 
-    - name: Run PHPStan
-      run: composer run-script analyse
+    - name: Run static analysis
+      run: ./vendor/bin/phpstan
 
-    - name: Run PHPUnit
-      run: composer run-script test
+    - name: Run test suite
+      run: ./vendor/bin/phpunit
