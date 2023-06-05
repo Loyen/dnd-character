@@ -4,20 +4,70 @@ namespace Tests\loyen\DndbCharacterSheet\Importer\DndBeyond;
 
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\DndBeyondImporter;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiBookSource;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiChoice;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClass;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassDefinition;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassFeature;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiDice;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeat;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeatDefinition;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiInventoryItem;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiInventoryItemDefinition;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOption;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOptionDefinition;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiProperty;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiRace;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiStat;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
+use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
 use loyen\DndbCharacterSheet\Model\CharacterClass;
+use loyen\DndbCharacterSheet\Model\CharacterFeature;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\Item;
+use loyen\DndbCharacterSheet\Model\SourceMaterial;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(ApiBookSource::class)]
+#[CoversClass(ApiCharacter::class)]
+#[CoversClass(ApiChoice::class)]
+#[CoversClass(ApiClass::class)]
+#[CoversClass(ApiClassDefinition::class)]
+#[CoversClass(ApiClassFeature::class)]
+#[CoversClass(ApiDice::class)]
+#[CoversClass(ApiFeat::class)]
+#[CoversClass(ApiFeatDefinition::class)]
+#[CoversClass(ApiInventoryItem::class)]
+#[CoversClass(ApiInventoryItemDefinition::class)]
+#[CoversClass(ApiModifier::class)]
+#[CoversClass(ApiOption::class)]
+#[CoversClass(ApiOptionDefinition::class)]
+#[CoversClass(ApiProperty::class)]
+#[CoversClass(ApiRace::class)]
+#[CoversClass(ApiStat::class)]
 #[CoversClass(DndBeyondImporter::class)]
-#[CoversClass(Character::class)]
+#[CoversClass(Source::class)]
+#[UsesClass(AbilityType::class)]
+#[UsesClass(Character::class)]
+#[UsesClass(CharacterAbility::class)]
+#[UsesClass(CharacterArmorClass::class)]
+#[UsesClass(CharacterClass::class)]
+#[UsesClass(CharacterFeature::class)]
+#[UsesClass(CharacterHealth::class)]
+#[UsesClass(CharacterMovement::class)]
+#[UsesClass(CharacterProficiency::class)]
+#[UsesClass(Item::class)]
+#[UsesClass(SourceMaterial::class)]
 final class DndBeyondImporterTest extends TestCase
 {
     /**
