@@ -8,12 +8,17 @@ on:
 jobs:
   test-code:
     runs-on: ubuntu-latest
-    container: composer:2
     steps:
     - uses: actions/checkout@v3
 
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        coverage: pcov
+        php-version: '8.2'
+
     - name: Install dependencies
-      run: composer install --no-progress
+      run: composer install --no-progress --prefer-dist --optimize-autoloader
 
     - name: Check coding standard
       run: ./vendor/bin/php-cs-fixer fix --dry-run
@@ -22,4 +27,4 @@ jobs:
       run: ./vendor/bin/phpstan
 
     - name: Run test suite
-      run: ./vendor/bin/phpunit --no-coverage
+      run: ./vendor/bin/phpunit
