@@ -24,7 +24,7 @@ jobs:
       run: ./vendor/bin/php-cs-fixer fix --dry-run
 
     - name: Run static analysis
-      run: ./vendor/bin/phpstan
+      run: ./vendor/bin/phpstan --no-progress
 
     - name: Run test suite
-      run: ./vendor/bin/phpunit
+      run: ./vendor/bin/phpunit --no-progress
