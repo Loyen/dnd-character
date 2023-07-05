@@ -338,13 +338,15 @@ class DndBeyondImporter implements ImporterInterface
                 }
             }
 
+            $featureNameList = [];
+
             foreach ($classFeatures as $feature) {
                 $featureName = isset($classOptions[$feature->id]->definition->name)
                     ? $feature->name . ' - ' . $classOptions[$feature->id]->definition->name
                     : $feature->name;
 
                 if (
-                    \in_array($featureName, $characterClass->getFeatures(), true)
+                    \in_array($featureName, $featureNameList, true)
                     || $feature->requiredLevel > $class->level
                     || \in_array($feature->name, $skippedFeatures, true)
                 ) {
@@ -358,6 +360,7 @@ class DndBeyondImporter implements ImporterInterface
                 );
 
                 $characterClass->addFeature($classFeature);
+                $featureNameList[] = $featureName;
             }
 
             $classList[] = $characterClass;
@@ -413,10 +416,6 @@ class DndBeyondImporter implements ImporterInterface
 
         $featureList = [];
         foreach ($feats as $feat) {
-            if (\in_array($feat->definition->name, $featureList, true)) {
-                continue;
-            }
-
             $sourceList = [];
             if (isset($feat->definition->sources)) {
                 foreach ($feat->definition->sources as $apiSource) {
