@@ -23,7 +23,7 @@
             "@analyse",
             "@test"
         ],
-        "check": "php-cs-fixer fix --dry-run",
+        "lint": "php-cs-fixer fix --dry-run",
         "format": "php-cs-fixer fix",
         "analyse": "phpstan analyze",
         "test": "phpunit",
