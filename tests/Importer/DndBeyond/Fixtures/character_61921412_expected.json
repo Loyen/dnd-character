@@ -86,7 +86,7 @@
                 "expertise": false
             },
             {
-                "name": "Thieves' Cant",
+                "name": "Thieves’ Cant",
                 "expertise": false
             }
         ],
@@ -106,11 +106,7 @@
         ],
         "weapons": [
             {
-                "name": "Crossbow",
-                "expertise": false
-            },
-            {
-                "name": "Hand",
+                "name": "Crossbow, Hand",
                 "expertise": false
             },
             {
