@@ -1,9 +1,9 @@
 {
     "id": 61921412,
     "name": "Litt Tyv",
-    "level": 8,
-    "health": 59,
-    "armorClass": 16,
+    "level": 11,
+    "health": 80,
+    "armorClass": 17,
     "movementSpeeds": {
         "walk": 35
     },
@@ -24,7 +24,7 @@
             "savingThrowProficient": false
         },
         "INT": {
-            "score": 8,
+            "score": 9,
             "modifier": -1,
             "savingThrowProficient": true
         },
@@ -39,10 +39,102 @@
             "savingThrowProficient": false
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Acrobatics",
+                "expertise": false
+            },
+            {
+                "name": "Deception",
+                "expertise": false
+            },
+            {
+                "name": "Insight",
+                "expertise": true
+            },
+            {
+                "name": "Perception",
+                "expertise": true
+            },
+            {
+                "name": "Persuasion",
+                "expertise": false
+            },
+            {
+                "name": "Sleight of Hand",
+                "expertise": true
+            },
+            {
+                "name": "Stealth",
+                "expertise": true
+            }
+        ],
+        "armor": [
+            {
+                "name": "Light Armor",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Gnomish",
+                "expertise": false
+            },
+            {
+                "name": "Thieves' Cant",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Jeweler's Tools",
+                "expertise": false
+            },
+            {
+                "name": "Playing Card Set",
+                "expertise": false
+            },
+            {
+                "name": "Thieves' Tools",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Crossbow",
+                "expertise": false
+            },
+            {
+                "name": "Hand",
+                "expertise": false
+            },
+            {
+                "name": "Longsword",
+                "expertise": false
+            },
+            {
+                "name": "Rapier",
+                "expertise": false
+            },
+            {
+                "name": "Shortsword",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
-        "cp": 0,
-        "sp": 0,
-        "gp": 15,
+        "cp": 98,
+        "sp": 8,
+        "gp": 17083,
         "ep": 0,
         "pp": 0
     }

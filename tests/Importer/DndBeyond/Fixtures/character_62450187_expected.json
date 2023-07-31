@@ -39,6 +39,82 @@
             "savingThrowProficient": false
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Athletics",
+                "expertise": false
+            },
+            {
+                "name": "Insight",
+                "expertise": false
+            },
+            {
+                "name": "Intimidation",
+                "expertise": false
+            },
+            {
+                "name": "Perception",
+                "expertise": false
+            },
+            {
+                "name": "Persuasion",
+                "expertise": true
+            },
+            {
+                "name": "Stealth",
+                "expertise": false
+            }
+        ],
+        "armor": [
+            {
+                "name": "Heavy Armor",
+                "expertise": false
+            },
+            {
+                "name": "Light Armor",
+                "expertise": false
+            },
+            {
+                "name": "Medium Armor",
+                "expertise": false
+            },
+            {
+                "name": "Shields",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Elvish",
+                "expertise": false
+            },
+            {
+                "name": "Minotaur",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Horn",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Martial Weapons",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 0,
         "sp": 0,

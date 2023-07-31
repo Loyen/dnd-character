@@ -6,6 +6,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ModifierType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Importer\ImporterInterface;
 use loyen\DndbCharacterSheet\Model\AbilityType;
@@ -174,7 +175,15 @@ class DndBeyondImporter implements ImporterInterface
     public function getAbilityProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::ABILITY->value
+            fn (
+                ApiModifier & $m,
+                /* @var CharacterProficiency[] */
+                array &$proficiencyList
+            ) => $m->entityTypeId !== ProficiencyType::ABILITY->value || (
+                isset($proficiencyList[$m->entityId])
+                && ModifierType::tryFrom($m->modifierTypeId) !== ModifierType::Expertise
+            ),
+            true
         );
     }
 
@@ -653,14 +662,13 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getProficienciesByFilter(callable $function): array
+    public function getProficienciesByFilter(callable $function, bool $debug = false): array
     {
         $proficiencies = [];
         foreach ($this->modifiers as $m) {
             if (
                 $m->entityTypeId === null
-                || isset($proficiencies[$m->entityId])
-                || $function($m)
+                || $function($m, $proficiencies)
             ) {
                 continue;
             }

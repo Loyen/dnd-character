@@ -39,6 +39,86 @@
             "savingThrowProficient": false
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Acrobatics",
+                "expertise": false
+            },
+            {
+                "name": "Athletics",
+                "expertise": false
+            },
+            {
+                "name": "Deception",
+                "expertise": false
+            },
+            {
+                "name": "Insight",
+                "expertise": false
+            },
+            {
+                "name": "Perception",
+                "expertise": false
+            }
+        ],
+        "armor": [
+            {
+                "name": "Heavy Armor",
+                "expertise": false
+            },
+            {
+                "name": "Light Armor",
+                "expertise": false
+            },
+            {
+                "name": "Medium Armor",
+                "expertise": false
+            },
+            {
+                "name": "Shields",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Deep Speech",
+                "expertise": false
+            },
+            {
+                "name": "Halfling",
+                "expertise": false
+            },
+            {
+                "name": "Telepathy (30 ft.)",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Brewer's Supplies",
+                "expertise": false
+            },
+            {
+                "name": "Playing Card Set",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Martial Weapons",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 5,
         "sp": 7,

@@ -120,7 +120,10 @@ final class DndBeyondImporterTest extends TestCase
         $this->assertCharacterMovementSpeeds($expectedCharacterData['movementSpeeds'], $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
         $this->assertSame($expectedCharacterData['wallet'], $character->getCurrencies(), 'Wallet');
-        $this->assertCharacterProficiencies($character->getProficiencies());
+        $this->assertCharacterProficiencies(
+            $expectedCharacterData['proficiencies'],
+            $character->getProficiencies()
+        );
     }
 
     public function testInvalidCharacterImportThrowsException(): void
@@ -224,35 +227,67 @@ final class DndBeyondImporterTest extends TestCase
     }
 
     /**
-     * @param array<string, array<int, CharacterProficiency>> $actualProficiencies
+     * @param array<string, array<int, array{name: string, expertise: bool}>> $expectedProficiencies
+     * @param array<string, array<int, CharacterProficiency>>                 $actualProficiencies
      */
-    private function assertCharacterProficiencies(array $actualProficiencies): void
-    {
+    private function assertCharacterProficiencies(
+        array $expectedProficiencies,
+        array $actualProficiencies
+    ): void {
         $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],
             'Abilities proficiencies'
         );
+        $this->assertSame(
+            $expectedProficiencies['abilities'],
+            array_map(fn ($a) => $a->jsonSerialize(), $actualProficiencies['abilities']),
+            'Abilities proficiencies match expected list'
+        );
+
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['armor'],
             'Armor proficiencies'
         );
+        $this->assertSame(
+            $expectedProficiencies['armor'],
+            array_map(fn ($a) => $a->jsonSerialize(), $actualProficiencies['armor']),
+            'Armor proficiencies match expected list'
+        );
+
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['languages'],
             'Languages proficiencies'
         );
+        $this->assertSame(
+            $expectedProficiencies['languages'],
+            array_map(fn ($a) => $a->jsonSerialize(), $actualProficiencies['languages']),
+            'Languages proficiencies match expected list'
+        );
+
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['tools'],
             'Tools proficiencies'
         );
+        $this->assertSame(
+            $expectedProficiencies['tools'],
+            array_map(fn ($a) => $a->jsonSerialize(), $actualProficiencies['tools']),
+            'Tools proficiencies match expected list'
+        );
+
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['weapons'],
             'Weapons proficiencies'
+        );
+        $this->assertSame(
+            $expectedProficiencies['weapons'],
+            array_map(fn ($a) => $a->jsonSerialize(), $actualProficiencies['weapons']),
+            'Weapons proficiencies match expected list'
         );
     }
 }

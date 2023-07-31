@@ -39,6 +39,78 @@
             "savingThrowProficient": false
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Athletics",
+                "expertise": false
+            },
+            {
+                "name": "Intimidation",
+                "expertise": false
+            },
+            {
+                "name": "Persuasion",
+                "expertise": false
+            },
+            {
+                "name": "Survival",
+                "expertise": false
+            }
+        ],
+        "armor": [
+            {
+                "name": "Light Armor",
+                "expertise": false
+            },
+            {
+                "name": "Medium Armor",
+                "expertise": false
+            },
+            {
+                "name": "Shields",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Dwarvish",
+                "expertise": false
+            },
+            {
+                "name": "Yeti",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Brewer's Supplies",
+                "expertise": false
+            },
+            {
+                "name": "Dice Set",
+                "expertise": false
+            },
+            {
+                "name": "Vehicles (Land)",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Martial Weapons",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 0,
         "sp": 0,

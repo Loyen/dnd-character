@@ -39,6 +39,74 @@
             "savingThrowProficient": false
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "History",
+                "expertise": false
+            },
+            {
+                "name": "Perception",
+                "expertise": false
+            },
+            {
+                "name": "Persuasion",
+                "expertise": false
+            },
+            {
+                "name": "Stealth",
+                "expertise": false
+            },
+            {
+                "name": "Survival",
+                "expertise": false
+            }
+        ],
+        "armor": [
+            {
+                "name": "Light Armor",
+                "expertise": false
+            },
+            {
+                "name": "Medium Armor",
+                "expertise": false
+            },
+            {
+                "name": "Shields",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Elvish",
+                "expertise": false
+            },
+            {
+                "name": "Gnomish",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Dice Set",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Martial Weapons",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 0,
         "sp": 0,

@@ -40,6 +40,78 @@
             "savingThrowProficient": true
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Athletics",
+                "expertise": false
+            },
+            {
+                "name": "Intimidation",
+                "expertise": false
+            },
+            {
+                "name": "Medicine",
+                "expertise": false
+            },
+            {
+                "name": "Persuasion",
+                "expertise": false
+            }
+        ],
+        "armor": [
+            {
+                "name": "Heavy Armor",
+                "expertise": false
+            },
+            {
+                "name": "Light Armor",
+                "expertise": false
+            },
+            {
+                "name": "Medium Armor",
+                "expertise": false
+            },
+            {
+                "name": "Shields",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Aarakocra",
+                "expertise": false
+            },
+            {
+                "name": "Auran",
+                "expertise": false
+            },
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Druidic",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Dice Set",
+                "expertise": false
+            },
+            {
+                "name": "Vehicles (Land)",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 0,
         "sp": 0,

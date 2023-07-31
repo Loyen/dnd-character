@@ -40,6 +40,85 @@
             "savingThrowProficient": false
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Acrobatics",
+                "expertise": false
+            },
+            {
+                "name": "Athletics",
+                "expertise": false
+            },
+            {
+                "name": "Deception",
+                "expertise": false
+            },
+            {
+                "name": "Insight",
+                "expertise": false
+            },
+            {
+                "name": "Medicine",
+                "expertise": false
+            },
+            {
+                "name": "Perception",
+                "expertise": false
+            },
+            {
+                "name": "Persuasion",
+                "expertise": true
+            },
+            {
+                "name": "Religion",
+                "expertise": false
+            },
+            {
+                "name": "Stealth",
+                "expertise": false
+            }
+        ],
+        "armor": [],
+        "languages": [
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Draconic",
+                "expertise": false
+            },
+            {
+                "name": "Sylvan",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Herbalism Kit",
+                "expertise": false
+            },
+            {
+                "name": "Pan Flute",
+                "expertise": false
+            },
+            {
+                "name": "Woodcarver's Tools",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Shortsword",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 0,
         "sp": 5,

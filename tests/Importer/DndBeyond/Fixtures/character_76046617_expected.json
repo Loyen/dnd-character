@@ -39,6 +39,74 @@
             "savingThrowProficient": true
         }
     },
+    "proficiencies": {
+        "abilities": [
+            {
+                "name": "Arcana",
+                "expertise": false
+            },
+            {
+                "name": "Deception",
+                "expertise": false
+            },
+            {
+                "name": "Insight",
+                "expertise": false
+            },
+            {
+                "name": "Medicine",
+                "expertise": false
+            },
+            {
+                "name": "Sleight of Hand",
+                "expertise": false
+            }
+        ],
+        "armor": [
+            {
+                "name": "Light Armor",
+                "expertise": false
+            },
+            {
+                "name": "Medium Armor",
+                "expertise": false
+            },
+            {
+                "name": "Shields",
+                "expertise": false
+            }
+        ],
+        "languages": [
+            {
+                "name": "Abyssal",
+                "expertise": false
+            },
+            {
+                "name": "Common",
+                "expertise": false
+            },
+            {
+                "name": "Infernal",
+                "expertise": false
+            }
+        ],
+        "tools": [
+            {
+                "name": "Playing Card Set",
+                "expertise": false
+            }
+        ],
+        "weapons": [
+            {
+                "name": "Martial Weapons",
+                "expertise": false
+            },
+            {
+                "name": "Simple Weapons",
+                "expertise": false
+            }
+        ]
+    },
     "wallet": {
         "cp": 0,
         "sp": 0,

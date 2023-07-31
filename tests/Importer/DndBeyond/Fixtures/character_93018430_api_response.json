@@ -759,7 +759,7 @@
                     "weightMultiplier": 1,
                     "capacity": null,
                     "capacityWeight": 0,
-                    "type": "",
+                    "type": "Medium Armor",
                     "description": "<p>This armor consists of a coat and leggings (and perhaps a separate skirt) of leather covered with overlapping pieces of metal, much like the scales of a fish. The suit includes gauntlets.</p>",
                     "canAttune": false,
                     "attunementDescription": null,
@@ -1253,7 +1253,7 @@
                         "Social"
                     ],
                     "grantedModifiers": [],
-                    "subType": null,
+                    "subType": "Tool",
                     "isConsumable": false,
                     "weaponBehaviors": [],
                     "baseItemId": null,
@@ -5995,9 +5995,11 @@
         "creatures": [],
         "optionalOrigins": [],
         "optionalClassFeatures": [],
-        "dateModified": "2023-01-30T17:51:55.727Z",
-        "providedFrom": "database",
+        "dateModified": "2023-03-04T21:17:01.747Z",
+        "providedFrom": "storage",
         "canEdit": false,
+        "status": 1,
+        "statusSlug": "active",
         "campaignSetting": null
     },
     "pagination": null
