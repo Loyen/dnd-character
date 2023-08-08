@@ -1,0 +1,35 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/debian
+{
+    "name": "PHP",
+    "dockerFile": "Dockerfile",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": "true",
+            "username": "vscode",
+            "userUid": "1000",
+            "userGid": "1000",
+            "upgradePackages": "true"
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+        }
+    },
+    "overrideFeatureInstallOrder": [
+        "ghcr.io/devcontainers/features/common-utils"
+    ],
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "php.validate.executablePath": "/usr/local/bin/php"
+            },
+            "extensions": [
+                "devsense.phptools-vscode",
+                "junstyle.php-cs-fixer",
+                "xdebug.php-debug"
+            ]
+        }
+    }
+}
