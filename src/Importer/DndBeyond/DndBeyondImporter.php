@@ -669,6 +669,7 @@ class DndBeyondImporter implements ImporterInterface
             if (
                 $m->entityTypeId === null
                 || $function($m, $proficiencies)
+                || (!$m->availableToMulticlass && count($this->character->getClasses()) >= 1)
             ) {
                 continue;
             }
