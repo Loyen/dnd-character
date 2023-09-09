@@ -16,6 +16,11 @@
             "ppa": "false"
         }
     },
+    "runArgs": [
+        "--userns=keep-id"
+    ],
+    "containerUser": "vscode",
+    "updateRemoteUserUID": true,
     "overrideFeatureInstallOrder": [
         "ghcr.io/devcontainers/features/common-utils"
     ],
