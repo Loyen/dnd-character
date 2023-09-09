@@ -662,7 +662,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getProficienciesByFilter(callable $function, bool $debug = false): array
+    public function getProficienciesByFilter(callable $function): array
     {
         $proficiencies = [];
         foreach ($this->modifiers as $m) {
