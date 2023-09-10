@@ -182,8 +182,7 @@ class DndBeyondImporter implements ImporterInterface
             ) => $m->entityTypeId !== ProficiencyType::ABILITY->value || (
                 isset($proficiencyList[$m->entityId])
                 && ModifierType::tryFrom($m->modifierTypeId) !== ModifierType::Expertise
-            ),
-            true
+            )
         );
     }
 
