@@ -530,7 +530,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getLanguages(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== 906033267
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::LANGUAGE->value
         );
     }
 
