@@ -666,9 +666,10 @@ class DndBeyondImporter implements ImporterInterface
         $proficiencies = [];
         foreach ($this->modifiers as $m) {
             if (
-                $m->entityTypeId === null
+                isset($proficiencies[$m->entityId])
+                || $m->entityTypeId === null
                 || $function($m, $proficiencies)
-                || (!$m->availableToMulticlass && count($this->character->getClasses()) >= 1)
+                || !$this->isAvailableDuringMultiClass($m)
             ) {
                 continue;
             }
@@ -719,5 +720,32 @@ class DndBeyondImporter implements ImporterInterface
             4 => ArmorType::Shield,
             default => null
         };
+    }
+
+    private function isAvailableDuringMultiClass(ApiModifier $modifier): bool
+    {
+        $multiClasses = $this->apiCharacter->classes;
+
+        if (count($multiClasses) <= 1) {
+            return true;
+        }
+
+        /*
+         * Create a list of feats that should not be available while multiclassing. Feats from the
+         * first chosen class should still be available hence why we skip it.
+         */
+        array_shift($multiClasses);
+
+        $levelOneProficiencies = array_map(
+            fn ($f) => $f->id,
+            array_filter(
+                array_merge(...array_column(array_column($multiClasses, 'definition'), 'classFeatures')),
+                fn ($f) => $f->requiredLevel === 1
+                    && $f->name === 'Proficiencies'
+            )
+        );
+
+        return $modifier->availableToMulticlass
+            || !in_array($modifier->componentId, $levelOneProficiencies);
     }
 }
