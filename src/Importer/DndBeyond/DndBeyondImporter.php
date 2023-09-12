@@ -668,7 +668,9 @@ class DndBeyondImporter implements ImporterInterface
 
             $proficiencies[$m->entityId] = new CharacterProficiency(
                 ProficiencyType::from($m->entityTypeId),
-                $m->friendlySubtypeName,
+                !empty($m->restriction)
+                    ? $m->friendlySubtypeName . ' (' . $m->restriction . ')'
+                    : $m->friendlySubtypeName,
                 $m->type === 'expertise'
             );
         }
