@@ -9,7 +9,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiChoice;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClass;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassDefinition;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassFeature;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassDefinitionFeature;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiDice;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeat;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeatDefinition;
@@ -43,7 +43,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiChoice::class)]
 #[CoversClass(ApiClass::class)]
 #[CoversClass(ApiClassDefinition::class)]
-#[CoversClass(ApiClassFeature::class)]
+#[CoversClass(ApiClassDefinitionFeature::class)]
 #[CoversClass(ApiDice::class)]
 #[CoversClass(ApiFeat::class)]
 #[CoversClass(ApiFeatDefinition::class)]

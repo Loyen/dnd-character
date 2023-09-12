@@ -2,7 +2,7 @@
 
 namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model;
 
-class ApiClassFeature
+class ApiClassDefinitionFeature
 {
     public function __construct(
         public readonly int $id,
