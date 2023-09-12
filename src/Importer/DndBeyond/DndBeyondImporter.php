@@ -326,44 +326,36 @@ class DndBeyondImporter implements ImporterInterface
             $characterClass = new CharacterClass($class->definition->name);
             $characterClass->setLevel($class->level);
 
-            $classFeatures = $class->definition->classFeatures;
-
-            if (isset($class->subclassDefinition)) {
-                $characterClass->setSubName($class->subclassDefinition->name);
-
-                $classFeatures = \array_merge($classFeatures, $class->subclassDefinition->classFeatures);
-            }
-
-            $sourceList = [];
-            if (isset($class->subclassDefinition->sources)) {
-                foreach ($class->subclassDefinition->sources as $apiSource) {
-                    $source = Source::tryFrom($apiSource->sourceId) ?? Source::UnknownSource;
-
-                    $sourceList[] = new SourceMaterial(
-                        $source->name(),
-                        'pg ' . $apiSource->pageNumber
-                    );
-                }
-            }
-
             $featureNameList = [];
 
-            foreach ($classFeatures as $feature) {
-                $featureName = isset($classOptions[$feature->id]->definition->name)
-                    ? $feature->name . ' - ' . $classOptions[$feature->id]->definition->name
-                    : $feature->name;
+            foreach ($class->classFeatures as $feature) {
+                $featureName = isset($classOptions[$feature->definition->id]->definition->name)
+                    ? $feature->definition->name . ' - ' . $classOptions[$feature->definition->id]->definition->name
+                    : $feature->definition->name;
 
                 if (
                     \in_array($featureName, $featureNameList, true)
-                    || $feature->requiredLevel > $class->level
-                    || \in_array($feature->name, $skippedFeatures, true)
+                    || $feature->definition->requiredLevel > $class->level
+                    || \in_array($feature->definition->name, $skippedFeatures, true)
                 ) {
                     continue;
                 }
 
+                $sourceList = [];
+                if (isset($feature->definition->sources)) {
+                    foreach ($feature->definition->sources as $apiSource) {
+                        $source = Source::tryFrom($apiSource->sourceId) ?? Source::UnknownSource;
+
+                        $sourceList[] = new SourceMaterial(
+                            $source->name(),
+                            'pg ' . $apiSource->pageNumber
+                        );
+                    }
+                }
+
                 $classFeature = new CharacterFeature(
                     $featureName,
-                    $feature->description,
+                    $feature->definition->description,
                     $sourceList
                 );
 
