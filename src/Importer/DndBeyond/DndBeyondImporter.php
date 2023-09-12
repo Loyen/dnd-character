@@ -658,8 +658,7 @@ class DndBeyondImporter implements ImporterInterface
         $proficiencies = [];
         foreach ($this->modifiers as $m) {
             if (
-                isset($proficiencies[$m->entityId])
-                || $m->entityTypeId === null
+                $m->entityTypeId === null
                 || $function($m, $proficiencies)
                 || !$this->isAvailableDuringMultiClass($m)
             ) {
