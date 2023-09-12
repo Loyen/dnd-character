@@ -17,6 +17,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeat;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeatDefinition;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiInventoryItem;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiInventoryItemDefinition;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiLevelScale;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOption;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOptionDefinition;
@@ -53,6 +54,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiFeatDefinition::class)]
 #[CoversClass(ApiInventoryItem::class)]
 #[CoversClass(ApiInventoryItemDefinition::class)]
+#[CoversClass(ApiLevelScale::class)]
 #[CoversClass(ApiModifier::class)]
 #[CoversClass(ApiOption::class)]
 #[CoversClass(ApiOptionDefinition::class)]

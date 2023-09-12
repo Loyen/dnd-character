@@ -25,7 +25,7 @@ class ApiClassFeatureDefinition
         public readonly int $sourcePageNumber,
         /** @var array<int, array<string, mixed>> */
         public readonly array $creatureRules,
-        /** @var array<int, array<string, mixed>> */
+        /** @var array<int, ApiLevelScale> */
         public readonly array $levelScales,
         /** @var array<int, mixed> */
         public readonly array $infusionRules,
@@ -65,7 +65,7 @@ class ApiClassFeatureDefinition
             $data['sourceId'],
             $data['sourcePageNumber'],
             $data['creatureRules'],
-            $data['levelScales'],
+            ApiLevelScale::createCollectionFromApi($data['levelScales']),
             $data['infusionRules'],
             $data['spellListIds'],
             $data['classId'],
