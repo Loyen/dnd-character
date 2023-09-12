@@ -11,7 +11,7 @@ class ApiClassFeatureDefinition
         public readonly int $displayOrder,
         public readonly string $name,
         public readonly string $description,
-        public readonly string $snippet,
+        public readonly ?string $snippet,
         /** @var array<string, int>|null */
         public readonly mixed $activation,
         public readonly string $multiClassDescription,
