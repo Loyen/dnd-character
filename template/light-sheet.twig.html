@@ -198,30 +198,32 @@
                 </div>
             </div>
 
-            {% for class in character.classes %}
-                <div class="features">
-                    <div class="feature-section">{{ class.name }} features</div>
-                    <div class="items">
-                        {% for feature in class.features %}
+            <div class="features">
+                {% for class in character.classes %}
+                    <div class="features-class">
+                        <div class="feature-section">{{ class.name }} features</div>
+                        <div class="items">
+                            {% for feature in class.features %}
 
-                        <div class="item">
-                            <div class="item-name">{{ feature.name }}</div>
-                            <div class="item-source">
+                            <div class="item">
+                                <div class="item-name">{{ feature.name }}</div>
+                                <div class="item-source">
 
-                                {% for source in feature.sources %}
-                                    {{ source.title }}, {{ source.extra }}
-                                {% endfor %}
+                                    {% for source in feature.sources %}
+                                        {{ source.title }}, {{ source.extra }}
+                                    {% endfor %}
 
+                                </div>
+                                <div class="item-description">
+                                    {{ feature.description|raw }}
+                                </div>
                             </div>
-                            <div class="item-description">
-                                {{ feature.description|raw }}
-                            </div>
+
+                            {% endfor %}
                         </div>
-
-                        {% endfor %}
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 </body>
