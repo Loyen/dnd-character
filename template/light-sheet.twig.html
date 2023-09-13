@@ -13,11 +13,11 @@
             display: grid;
             grid-template-rows: auto;
             grid-template-columns: auto;
-            gap: 0 25px;
+            gap: 0 1em;
         }
         .character {
             display: grid;
-            gap: 10px;
+            gap: 1em;
             grid-template-areas:
                 "name          information   features"
                 "scores        scores        features"
@@ -85,7 +85,7 @@
             grid-area: proficiencies;
             display: grid;
             grid-template-columns: repeat(3, auto);
-            gap: 10px;
+            gap: 1em;
         }
         .items {
             line-height: 1.3em;
@@ -125,6 +125,8 @@
         }
         .features {
             grid-area: features;
+            display: grid;
+            gap: 1em;
         }
         .feature-section {
             font-weight: bold;
