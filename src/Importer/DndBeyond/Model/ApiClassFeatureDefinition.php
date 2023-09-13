@@ -21,8 +21,8 @@ class ApiClassFeatureDefinition
         public readonly ?array $limitedUse,
         public readonly bool $hideInBuilder,
         public readonly bool $hideInSheet,
-        public readonly int $sourceId,
-        public readonly int $sourcePageNumber,
+        public readonly ?int $sourceId,
+        public readonly ?int $sourcePageNumber,
         /** @var array<int, array<string, mixed>> */
         public readonly array $creatureRules,
         /** @var array<int, ApiLevelScale> */

@@ -355,7 +355,7 @@ class DndBeyondImporter implements ImporterInterface
 
                 $classFeature = new CharacterFeature(
                     $featureName,
-                    $feature->definition->description,
+                    $feature->definition->snippet ?? '',
                     $sourceList
                 );
 
@@ -430,7 +430,7 @@ class DndBeyondImporter implements ImporterInterface
 
             $characterFeature = new CharacterFeature(
                 $feat->definition->name,
-                $feat->definition->description,
+                $feat->definition->description ?? '',
                 $sourceList
             );
 
