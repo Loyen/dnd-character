@@ -5,7 +5,7 @@ namespace loyen\DndbCharacterSheet\Model;
 class CharacterProficiency implements \JsonSerializable
 {
     public function __construct(
-        public readonly ProficiencyType $type,
+        public readonly ProficiencyGroup $type,
         public readonly string $name,
         public readonly bool $expertise = false,
     ) {

@@ -23,6 +23,7 @@ use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
+use loyen\DndbCharacterSheet\Model\ProficiencyGroup;
 use loyen\DndbCharacterSheet\Model\ProficiencyType;
 use loyen\DndbCharacterSheet\Model\SourceMaterial;
 
@@ -179,7 +180,7 @@ class DndBeyondImporter implements ImporterInterface
                 ApiModifier & $m,
                 /* @var CharacterProficiency[] */
                 array &$proficiencyList
-            ) => $m->entityTypeId !== ProficiencyType::ABILITY->value || (
+            ) => $m->entityTypeId !== ProficiencyGroup::Ability->value || (
                 isset($proficiencyList[$m->entityId])
                 && ModifierType::tryFrom($m->modifierTypeId) !== ModifierType::Expertise
             )
@@ -301,7 +302,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getArmorProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::ARMOR->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyGroup::Armor->value
         );
     }
 
@@ -522,7 +523,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getLanguages(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::LANGUAGE->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyGroup::Language->value
         );
     }
 
@@ -666,7 +667,7 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             $proficiencies[$m->entityId] = new CharacterProficiency(
-                ProficiencyType::from($m->entityTypeId),
+                ProficiencyGroup::from($m->entityTypeId),
                 !empty($m->restriction)
                     ? $m->friendlySubtypeName . ' (' . $m->restriction . ')'
                     : $m->friendlySubtypeName,
@@ -685,7 +686,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getToolProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyType::TOOL->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyGroup::Tool->value
         );
     }
 
@@ -695,8 +696,8 @@ class DndBeyondImporter implements ImporterInterface
     public function getWeaponProficiences(): array
     {
         $weaponEntityIdList = [
-            ProficiencyType::WEAPONGROUP->value,
-            ProficiencyType::WEAPON->value,
+            ProficiencyGroup::WeaponGroup->value,
+            ProficiencyGroup::Weapon->value,
         ];
 
         return $this->getProficienciesByFilter(
