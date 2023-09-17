@@ -43,67 +43,67 @@
         "abilities": [
             {
                 "name": "Arcana",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Deception",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Insight",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medicine",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Sleight of Hand",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "armor": [
             {
                 "name": "Light Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medium Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Shields",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "languages": [
             {
                 "name": "Abyssal",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Infernal",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Playing Card Set",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Martial Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },

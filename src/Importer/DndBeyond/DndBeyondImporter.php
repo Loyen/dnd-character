@@ -182,7 +182,11 @@ class DndBeyondImporter implements ImporterInterface
                 array &$proficiencyList
             ) => $m->entityTypeId !== ProficiencyGroup::Ability->value || (
                 isset($proficiencyList[$m->entityId])
-                && ModifierType::tryFrom($m->modifierTypeId) !== ModifierType::Expertise
+                && !in_array(ModifierType::tryFrom($m->modifierTypeId), [
+                    ModifierType::Expertise,
+                    ModifierType::HalfProficiency,
+                    ModifierType::HalfProficiencyRoundUp,
+                ])
             )
         );
     }
@@ -671,7 +675,13 @@ class DndBeyondImporter implements ImporterInterface
                 !empty($m->restriction)
                     ? $m->friendlySubtypeName . ' (' . $m->restriction . ')'
                     : $m->friendlySubtypeName,
-                $m->type === 'expertise'
+                match ($m->type) {
+                    'proficiency' => ProficiencyType::Proficient,
+                    'expertise' => ProficiencyType::Expertise,
+                    'half-proficiency',
+                    'half-proficiency-round-up' => ProficiencyType::HalfProficient,
+                    default => ProficiencyType::Proficient
+                }
             );
         }
 

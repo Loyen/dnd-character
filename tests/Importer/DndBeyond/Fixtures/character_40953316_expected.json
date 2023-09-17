@@ -43,71 +43,71 @@
         "abilities": [
             {
                 "name": "Athletics",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Intimidation",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Persuasion",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Survival",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "armor": [
             {
                 "name": "Light Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medium Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Shields",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "languages": [
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Dwarvish",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Yeti",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Brewer's Supplies",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Dice Set",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Vehicles (Land)",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Martial Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },

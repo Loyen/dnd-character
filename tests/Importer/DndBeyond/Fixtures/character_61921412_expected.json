@@ -43,87 +43,87 @@
         "abilities": [
             {
                 "name": "Acrobatics",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Deception",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Insight",
-                "expertise": true
+                "proficiencyLevel": "expertise"
             },
             {
                 "name": "Perception",
-                "expertise": true
+                "proficiencyLevel": "expertise"
             },
             {
                 "name": "Persuasion",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Sleight of Hand",
-                "expertise": true
+                "proficiencyLevel": "expertise"
             },
             {
                 "name": "Stealth",
-                "expertise": true
+                "proficiencyLevel": "expertise"
             }
         ],
         "armor": [
             {
                 "name": "Light Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "languages": [
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Gnomish",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Thieves’ Cant",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Jeweler's Tools",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Playing Card Set",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Thieves' Tools",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Crossbow, Hand",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Longsword",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Rapier",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Shortsword",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },

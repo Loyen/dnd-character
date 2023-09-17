@@ -7,7 +7,7 @@ class CharacterProficiency implements \JsonSerializable
     public function __construct(
         public readonly ProficiencyGroup $type,
         public readonly string $name,
-        public readonly bool $expertise = false,
+        public readonly ProficiencyType $proficiencyLevel = ProficiencyType::Proficient,
     ) {
     }
 
@@ -15,7 +15,7 @@ class CharacterProficiency implements \JsonSerializable
     {
         return [
             'name' => $this->name,
-            'expertise' => $this->expertise,
+            'proficiencyLevel' => $this->proficiencyLevel->value,
         ];
     }
 }

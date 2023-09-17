@@ -43,67 +43,67 @@
         "abilities": [
             {
                 "name": "History",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Perception",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Persuasion",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Stealth",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Survival",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "armor": [
             {
                 "name": "Light Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medium Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Shields",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "languages": [
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Elvish",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Gnomish",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Dice Set",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Martial Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },

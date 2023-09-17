@@ -43,54 +43,54 @@
         "abilities": [
             {
                 "name": "Acrobatics",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Athletics",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Deception",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Persuasion",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Stealth",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "armor": [],
         "languages": [
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Gnomish",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Drum",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Thieves' Tools",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Shortsword",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },

@@ -183,7 +183,7 @@
                 <div class="items abilities">
                     <b class="title">Abilities</b>
                     {% for ability in character.proficiencies.abilities %}
-                        <div class="item{% if ability.expertise %} expertise{% endif %}">{{ ability.name }}</div>
+                        <div class="item {{ ability.proficiencyLevel.value }}">{{ ability.name }}</div>
                     {% endfor %}
                 </div>
                 <div class="items weapons">

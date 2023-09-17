@@ -44,71 +44,71 @@
         "abilities": [
             {
                 "name": "Athletics",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Intimidation",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medicine",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Persuasion",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "armor": [
             {
                 "name": "Heavy Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Light Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medium Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Shields",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "languages": [
             {
                 "name": "Aarakocra",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Auran",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Druidic",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Dice Set",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Vehicles (Land)",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },

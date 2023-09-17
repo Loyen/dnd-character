@@ -43,67 +43,67 @@
         "abilities": [
             {
                 "name": "Perception",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Performance",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Persuasion",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Stealth",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "armor": [
             {
                 "name": "Light Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Medium Armor",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Shields",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "languages": [
             {
                 "name": "Common",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Undercommon",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "tools": [
             {
                 "name": "Bagpipes",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Flute",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Horn",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ],
         "weapons": [
             {
                 "name": "Martial Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             },
             {
                 "name": "Simple Weapons",
-                "expertise": false
+                "proficiencyLevel": "proficient"
             }
         ]
     },
