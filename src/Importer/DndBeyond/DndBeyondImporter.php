@@ -4,6 +4,7 @@ namespace loyen\DndbCharacterSheet\Importer\DndBeyond;
 
 use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiBonusType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ModifierType;
@@ -11,7 +12,6 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Importer\ImporterInterface;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
-use loyen\DndbCharacterSheet\Model\BonusType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
@@ -140,7 +140,7 @@ class DndBeyondImporter implements ImporterInterface
                 continue;
             }
 
-            if ($itemModifier->modifierTypeId === BonusType::Set->value) {
+            if ($itemModifier->modifierTypeId === ApiBonusType::Set->value) {
                 $overrideList[$itemModifier->entityId] = $itemModifier->value;
             } else {
                 $modifierList[$itemModifier->entityId][] = $itemModifier->value;
@@ -245,12 +245,12 @@ class DndBeyondImporter implements ImporterInterface
                     ],
                     true
                 )
-                && $m->modifierTypeId === BonusType::Bonus->value
+                && $m->modifierTypeId === ApiBonusType::Bonus->value
                 && $m->modifierSubTypeId !== 1;
 
             $isUnarmored = $m->type === 'set'
                 && $m->subType === 'unarmored-armor-class'
-                && $m->modifierTypeId === BonusType::Set->value
+                && $m->modifierTypeId === ApiBonusType::Set->value
                 && $m->modifierSubTypeId === 1006;
 
             if (!$isArmored && !$isUnarmored) {
@@ -578,14 +578,14 @@ class DndBeyondImporter implements ImporterInterface
 
         foreach ($this->modifiers as $m) {
             if (
-                $m->modifierTypeId === BonusType::Bonus->value
+                $m->modifierTypeId === ApiBonusType::Bonus->value
                 && $m->value !== null
             ) {
                 if (\in_array($m->modifierSubTypeId, $walkingSpeedModifierSubTypes, true)) {
                     $movementModifiers[MovementType::WALK->value] ??= [];
                     $movementModifiers[MovementType::WALK->value][] = $m->value;
                 }
-            } elseif ($m->modifierTypeId === BonusType::Set->value) {
+            } elseif ($m->modifierTypeId === ApiBonusType::Set->value) {
                 if ($m->modifierSubTypeId === 181) { // innate-speed-walking
                     $movementSpeeds[MovementType::WALK->value] = $m->value;
                 } elseif ($m->modifierSubTypeId === 182) { // innate-speed-flying
