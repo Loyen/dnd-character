@@ -4,7 +4,7 @@ namespace loyen\DndbCharacterSheet\Model;
 
 enum BonusType: int
 {
-    case BONUS = 1;
-    case SET = 9;
-    case STACKING_BONUS = 38;
+    case Bonus = 1;
+    case Set = 9;
+    case StackingBonus = 38;
 }

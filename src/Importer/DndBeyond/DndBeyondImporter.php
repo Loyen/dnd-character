@@ -140,7 +140,7 @@ class DndBeyondImporter implements ImporterInterface
                 continue;
             }
 
-            if ($itemModifier->modifierTypeId === BonusType::SET->value) {
+            if ($itemModifier->modifierTypeId === BonusType::Set->value) {
                 $overrideList[$itemModifier->entityId] = $itemModifier->value;
             } else {
                 $modifierList[$itemModifier->entityId][] = $itemModifier->value;
@@ -245,12 +245,12 @@ class DndBeyondImporter implements ImporterInterface
                     ],
                     true
                 )
-                && $m->modifierTypeId === BonusType::BONUS->value
+                && $m->modifierTypeId === BonusType::Bonus->value
                 && $m->modifierSubTypeId !== 1;
 
             $isUnarmored = $m->type === 'set'
                 && $m->subType === 'unarmored-armor-class'
-                && $m->modifierTypeId === BonusType::SET->value
+                && $m->modifierTypeId === BonusType::Set->value
                 && $m->modifierSubTypeId === 1006;
 
             if (!$isArmored && !$isUnarmored) {
@@ -578,14 +578,14 @@ class DndBeyondImporter implements ImporterInterface
 
         foreach ($this->modifiers as $m) {
             if (
-                $m->modifierTypeId === BonusType::BONUS->value
+                $m->modifierTypeId === BonusType::Bonus->value
                 && $m->value !== null
             ) {
                 if (\in_array($m->modifierSubTypeId, $walkingSpeedModifierSubTypes, true)) {
                     $movementModifiers[MovementType::WALK->value] ??= [];
                     $movementModifiers[MovementType::WALK->value][] = $m->value;
                 }
-            } elseif ($m->modifierTypeId === BonusType::SET->value) {
+            } elseif ($m->modifierTypeId === BonusType::Set->value) {
                 if ($m->modifierSubTypeId === 181) { // innate-speed-walking
                     $movementSpeeds[MovementType::WALK->value] = $m->value;
                 } elseif ($m->modifierSubTypeId === 182) { // innate-speed-flying
