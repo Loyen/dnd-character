@@ -23,8 +23,7 @@ class ApiInventoryItem
         public readonly int $containerEntityTypeId,
         public readonly string $containerDefinitionKey,
         public readonly ?int $currency
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

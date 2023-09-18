@@ -10,8 +10,7 @@ class ApiLevelScale
         public readonly string $description,
         public readonly ApiDice $dice,
         public readonly ?int $fixedValue,
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

@@ -22,8 +22,7 @@ class ApiChoice
         public readonly array $options,
         /** @var array<int, int> */
         public readonly array $optionIds
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

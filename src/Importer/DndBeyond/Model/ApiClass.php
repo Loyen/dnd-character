@@ -16,8 +16,7 @@ class ApiClass
         public readonly ?ApiClassDefinition $subclassDefinition,
         /** @var array<int, ApiClassFeature> */
         public readonly array $classFeatures
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

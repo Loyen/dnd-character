@@ -6,8 +6,7 @@ class ApiClassFeature
 {
     public function __construct(
         public readonly ApiClassFeatureDefinition $definition
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

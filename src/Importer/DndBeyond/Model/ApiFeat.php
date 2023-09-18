@@ -9,8 +9,7 @@ class ApiFeat
         public readonly ?int $componentId,
         public readonly ApiFeatDefinition $definition,
         public readonly int $definitionId
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

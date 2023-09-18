@@ -23,8 +23,7 @@ class ApiFeatDefinition
         public readonly array $sources,
         /** @var array<int, mixed> */
         public readonly array $spellListIds
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

@@ -41,8 +41,7 @@ class ApiCharacter
         public readonly ?int $overrideHitPoints,
         public readonly ?int $removedHitPoints,
         public readonly ?int $temporaryHitPoints
-    ) {
-    }
+    ) {}
 
     public static function fromApi(string $json): ?self
     {

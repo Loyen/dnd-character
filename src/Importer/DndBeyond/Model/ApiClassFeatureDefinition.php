@@ -39,8 +39,7 @@ class ApiClassFeatureDefinition
         public readonly array $affectedFeatureDefinitionKeys,
         public readonly string $entityType,
         public readonly int $entityId
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

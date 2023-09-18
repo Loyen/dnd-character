@@ -35,8 +35,7 @@ class ApiClassDefinition
         public readonly ?array $spellRules,
         /** @var array<int, object>|null */
         public readonly ?array $prerequisites
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

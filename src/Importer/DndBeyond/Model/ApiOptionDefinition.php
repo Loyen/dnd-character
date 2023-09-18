@@ -18,8 +18,7 @@ class ApiOptionDefinition
         public readonly array $creatureRules,
         /** @var array<int, mixed> */
         public readonly array $spellListIds
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

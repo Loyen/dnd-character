@@ -8,8 +8,7 @@ class CharacterProficiency implements \JsonSerializable
         public readonly ProficiencyGroup $type,
         public readonly string $name,
         public readonly ProficiencyType $proficiencyLevel = ProficiencyType::Proficient,
-    ) {
-    }
+    ) {}
 
     public function jsonSerialize(): mixed
     {

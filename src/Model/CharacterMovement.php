@@ -11,8 +11,7 @@ class CharacterMovement implements \JsonSerializable
         public readonly MovementType $type,
         public readonly int $value = 0,
         public readonly array $modifiers = []
-    ) {
-    }
+    ) {}
 
     public function getCalculatedValue(): int
     {

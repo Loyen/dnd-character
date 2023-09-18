@@ -8,8 +8,7 @@ class ApiBookSource
         public readonly int $sourceId,
         public readonly ?int $pageNumber,
         public readonly int $sourceType
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

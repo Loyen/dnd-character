@@ -28,8 +28,7 @@ class ApiModifier
         public readonly int $modifierSubTypeId,
         public readonly int $componentId,
         public readonly int $componentTypeId
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

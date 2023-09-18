@@ -8,8 +8,7 @@ class ApiOption
         public readonly int $componentId,
         public readonly int $componentTypeId,
         public readonly ApiOptionDefinition $definition
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

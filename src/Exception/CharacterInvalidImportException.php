@@ -2,6 +2,4 @@
 
 namespace loyen\DndbCharacterSheet\Exception;
 
-class CharacterInvalidImportException extends CharacterException
-{
-}
+class CharacterInvalidImportException extends CharacterException {}

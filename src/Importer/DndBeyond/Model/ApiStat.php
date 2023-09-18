@@ -8,8 +8,7 @@ class ApiStat
         public readonly int $id,
         public readonly ?string $name,
         public readonly int $value
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

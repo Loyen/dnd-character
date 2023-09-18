@@ -65,8 +65,7 @@ class ApiInventoryItemDefinition
         public readonly bool $canBeAddedToInventory,
         public readonly bool $isContainer,
         public readonly bool $isCustomItem
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

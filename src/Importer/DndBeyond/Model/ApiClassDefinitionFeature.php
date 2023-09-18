@@ -11,8 +11,7 @@ class ApiClassDefinitionFeature
         public readonly string $description,
         public readonly int $requiredLevel,
         public readonly int $displayOrder
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

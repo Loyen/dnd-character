@@ -9,8 +9,7 @@ class ApiProperty
         public readonly string $name,
         public readonly string $description,
         public readonly ?string $notes
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data

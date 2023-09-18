@@ -10,8 +10,7 @@ class ApiDice
         public readonly ?int $diceMultiplier,
         public readonly ?int $fixedValue,
         public readonly ?string $diceString
-    ) {
-    }
+    ) {}
 
     /**
      * @param array<string, mixed> $data
