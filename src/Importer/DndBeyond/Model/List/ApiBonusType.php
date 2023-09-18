@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model;
+namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
 
 enum ApiBonusType: int
 {

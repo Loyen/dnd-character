@@ -4,10 +4,11 @@ namespace loyen\DndbCharacterSheet\Importer\DndBeyond;
 
 use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiBonusType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ModifierType;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiBonusType;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiModifierType;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroup;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Importer\ImporterInterface;
 use loyen\DndbCharacterSheet\Model\AbilityType;
@@ -23,7 +24,6 @@ use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
-use loyen\DndbCharacterSheet\Model\ProficiencyGroup;
 use loyen\DndbCharacterSheet\Model\ProficiencyType;
 use loyen\DndbCharacterSheet\Model\SourceMaterial;
 
@@ -180,12 +180,12 @@ class DndBeyondImporter implements ImporterInterface
                 ApiModifier & $m,
                 /* @var CharacterProficiency[] */
                 array &$proficiencyList
-            ) => $m->entityTypeId !== ProficiencyGroup::Ability->value || (
+            ) => $m->entityTypeId !== ApiProficiencyGroup::Ability->value || (
                 isset($proficiencyList[$m->entityId])
-                && !in_array(ModifierType::tryFrom($m->modifierTypeId), [
-                    ModifierType::Expertise,
-                    ModifierType::HalfProficiency,
-                    ModifierType::HalfProficiencyRoundUp,
+                && !in_array(ApiModifierType::tryFrom($m->modifierTypeId), [
+                    ApiModifierType::Expertise,
+                    ApiModifierType::HalfProficiency,
+                    ApiModifierType::HalfProficiencyRoundUp,
                 ])
             )
         );
@@ -306,7 +306,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getArmorProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyGroup::Armor->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroup::Armor->value
         );
     }
 
@@ -527,7 +527,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getLanguages(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyGroup::Language->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroup::Language->value
         );
     }
 
@@ -671,7 +671,7 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             $proficiencies[$m->entityId] = new CharacterProficiency(
-                ProficiencyGroup::from($m->entityTypeId),
+                ApiProficiencyGroup::from($m->entityTypeId)->toProficiencyGroup(),
                 !empty($m->restriction)
                     ? $m->friendlySubtypeName . ' (' . $m->restriction . ')'
                     : $m->friendlySubtypeName,
@@ -696,7 +696,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getToolProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ProficiencyGroup::Tool->value
+            fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroup::Tool->value
         );
     }
 
@@ -706,8 +706,8 @@ class DndBeyondImporter implements ImporterInterface
     public function getWeaponProficiences(): array
     {
         $weaponEntityIdList = [
-            ProficiencyGroup::WeaponGroup->value,
-            ProficiencyGroup::Weapon->value,
+            ApiProficiencyGroup::WeaponGroup->value,
+            ApiProficiencyGroup::Weapon->value,
         ];
 
         return $this->getProficienciesByFilter(

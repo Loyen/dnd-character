@@ -1,8 +1,8 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model;
+namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
 
-enum ModifierType: int
+enum ApiModifierType: int
 {
     case HalfProficiency = 13;
     case HalfProficiencyRoundUp = 29;
