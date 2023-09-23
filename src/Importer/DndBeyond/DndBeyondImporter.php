@@ -87,9 +87,7 @@ class DndBeyondImporter implements ImporterInterface
      */
     public function getAbilityScores(): array
     {
-        /** @var array<int, int> */
         $modifierList = [];
-        /** @var array<string, int> */
         $savingThrowsProficiencies = [];
 
         $savingThrowComponentId = null;
@@ -101,6 +99,7 @@ class DndBeyondImporter implements ImporterInterface
                 && $m->entityTypeId === 1472902489
                 && AbilityType::tryFrom($m->entityId) !== null
             ) {
+                $modifierList[$m->entityId] ??= [];
                 $modifierList[$m->entityId][] = $m->value;
             } elseif (
                 $m->modifierTypeId === 10
@@ -178,7 +177,6 @@ class DndBeyondImporter implements ImporterInterface
         return $this->getProficienciesByFilter(
             fn (
                 ApiModifier & $m,
-                /* @var CharacterProficiency[] */
                 array &$proficiencyList
             ) => $m->entityTypeId !== ApiProficiencyGroup::Ability->value || (
                 isset($proficiencyList[$m->entityId])
@@ -567,7 +565,6 @@ class DndBeyondImporter implements ImporterInterface
     public function getMovementSpeeds(): array
     {
         $movementSpeeds = $this->apiCharacter->race->weightSpeeds['normal'];
-        /** @var array<string, array<int, int>> */
         $movementModifiers = [];
 
         $walkingSpeedModifierSubTypes = [
@@ -594,7 +591,6 @@ class DndBeyondImporter implements ImporterInterface
             }
         }
 
-        /** @var array<string, CharacterMovement> */
         $speedCollection = [];
 
         foreach (MovementType::cases() as $movementType) {
