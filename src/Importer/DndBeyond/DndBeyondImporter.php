@@ -6,6 +6,7 @@ use loyen\DndbCharacterSheet\Exception\CharacterException;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiArmorType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiBonusType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiModifierType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroup;
@@ -256,22 +257,29 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             if (!$armorClass->isWearingArmor()) {
-                /*
-                 * Natural Armor = CON instead of DEX.
-                 * Unarmored Defense = DEX + WIS or DEX + CON.
-                 */
-                if ($m->componentId === 571068) {
+                if ($m->componentId === ApiArmorType::AutognomeArmoredCasing->value) {
+                    $armorClass->setValue(13);
+                    $armorClass->addAbilityScore(
+                        $this->character->getAbilityScores()[AbilityType::DEX->name]
+                    );
+                } elseif ($m->componentId === ApiArmorType::LizardFolkNaturalArmor->value) {
+                    $armorClass->setValue(13);
+                    $armorClass->addAbilityScore(
+                        $this->character->getAbilityScores()[AbilityType::DEX->name]
+                    );
+                } elseif ($m->componentId === ApiArmorType::LoxodonNaturalArmor->value) {
+                    $armorClass->setValue(12);
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::CON->name]
                     );
-                } elseif ($m->componentId === 226) {
+                } elseif ($m->componentId === ApiArmorType::MonkUnarmoredDefense->value) {
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::DEX->name]
                     );
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::WIS->name]
                     );
-                } elseif ($m->componentId === 52) {
+                } elseif ($m->componentId === ApiArmorType::BarbarianUnarmoredDefense->value) {
                     $armorClass->addAbilityScore(
                         $this->character->getAbilityScores()[AbilityType::DEX->name]
                     );
