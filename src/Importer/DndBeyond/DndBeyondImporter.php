@@ -118,7 +118,7 @@ class DndBeyondImporter implements ImporterInterface
         }
 
         foreach ($this->apiCharacter->bonusStats as $bonusStat) {
-            if (is_int($bonusStat->value)) {
+            if ($bonusStat->value) {
                 $modifierList[$bonusStat->id][] = $bonusStat->value;
             }
         }
