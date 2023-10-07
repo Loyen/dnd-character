@@ -2,7 +2,7 @@
 
 namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
 
-enum ApiModifierType: int
+enum ApiModifierTypeModifierTypeId: int
 {
     case HalfProficiency = 13;
     case HalfProficiencyRoundUp = 29;

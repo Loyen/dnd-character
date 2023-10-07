@@ -2,7 +2,7 @@
 
 namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
 
-enum ApiArmorType: int
+enum ApiArmorTypeComponentId: int
 {
     case AutognomeArmoredCasing = 9151710;
     case LizardFolkNaturalArmor = 202;

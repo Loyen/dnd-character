@@ -24,7 +24,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOptionDefinition;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiProperty;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiRace;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiStat;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroup;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
@@ -59,7 +59,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiModifier::class)]
 #[CoversClass(ApiOption::class)]
 #[CoversClass(ApiOptionDefinition::class)]
-#[CoversClass(ApiProficiencyGroup::class)]
+#[CoversClass(ApiProficiencyGroupEntityTypeId::class)]
 #[CoversClass(ApiProperty::class)]
 #[CoversClass(ApiRace::class)]
 #[CoversClass(ApiStat::class)]

@@ -2,7 +2,7 @@
 
 namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
 
-enum ApiBonusType: int
+enum ApiBonusTypeModifierTypeId: int
 {
     case Bonus = 1;
     case Set = 9;

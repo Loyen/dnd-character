@@ -4,7 +4,7 @@ namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
 
 use loyen\DndbCharacterSheet\Model\ProficiencyGroup;
 
-enum ApiProficiencyGroup: int
+enum ApiProficiencyGroupEntityTypeId: int
 {
     case Ability = 1958004211;
     case Armor = 174869515;
