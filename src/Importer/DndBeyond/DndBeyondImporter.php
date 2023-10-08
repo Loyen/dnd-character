@@ -8,8 +8,13 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiArmorTypeComponentId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiBonusTypeModifierTypeId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiModifierTypeModifierTypeId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleRangedWeaponEntityId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntityId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiWeaponGroupEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Importer\ImporterInterface;
 use loyen\DndbCharacterSheet\Model\AbilityType;
@@ -714,9 +719,64 @@ class DndBeyondImporter implements ImporterInterface
             ApiProficiencyGroupEntityTypeId::Weapon->value,
         ];
 
-        return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => !\in_array($m->entityTypeId, $weaponEntityIdList, true)
-        );
+        $proficiencies = [];
+        foreach ($this->modifiers as $m) {
+            if (
+                $m->entityTypeId === null
+                || !\in_array($m->entityTypeId, $weaponEntityIdList, true)
+                || !$this->isAvailableDuringMultiClass($m)
+            ) {
+                continue;
+            }
+
+            $proficiencies[$m->entityTypeId . '-' . $m->entityId] = new CharacterProficiency(
+                ApiProficiencyGroupEntityTypeId::from($m->entityTypeId)->toProficiencyGroup(),
+                !empty($m->restriction)
+                    ? $m->friendlySubtypeName . ' (' . $m->restriction . ')'
+                    : $m->friendlySubtypeName,
+                match ($m->type) {
+                    'proficiency' => ProficiencyType::Proficient,
+                    'expertise' => ProficiencyType::Expertise,
+                    'half-proficiency',
+                    'half-proficiency-round-up' => ProficiencyType::HalfProficient,
+                    default => ProficiencyType::Proficient
+                }
+            );
+        }
+
+        $filterProficiencies = [];
+        if (isset($proficiencies[ApiProficiencyGroupEntityTypeId::WeaponGroup->value . '-' . ApiWeaponGroupEntityId::SimpleWeapon->value])) {
+            $filterProficiencies = array_merge(
+                $filterProficiencies,
+                ApiSimpleWeaponEntityId::getValues(),
+                ApiSimpleRangedWeaponEntityId::getValues()
+            );
+        }
+
+        if (isset($proficiencies[ApiProficiencyGroupEntityTypeId::WeaponGroup->value . '-' . ApiWeaponGroupEntityId::MartialWeapon->value])) {
+            $filterProficiencies = array_merge(
+                $filterProficiencies,
+                ApiMartialWeaponEntityId::getValues(),
+                ApiMartialRangedWeaponEntityId::getValues()
+            );
+        }
+
+        if (!empty($filterProficiencies)) {
+            $filterProficiencies = array_map(
+                fn ($entityId) => ApiProficiencyGroupEntityTypeId::Weapon->value . '-' . $entityId,
+                $filterProficiencies
+            );
+
+            $proficiencies = array_filter(
+                $proficiencies,
+                fn ($p) => !in_array($p, $filterProficiencies, true),
+                ARRAY_FILTER_USE_KEY
+            );
+        }
+
+        \uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
+
+        return \array_values($proficiencies);
     }
 
     private function getArmorTypeFromArmorTypeId(int $typeId): ?ArmorType

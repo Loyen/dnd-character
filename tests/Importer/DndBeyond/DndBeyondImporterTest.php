@@ -24,7 +24,11 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOptionDefinition;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiProperty;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiRace;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiStat;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleRangedWeaponEntityId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\Character;
@@ -56,12 +60,16 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiInventoryItem::class)]
 #[CoversClass(ApiInventoryItemDefinition::class)]
 #[CoversClass(ApiLevelScale::class)]
+#[CoversClass(ApiMartialRangedWeaponEntityId::class)]
+#[CoversClass(ApiMartialWeaponEntityId::class)]
 #[CoversClass(ApiModifier::class)]
 #[CoversClass(ApiOption::class)]
 #[CoversClass(ApiOptionDefinition::class)]
 #[CoversClass(ApiProficiencyGroupEntityTypeId::class)]
 #[CoversClass(ApiProperty::class)]
 #[CoversClass(ApiRace::class)]
+#[CoversClass(ApiSimpleRangedWeaponEntityId::class)]
+#[CoversClass(ApiSimpleWeaponEntityId::class)]
 #[CoversClass(ApiStat::class)]
 #[CoversClass(DndBeyondImporter::class)]
 #[CoversClass(Source::class)]
