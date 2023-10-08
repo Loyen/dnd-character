@@ -8,10 +8,9 @@ $finder = PhpCsFixer\Finder::create()
 
 return (new PhpCsFixer\Config())
     ->setRules([
-        '@PER' => true,
         '@Symfony' => true,
+        '@PER-CS' => true,
         'array_syntax' => ['syntax' => 'short'],
-        'concat_space' => ['spacing' => 'one'],
         'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
         'yoda_style' => false,
     ])
