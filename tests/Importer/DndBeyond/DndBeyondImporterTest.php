@@ -12,6 +12,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassDefinition;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassDefinitionFeature;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassFeature;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiClassFeatureDefinition;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCustomProficiency;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiDice;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeat;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiFeatDefinition;
@@ -24,6 +25,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOptionDefinition;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiProperty;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiRace;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiStat;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
@@ -54,6 +56,8 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiClassDefinitionFeature::class)]
 #[CoversClass(ApiClassFeature::class)]
 #[CoversClass(ApiClassFeatureDefinition::class)]
+#[CoversClass(ApiCustomProficiency::class)]
+#[CoversClass(ApiCustomProficiencyType::class)]
 #[CoversClass(ApiDice::class)]
 #[CoversClass(ApiFeat::class)]
 #[CoversClass(ApiFeatDefinition::class)]

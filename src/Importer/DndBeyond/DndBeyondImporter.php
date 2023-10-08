@@ -8,6 +8,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiArmorTypeComponentId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiBonusTypeModifierTypeId;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiModifierTypeModifierTypeId;
@@ -30,6 +31,7 @@ use loyen\DndbCharacterSheet\Model\CharacterProficiency;
 use loyen\DndbCharacterSheet\Model\CurrencyType;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\MovementType;
+use loyen\DndbCharacterSheet\Model\ProficiencyGroup;
 use loyen\DndbCharacterSheet\Model\ProficiencyType;
 use loyen\DndbCharacterSheet\Model\SourceMaterial;
 
@@ -537,9 +539,25 @@ class DndBeyondImporter implements ImporterInterface
      */
     public function getLanguages(): array
     {
-        return $this->getProficienciesByFilter(
+        $languages = $this->getProficienciesByFilter(
             fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Language->value
         );
+
+        if (isset($this->apiCharacter->customProficiencies)) {
+            foreach ($this->apiCharacter->customProficiencies as $customProficiency) {
+                if ($customProficiency->type === ApiCustomProficiencyType::Language->value) {
+                    $languages[] = new CharacterProficiency(
+                        ProficiencyGroup::Language,
+                        $customProficiency->name,
+                        ProficiencyType::Proficient
+                    );
+                }
+            }
+
+            \uasort($languages, fn ($a, $b) => $a->name <=> $b->name);
+        }
+
+        return $languages;
     }
 
     public function getLevel(): int
