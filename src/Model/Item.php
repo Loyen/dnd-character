@@ -25,6 +25,7 @@ class Item implements \JsonSerializable
     private bool $isConsumable = false; // isConsumable
     private bool $isEquipped = false; // canEquip && isEquip
     private bool $isMagical = false; // magic
+    /** @var mixed[] */
     private array $properties = []; // properties
 
     /**
@@ -224,6 +225,7 @@ class Item implements \JsonSerializable
         return $this->modifierIds;
     }
 
+    /** @return mixed[] */
     public function getProperties(): array
     {
         return $this->properties;

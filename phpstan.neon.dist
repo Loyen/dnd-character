@@ -5,6 +5,3 @@ parameters:
     paths:
         - src
         - tests
-    excludePaths:
-        analyse:
-            - src/Model/Item.php
