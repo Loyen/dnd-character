@@ -18,7 +18,7 @@ class ApiStat
         return new self(
             $data['id'],
             $data['name'],
-            is_int($data['value']) ? $data['value'] : 0
+            \is_int($data['value']) ? $data['value'] : 0
         );
     }
 

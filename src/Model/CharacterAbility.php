@@ -76,13 +76,13 @@ class CharacterAbility implements \JsonSerializable
 
     public function getCalculatedValue(): int
     {
-        return \min(30, $this->overrideValue)
-            ?? \min(20, $this->value + \array_sum($this->modifiers));
+        return min(30, $this->overrideValue)
+            ?? min(20, $this->value + array_sum($this->modifiers));
     }
 
     public function getCalculatedModifier(): int
     {
-        return (int) \floor(($this->getCalculatedValue() - 10) / 2);
+        return (int) floor(($this->getCalculatedValue() - 10) / 2);
     }
 
     public function jsonSerialize(): mixed

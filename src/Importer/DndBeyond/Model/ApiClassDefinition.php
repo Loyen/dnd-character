@@ -66,7 +66,7 @@ class ApiClassDefinition
             $data['spellContainerName'],
             $data['sourcePageNumber'],
             $data['subclassDefinition'] !== null
-                ? ApiClassDefinition::fromApi($data['subclassDefinition'])
+                ? self::fromApi($data['subclassDefinition'])
                 : null,
             $data['isHomebrew'],
             $data['primaryAbilities'],

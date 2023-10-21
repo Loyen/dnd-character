@@ -145,9 +145,9 @@ class Character implements \JsonSerializable
      */
     public function getFeatures(): array
     {
-        $features = \array_merge(
+        $features = array_merge(
             $this->features,
-            ...\array_map(
+            ...array_map(
                 fn ($c) => $c->getFeatures(),
                 $this->classes
             )
@@ -212,6 +212,6 @@ class Character implements \JsonSerializable
 
     public function jsonSerialize(): mixed
     {
-        return \get_object_vars($this);
+        return get_object_vars($this);
     }
 }

@@ -58,8 +58,8 @@ class DndBeyondImporter implements ImporterInterface
 
         $noChoiceSelectedComponentIds = $this->getComponentIdsThatAreMissingOptionChoice();
 
-        $this->modifiers = \array_filter(
-            \array_merge(...\array_values($modifiers)),
+        $this->modifiers = array_filter(
+            array_merge(...array_values($modifiers)),
             fn ($m) => !\in_array($m->componentId, $noChoiceSelectedComponentIds)
         );
     }
@@ -157,7 +157,7 @@ class DndBeyondImporter implements ImporterInterface
         $statsCollection = [];
         foreach ($this->apiCharacter->stats as $stat) {
             $characterAbilityType = AbilityType::from($stat->id);
-            $savingThrowCode = \strtolower($characterAbilityType->name()) . '-saving-throws';
+            $savingThrowCode = strtolower($characterAbilityType->name()) . '-saving-throws';
 
             $ability = new CharacterAbility($characterAbilityType);
             $ability->setValue($stat->value);
@@ -188,7 +188,7 @@ class DndBeyondImporter implements ImporterInterface
                 array &$proficiencyList
             ) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Ability->value || (
                 isset($proficiencyList[$m->entityId])
-                && !in_array(ApiModifierTypeModifierTypeId::tryFrom($m->modifierTypeId), [
+                && !\in_array(ApiModifierTypeModifierTypeId::tryFrom($m->modifierTypeId), [
                     ApiModifierTypeModifierTypeId::Expertise,
                     ApiModifierTypeModifierTypeId::HalfProficiency,
                     ApiModifierTypeModifierTypeId::HalfProficiencyRoundUp,
@@ -236,7 +236,7 @@ class DndBeyondImporter implements ImporterInterface
                     )
                     && $m->isGranted === true
                 ) {
-                    $armorBonuses[] = \intval($itemModifiers[$modifierId]->value);
+                    $armorBonuses[] = (int) $itemModifiers[$modifierId]->value;
                 }
             }
         }
@@ -298,7 +298,7 @@ class DndBeyondImporter implements ImporterInterface
                 $m->value !== null
                 && $m->subType !== 'unarmored-armor-class'
             ) {
-                $armorBonuses[] = \intval($m->value);
+                $armorBonuses[] = (int) $m->value;
             }
         }
 
@@ -329,7 +329,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getClasses(): array
     {
         $classes = $this->apiCharacter->classes;
-        $classOptions = \array_column($this->apiCharacter->options['class'], null, 'componentId');
+        $classOptions = array_column($this->apiCharacter->options['class'], null, 'componentId');
 
         // Do not include any of these in the features list
         $skippedFeatures = [
@@ -415,7 +415,7 @@ class DndBeyondImporter implements ImporterInterface
         }
 
         $constituionScore = $this->character->getAbilityScores()[AbilityType::CON->name];
-        $baseHitPoints += (int) \floor($this->character->getLevel() * $constituionScore->getCalculatedModifier());
+        $baseHitPoints += (int) floor($this->character->getLevel() * $constituionScore->getCalculatedModifier());
 
         return new CharacterHealth(
             $baseHitPoints,
@@ -522,7 +522,7 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             if (isset($apiItemDefinition->grantedModifiers)) {
-                $item->setModifierIds(\array_values(\array_unique(\array_column(
+                $item->setModifierIds(array_values(array_unique(array_column(
                     $apiItemDefinition->grantedModifiers,
                     'id'
                 ))));
@@ -554,7 +554,7 @@ class DndBeyondImporter implements ImporterInterface
                 }
             }
 
-            \uasort($languages, fn ($a, $b) => $a->name <=> $b->name);
+            uasort($languages, fn ($a, $b) => $a->name <=> $b->name);
         }
 
         return $languages;
@@ -562,7 +562,7 @@ class DndBeyondImporter implements ImporterInterface
 
     public function getLevel(): int
     {
-        return (int) \min(20, \array_sum(\array_column($this->apiCharacter->classes, 'level')));
+        return (int) min(20, array_sum(array_column($this->apiCharacter->classes, 'level')));
     }
 
     /**
@@ -570,7 +570,7 @@ class DndBeyondImporter implements ImporterInterface
      */
     public function getItemModifiers(): array
     {
-        $itemModifiers = \array_column($this->apiCharacter->modifiers['item'], null, 'id');
+        $itemModifiers = array_column($this->apiCharacter->modifiers['item'], null, 'id');
 
         $itemModifierList = [];
         foreach ($this->character->getInventory() as $item) {
@@ -651,9 +651,9 @@ class DndBeyondImporter implements ImporterInterface
     {
         $missingOptionList = [];
 
-        $optionList = \array_merge(...\array_values($this->apiCharacter->options));
-        $choiceList = \array_column(
-            \array_merge(...\array_values($this->apiCharacter->choices)),
+        $optionList = array_merge(...array_values($this->apiCharacter->options));
+        $choiceList = array_column(
+            array_merge(...array_values($this->apiCharacter->choices)),
             'componentId'
         );
 
@@ -712,9 +712,9 @@ class DndBeyondImporter implements ImporterInterface
             );
         }
 
-        \uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
+        uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
 
-        return \array_values($proficiencies);
+        return array_values($proficiencies);
     }
 
     /**
@@ -787,14 +787,14 @@ class DndBeyondImporter implements ImporterInterface
 
             $proficiencies = array_filter(
                 $proficiencies,
-                fn ($p) => !in_array($p, $filterProficiencies, true),
-                ARRAY_FILTER_USE_KEY
+                fn ($p) => !\in_array($p, $filterProficiencies, true),
+                \ARRAY_FILTER_USE_KEY
             );
         }
 
-        \uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
+        uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
 
-        return \array_values($proficiencies);
+        return array_values($proficiencies);
     }
 
     private function getArmorTypeFromArmorTypeId(int $typeId): ?ArmorType
@@ -812,7 +812,7 @@ class DndBeyondImporter implements ImporterInterface
     {
         $multiClasses = $this->apiCharacter->classes;
 
-        if (count($multiClasses) <= 1) {
+        if (\count($multiClasses) <= 1) {
             return true;
         }
 
@@ -832,6 +832,6 @@ class DndBeyondImporter implements ImporterInterface
         );
 
         return $modifier->availableToMulticlass
-            || !in_array($modifier->componentId, $levelOneProficiencies);
+            || !\in_array($modifier->componentId, $levelOneProficiencies);
     }
 }

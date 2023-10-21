@@ -28,7 +28,7 @@ enum ApiMartialWeaponEntityId: int
      */
     public static function getValues(): array
     {
-        return \array_column(
+        return array_column(
             self::cases(),
             'value'
         );

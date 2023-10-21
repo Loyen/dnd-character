@@ -103,7 +103,7 @@ class CharacterArmorClass implements \JsonSerializable
             $value = $this->value;
         }
 
-        return (int) ($value + $abilityScoreModifier + \array_sum($this->modifiers));
+        return (int) ($value + $abilityScoreModifier + array_sum($this->modifiers));
     }
 
     public function jsonSerialize(): mixed

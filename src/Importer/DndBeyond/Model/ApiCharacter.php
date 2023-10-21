@@ -50,7 +50,7 @@ class ApiCharacter
 
     public static function fromApi(string $json): ?self
     {
-        $data = \json_decode($json, true)['data'] ?? null;
+        $data = json_decode($json, true)['data'] ?? null;
 
         if ($data === null) {
             return null;

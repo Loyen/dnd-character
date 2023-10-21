@@ -21,7 +21,7 @@ class CharacterHealth implements \JsonSerializable
 
     public function getCurrentHitPoints(): int
     {
-        return (int) ($this->getMaxHitPoints() + \array_sum($this->modifiers));
+        return (int) ($this->getMaxHitPoints() + array_sum($this->modifiers));
     }
 
     public function jsonSerialize(): mixed

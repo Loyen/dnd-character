@@ -99,9 +99,9 @@ final class DndBeyondImporterTest extends TestCase
 
         $characterFileDir = __DIR__ . '/Fixtures/';
 
-        foreach (\glob($characterFileDir . 'character_*_expected.json') ?: [] as $filePath) {
-            $characterData = \json_decode(
-                \file_get_contents($filePath) ?: '',
+        foreach (glob($characterFileDir . 'character_*_expected.json') ?: [] as $filePath) {
+            $characterData = json_decode(
+                file_get_contents($filePath) ?: '',
                 true
             );
 
@@ -127,7 +127,7 @@ final class DndBeyondImporterTest extends TestCase
     public function testImport(array $expectedCharacterData): void
     {
         $character = DndBeyondImporter::import(
-            \file_get_contents($expectedCharacterData['apiFilePath']) ?: ''
+            file_get_contents($expectedCharacterData['apiFilePath']) ?: ''
         );
 
         $this->assertInstanceOf(Character::class, $character);
@@ -240,8 +240,8 @@ final class DndBeyondImporterTest extends TestCase
     {
         $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $actualMovementSpeeds);
         $this->assertSame(
-            \json_encode($expectedMovementSpeeds),
-            \json_encode($actualMovementSpeeds),
+            json_encode($expectedMovementSpeeds),
+            json_encode($actualMovementSpeeds),
             'Movement speeds'
         );
     }

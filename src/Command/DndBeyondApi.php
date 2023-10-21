@@ -20,7 +20,7 @@ class DndBeyondApi
         require_once $vendorDir . '/autoload.php';
 
         $arguments = $event->getArguments();
-        $characterId = \filter_var(\array_pop($arguments), FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+        $characterId = filter_var(array_pop($arguments), \FILTER_VALIDATE_INT, \FILTER_NULL_ON_FAILURE);
 
         if (!$characterId) {
             throw new \Exception('No character ID inputted.');
@@ -40,7 +40,7 @@ class DndBeyondApi
         }
 
         if (\in_array('--json', $arguments, true)) {
-            echo \json_encode(
+            echo json_encode(
                 $character,
                 \JSON_PRETTY_PRINT
             );
@@ -61,18 +61,18 @@ class DndBeyondApi
         require_once $vendorDir . '/autoload.php';
 
         $arguments = $event->getArguments();
-        $filePath = \filter_var(\array_pop($arguments), FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
+        $filePath = filter_var(array_pop($arguments), \FILTER_SANITIZE_STRING, \FILTER_NULL_ON_FAILURE);
 
-        if (!$filePath || !\file_exists($filePath)) {
+        if (!$filePath || !file_exists($filePath)) {
             throw new CharacterFileReadException('No file inputted.');
         }
 
-        $fileContent = \file_get_contents($filePath)
+        $fileContent = file_get_contents($filePath)
             ?: throw new CharacterFileReadException('Failed to read inputted file.');
         $character = DndBeyondImporter::import($fileContent);
 
         if (\in_array('--json', $arguments, true)) {
-            echo \json_encode(
+            echo json_encode(
                 $character,
                 \JSON_PRETTY_PRINT
             );
