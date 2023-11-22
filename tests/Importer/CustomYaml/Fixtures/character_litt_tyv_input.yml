@@ -1,0 +1,291 @@
+# yaml-language-server: $schema=../../../../schemas/CustomYamlSchema.json
+name: Litt Tyv
+
+abilityScores:
+  STR: 12 # 12
+  DEX: 15 # 20
+  CON: 13 # 14
+  INT: 8 # 8
+  WIS: 10 # 12
+  CHA: 14 # 18
+
+race:
+  name: Gnome
+  subrace: Forest
+
+  sources:
+  - name: Players Handbook
+    extra: p37
+
+  size: Small
+  movement:
+    walk: 25
+
+  features:
+    - type: Ability Score Improvement
+      # 1 increases by 2, 1 increases by 1
+      abilities:
+        - DEX
+        - DEX
+        - CHA
+    - name: Darkvision
+      description: >
+        Can see in dim light as if bright light (60 ft).
+        Can see in darkness as if dim light (shades of gray).
+    - name: Gnome cunning
+      description: >
+        Advantage on all INT, WIS, and CHA saving throws against magic.
+    - name: Natural Illusionist
+      description: >
+        Minor illusion as cantrip (INT as spellcasting ability)
+    - name: Speak with Small Beasts
+      description: >
+        Can communicate simple ideas with small animals using sound and gestures.
+
+background:
+  name: Criminal / Spy
+  description: >
+    You are a criminal.
+  features:
+    - name: Criminal Contact
+      description: >
+        You have contacts within the criminal network.
+    - type: Proficiency Improvement
+      category: Skills
+      proficiencies:
+        - Deception
+        - Stealth
+    - type: Proficiency Improvement
+      category: Tools
+      proficiencies:
+        - Jeweler's Tools
+        - Playing Card Set
+
+classes:
+  - name: Rogue
+    subclass: Thief
+    level: 15
+
+    sources:
+    - name: Players Handbook
+      extra: p94
+
+    hitPoints:
+      firstLevel: 8
+      higherLevel: 5
+
+    features:
+    - type: Proficiency Improvement # Class proficiencies
+      category: Armors
+      proficiencies:
+        - Light armor
+    - type: Proficiency Improvement # Class proficiencies
+      category: Saving Throws
+      proficiencies:
+        - DEX
+        - INT
+    - type: Proficiency Improvement # Class proficiencies
+      category: Skills
+      proficiencies:
+        - Insight
+        - Perception
+        - Persuasion
+        - Sleight of Hand
+    - type: Proficiency Improvement # Class proficiencies
+      category: Tools
+      proficiencies:
+        - Thieves' tools
+    - type: Proficiency Improvement # Class proficiencies
+      category: Weapons
+      proficiencies:
+        - Hand crossbows
+        - Longswords
+        - Rapiers
+        - Shortswords
+        - Simple weapons
+    - type: Proficiency Improvement # Expertise
+      level: 6
+      category: Skills
+      proficiencies:
+        - Sleight of Hand
+    - type: Proficiency Improvement # Expertise
+      level: 6
+      category: Tools
+      proficiencies:
+        - Thieves' Tools
+    - name: Sneak Attack
+      level: 1
+      description: >
+        Once per turn. Must use a finesse or ranged weapon.
+
+        No need for advantage if you don't have disadvantage and:
+        * Another enemy of the target is within 5ft of it.
+        * Target is incapacitated.
+
+        Damage per level:
+        * 1-2 1d6
+        * 3-4 2d6
+        * 5-6 3d6
+        * 7-8 4d6
+        * 9-10 5d6
+        * 11-12 6d6
+        * 13-14 7d6
+        * 15-16 8d6
+        * 17-18 9d6
+        * 19-20 10d6
+    - name: Thieves' Cant
+      type: Proficiency Improvement
+      level: 1
+      category: Languages
+      proficiencies:
+        - Thieves' Cant
+      description: >
+        You can speak thieve's cant and understand secret signs and symbols
+        related to it.
+    - name: Cunning Action
+      level: 2
+      description: >
+        Dash, Disengage, or Hide action can be used as bonus action.
+    - name: Steady Aim
+      level: 3
+      description: >
+        Bonus action to get advantage on next roll. Can only be used if you
+        have't moved and speed becomes 0 until end of current turn.
+    - name: Fast Hands
+      level: 3
+      description: >
+        Bonus action to:
+        * Make a sleight of hand check
+        * Use thieves' tools
+        * Take the use action
+    - name: Second-Story Work
+      level: 3
+      description: >
+        Climbing do not cost extra movement.
+        You can make running jumps, distance increased by {DEX modifier} feet.
+        When you choose this archetype at 3rd level, you gain the ability to
+        climb faster than normal; climbing no longer costs you extra movement.
+    - type: Ability Score Improvement
+      level: 4
+      abilities:
+        - DEX
+        - CON
+    - name: Mobile
+      type: Movement Improvement
+      level: 4 # Custom
+      movement:
+        walk: 10
+      description: >
+        Speed increased by 10.
+        Difficult terrain do not cost extra during Dash action. No opportunity
+        attacks from a creature you attack by melee action for the rest of the
+        turn.
+    - name: Uncanny Dodge
+      level: 5
+      description: >
+        Reaction to halve an attack's damage against you if you see the attack.
+    - type: Proficiency Improvement # Expertise
+      level: 6
+      category: Skills
+      proficiencies:
+        - Insight
+        - Perception
+    - name: Evasion
+      level: 7
+      description: >
+        When allowed to make a DEX saving throw to take only half damage, you
+        take no damage if you succeed or half if you fail.
+    - type: Ability Score Improvement
+      level: 8
+      abilities:
+        - CHA
+        - DEX
+        - DEX # Skill Expert Ability Score
+    - type: Proficiency Improvement
+      level: 8 # Custom
+      category: Skills
+      proficiencies:
+        - Acrobatics # Skill Expert
+        - Stealth # Skill Expert
+    - name: Supreme Sneak
+      level: 9
+      description: >
+        Advantage on Stealth checks if you have moved less than half your
+        speed during the turn.
+    - type: Ability Score Improvement
+      level: 10
+      abilities:
+        # TODO: Add two ASIs on top of Fade away since we should have
+        # feat + ASI on every ASI
+        - INT # Fade Away
+        - CHA
+        - CHA
+    - name: Fade Away
+      level: 10 # Custom
+      description: >
+        Once per short or long rest.
+
+        When damaged, use reaction to magically become invisible until:
+        * Your next turn.
+        * You deal damage.
+        * Force someone to make a saving throw.
+    - name: Reliable Talent
+      level: 11
+      description: >
+        Treat d20 rolls lower than 9 as 10 on ability checks you are
+        proficient in.
+    - type: Ability Score Improvement
+      level: 12
+      abilities:
+        - WIS
+        - WIS
+    - name: Skulker
+      level: 12 # Custom
+      description: >
+        You can try to hide when lightly obscured.
+        Position is not revealed when missing a target with a ranged
+        attack when hidden.
+        Dim light doesn't cause disadvantage on Perception checks
+        using sight.
+    - name: Use Magic Device
+      level: 13
+      description: >
+        Ignore class, race and level requirements on magic items.
+    - name: Blindsense
+      level: 14
+      description: >
+        You are aware of any hidden or invisible creature within 10 feet of you
+        when you are able to hear.
+    - name: Slippery Mind
+      type: Proficiency Improvement
+      level: 15
+      category: Saving Throws
+      proficiencies:
+        - WIS
+      description: >
+        Proficiency in Wisdom saving throws.
+
+spells:
+  - name: Minor Illusion
+    cast: At will
+    range: 30 ft (5 ft square)
+    components: S, M (a bit of fleece)
+    duration: 1 minute
+    description: >
+      Create a sound or image of an object. Can be dismissed.
+
+      Sound: Whisper - Scream
+      Image: Max size 5 ft.
+
+      Creatures can investigate the sound or image using an Investigation check
+      (spell save DC).
+
+inventory:
+  - name: Wallet
+    items:
+      - name: Gold
+        quantity: 17084
+      - name: Silver
+        quantity: 8
+      - name: Copper
+        quantity: 98

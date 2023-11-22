@@ -34,7 +34,8 @@
             "extensions": [
                 "devsense.phptools-vscode",
                 "junstyle.php-cs-fixer",
-                "xdebug.php-debug"
+                "xdebug.php-debug",
+                "redhat.vscode-yaml"
             ]
         }
     }

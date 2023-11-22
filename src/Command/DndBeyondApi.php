@@ -61,7 +61,7 @@ class DndBeyondApi
         require_once $vendorDir . '/autoload.php';
 
         $arguments = $event->getArguments();
-        $filePath = filter_var(array_pop($arguments), \FILTER_SANITIZE_STRING, \FILTER_NULL_ON_FAILURE);
+        $filePath = array_pop($arguments);
 
         if (!$filePath || !file_exists($filePath)) {
             throw new CharacterFileReadException('No file inputted.');

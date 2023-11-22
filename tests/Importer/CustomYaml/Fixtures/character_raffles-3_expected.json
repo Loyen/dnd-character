@@ -1,0 +1,49 @@
+{
+    "name": "Raffles-3",
+    "level": 3,
+    "health": 21,
+    "armorClass": 13,
+    "movementSpeeds": {
+        "walk": 30,
+        "climb": 20
+    },
+    "abilityScores": {
+        "STR": {
+            "score": 8,
+            "modifier": -1,
+            "savingThrowProficient": false
+        },
+        "DEX": {
+            "score": 15,
+            "modifier": 2,
+            "savingThrowProficient": true
+        },
+        "CON": {
+            "score": 13,
+            "modifier": 1,
+            "savingThrowProficient": false
+        },
+        "INT": {
+            "score": 10,
+            "modifier": 0,
+            "savingThrowProficient": true
+        },
+        "WIS": {
+            "score": 12,
+            "modifier": 1,
+            "savingThrowProficient": false
+        },
+        "CHA": {
+            "score": 14,
+            "modifier": 2,
+            "savingThrowProficient": false
+        }
+    },
+    "wallet": {
+        "cp": 0,
+        "sp": 8,
+        "gp": 114,
+        "ep": 0,
+        "pp": 0
+    }
+}

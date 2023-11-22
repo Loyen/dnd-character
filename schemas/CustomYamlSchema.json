@@ -1,0 +1,422 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Package",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of character"
+    },
+    "abilityScores": {
+      "type": "object",
+      "description": "Key-value list of ability and its base value",
+      "additionalProperties": false,
+      "properties": {
+        "Strength": {
+          "type": "integer",
+          "description": "Character strength score"
+        },
+        "Dexterity": {
+          "type": "integer",
+          "description": "Character dexterity score"
+        },
+        "Constitution": {
+          "type": "integer",
+          "description": "Character constitution score"
+        },
+        "Intelligence": {
+          "type": "integer",
+          "description": "Character intelligence score"
+        },
+        "Wisdom": {
+          "type": "integer",
+          "description": "Character wisdom score"
+        },
+        "Charisma": {
+          "type": "integer",
+          "description": "Character charisma score"
+        }
+      },
+      "required": [
+        "Strength",
+        "Dexterity",
+        "Constitution",
+        "Intelligence",
+        "Wisdom",
+        "Charisma"
+      ]
+    },
+    "background": {
+      "type": "object",
+      "description": "Character background",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of character background"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the character background"
+        },
+        "traits": {
+          "type": "string",
+          "description": "Character traits"
+        },
+        "bonds": {
+          "type": "string",
+          "description": "Character bond"
+        },
+        "ideals": {
+          "type": "string",
+          "description": "Characters ideals"
+        },
+        "flaws": {
+          "type": "string",
+          "description": "Character flaws"
+        },
+        "features": { "$ref": "#/definitions/feature-list" }
+      },
+      "required": ["name"]
+    },
+    "race": {
+      "type": "object",
+      "description": "Character race",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of race"
+        },
+        "subrace": {
+          "type": "string",
+          "description": "Name of subrace (if any)"
+        },
+        "size": {
+          "type": "string",
+          "description": "Size of character"
+        },
+        "movement": {
+          "$ref": "#/definitions/movement",
+          "required": ["walk"]
+        },
+        "sources": { "$ref": "#/definitions/source-list" },
+        "features": { "$ref": "#/definitions/feature-list" }
+      },
+      "required": ["name", "size", "movement"]
+    },
+    "classes": {
+      "type": "array",
+      "description": "Character classes",
+      "additionalProperties": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Class name"
+          },
+          "subclass": {
+            "type": "string",
+            "description": "Subclass name (if any)"
+          },
+          "level": {
+            "type": "integer",
+            "description": "Class level"
+          },
+          "sources": { "$ref": "#/definitions/source-list" },
+          "hitPoints": {
+            "type": "object",
+            "properties": {
+              "firstLevel": {
+                "type": "integer",
+                "description": "Hit Points at 1st Level, constitution will be added to it."
+              },
+              "higherLevel": {
+                "type": "integer",
+                "description": "Hit Points at Higher Levels, constitution will be added to it per level."
+              }
+            },
+            "required": ["firstLevel", "higherLevel"]
+          },
+          "features": { "$ref": "#/definitions/feature-list" }
+        }
+      },
+      "required": ["name", "level", "hitPoints"]
+    },
+    "inventory": {
+      "type": "array",
+      "description": "List of storage items",
+      "additionalProperties": false,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of storage item"
+          },
+          "items": {
+            "type": "array",
+            "description": "List of items",
+            "additionalProperties": false,
+            "items": {
+              "type": "object",
+              "anyOf": [
+                { "$ref": "#/definitions/item-generic" },
+                { "$ref": "#/definitions/item-armor" },
+                { "$ref": "#/definitions/item-damage" }
+              ]
+            },
+            "required": ["name", "type"]
+          }
+        },
+        "required": ["name"]
+      }
+    }
+  },
+  "definitions": {
+    "feature": {
+      "type": "object",
+      "anyOf": [
+        { "$ref": "#/definitions/feature-generic" },
+        { "$ref": "#/definitions/feature-ability-score-improvement" },
+        { "$ref": "#/definitions/feature-movement-improvement" },
+        { "$ref": "#/definitions/feature-proficiency-improvement" }
+      ]
+    },
+    "feature-generic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of feature"
+        },
+        "level": {
+          "type": "integer",
+          "description": "Level when the feature becomes available"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of feature"
+        },
+        "sources": { "$ref": "#/definitions/source-list" }
+      },
+      "required": ["name", "description"]
+    },
+    "feature-ability-score-improvement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/definitions/feature-generic/properties/name" },
+        "level": { "$ref": "#/definitions/feature-generic/properties/level" },
+        "description": { "$ref": "#/definitions/feature-generic/properties/description" },
+        "sources": { "$ref": "#/definitions/source-list" },
+        "type": {
+          "description": "Type of improvement",
+          "enum": [
+            "Ability Score Improvement",
+            "Movement Improvement",
+            "Proficiency Improvement"
+          ]
+        },
+        "abilities": {
+          "type": "array",
+          "description": "List of abilities",
+          "items": {
+            "enum": [
+              "Strength",
+              "Dexterity",
+              "Constitution",
+              "Intelligence",
+              "Wisdom",
+              "Charisma"
+            ]
+          }
+        }
+      },
+      "required": ["type", "abilities"]
+    },
+    "feature-movement-improvement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/definitions/feature-generic/properties/name" },
+        "level": { "$ref": "#/definitions/feature-generic/properties/level" },
+        "description": { "$ref": "#/definitions/feature-generic/properties/description" },
+        "sources": { "$ref": "#/definitions/source-list" },
+        "type": { "$ref": "#/definitions/feature-ability-score-improvement/properties/type" },
+        "movement": { "$ref": "#/definitions/movement" }
+      },
+      "required": ["type", "movement"]
+    },
+    "feature-proficiency-improvement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/definitions/feature-generic/properties/name" },
+        "level": { "$ref": "#/definitions/feature-generic/properties/level" },
+        "description": { "$ref": "#/definitions/feature-generic/properties/description" },
+        "sources": { "$ref": "#/definitions/source-list" },
+        "type": { "$ref": "#/definitions/feature-ability-score-improvement/properties/type" },
+        "category": {
+          "type": "string",
+          "description": "What the proficiencies are related to",
+          "enum": [
+            "Armors",
+            "Languages",
+            "Skills",
+            "Saving Throws",
+            "Tools",
+            "Weapons"
+          ]
+        },
+        "proficiencies": {
+          "type": "array",
+          "description": "List of proficiencies",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["type", "proficiencies"]
+    },
+    "feature-list": {
+      "type": "array",
+      "description": "List of features",
+      "items": { "$ref": "#/definitions/feature" }
+    },
+    "item": {
+      "type": "object",
+      "anyOf": [
+        { "$ref": "#/definitions/item-generic" }
+      ]
+    },
+    "item-generic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of item"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of item"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of item"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Amount of this item exists in this storage"
+        },
+        "equipped": {
+          "type": "boolean",
+          "description": "Is item equipped or not"
+        },
+        "sources": { "$ref": "#/definitions/source-list" }
+      },
+      "required": ["name"]
+    },
+    "item-armor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/definitions/item-generic/properties/name" },
+        "description":  { "$ref": "#/definitions/item-generic/properties/description" },
+        "type":  { "$ref": "#/definitions/item-generic/properties/type" },
+        "quantity":  { "$ref": "#/definitions/item-generic/properties/quantity" },
+        "equipped":  { "$ref": "#/definitions/item-generic/properties/equipped" },
+        "armor": {
+          "type": "object",
+          "description": "Armor properties of item",
+          "additionalProperties": false,
+          "properties": {
+            "class": {
+              "type": "integer",
+              "description": "Armor class of item"
+            },
+            "type": {
+              "type": "string",
+              "description": "Item armor type"
+            }
+          },
+          "required": ["class", "type"]
+        },
+        "sources": { "$ref": "#/definitions/source-list" }
+      },
+      "required": ["name", "type", "armor"]
+    },
+    "item-damage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/definitions/item-generic/properties/name" },
+        "description":  { "$ref": "#/definitions/item-generic/properties/description" },
+        "type":  { "$ref": "#/definitions/item-generic/properties/type" },
+        "quantity":  { "$ref": "#/definitions/item-generic/properties/quantity" },
+        "equipped":  { "$ref": "#/definitions/item-generic/properties/equipped" },
+        "damage": {
+          "type": "object",
+          "description": "Damage properties of item",
+          "additionalProperties": false,
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "Damage it performs"
+            },
+            "type": {
+              "type": "string",
+              "description": "Type of damage it does"
+            }
+          },
+          "required": ["value", "type"]
+        },
+        "sources": { "$ref": "#/definitions/source-list" }
+      },
+      "required": ["name", "type", "damage"]
+    },
+    "movement": {
+      "type": "object",
+      "description": "List of movement speeds",
+      "properties": {
+        "burrow": {
+          "type": "integer"
+        },
+        "climb": {
+          "type": "integer"
+        },
+        "fly": {
+          "type": "integer"
+        },
+        "swim": {
+          "type": "integer"
+        },
+        "walk": {
+          "type": "integer"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "description": "Source for the item",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of source (ex. Book, URL)"
+        },
+        "extra": {
+          "type": "string",
+          "description": "Extra information related to the source (ex. page number)"
+        }
+      }
+    },
+    "source-list": {
+      "type": "array",
+      "description": "Array of sources related to the item",
+      "items": { "$ref": "#/definitions/source" }
+    }
+  }
+}

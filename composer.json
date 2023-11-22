@@ -27,8 +27,9 @@
         "format": "php-cs-fixer fix",
         "analyse": "phpstan analyze",
         "test": "phpunit",
-        "from-api": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromApi",
-        "from-file": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromFile"
+        "dndb-api": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromApi",
+        "dndb-json": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromFile",
+        "custom-yaml": "loyen\\DndbCharacterSheet\\Command\\CustomYaml::fromFile"
     },
     "config": {
         "platform": {

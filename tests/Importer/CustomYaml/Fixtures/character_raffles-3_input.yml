@@ -1,0 +1,195 @@
+# yaml-language-server: $schema=../../../../schemas/CustomYamlSchema.json
+name: Raffles-3
+
+abilityScores:
+  STR: 8
+  DEX: 15
+  CON: 13
+  INT: 10
+  WIS: 12
+  CHA: 14
+
+background:
+  name: Thief for hire
+
+  traits: >
+    A gentleman thief.
+    Confidence can get me anywhere.
+  bonds: >
+    I bring justice to the world.
+  ideals: >
+    I only steal what the person I steal from can afford.
+  flaws: >
+    Greed gets the best of me.
+
+  features:
+    - type: Proficiency Improvement
+      category: Languages
+      proficiencies:
+        - Goblin
+    - type: Proficiency Improvement
+      category: Skills
+      proficiencies:
+        - Persuasion
+        - Investigation
+    - type: Proficiency Improvement
+      category: Tools
+      proficiencies:
+        - Disguise kit
+
+race:
+  name: Catfolk
+  subrace: Malkin
+  sources:
+    - name: Tome of Heroes
+      extra: p12
+
+  movement:
+    walk: 30
+    climb: 20
+  size: Small
+
+  features:
+    - name: darkvision
+      description: >
+        Can see in dim light as if bright light (60 ft).
+        Can see in darkness as if dim light (shades of gray).
+    - name: Feline agility
+      description: >
+        Double speed on your turn. Can't be reused until you move 0 ft on your
+        turn.
+
+    - type: Proficiency Improvement
+      category: Skills
+      proficiencies:
+        - Perception
+        - Stealth
+
+classes:
+  - name: Rogue
+    subClass: Swashbuckler
+    level: 3
+
+    sources:
+      - name: Players Handbook
+        extra: p94
+      - name: Xanthars Guide to Everything
+        extra: p47
+
+    hitPoints:
+      firstLevel: 8
+      higherLevel: 5
+
+    features:
+      - type: Proficiency Improvement
+        category: Armors
+        proficiencies:
+          - Light armor
+      - type: Proficiency Improvement
+        category: Saving Throws
+        proficiencies:
+          - DEX
+          - INT
+      # Level 1
+      - name: Expertise
+        type: Proficiency Improvement
+        category: Skills
+        proficiencies:
+          - Athletics
+          - Stealth
+      - name: Sneak Attack
+        description: >
+          Once per turn. Must use a finesse or ranged weapon.
+
+          No need for advantage if you don't have disadvantage and:
+          * Another enemy of the target is within 5ft of it.
+          * Target is incapacitated.
+
+          Damage per level:
+          * 1-2 1d6
+          * 3-4 2d6
+          * 5-6 3d6
+          * 7-8 4d6
+          * 9-10 5d6
+          * 11-12 6d6
+          * 13-14 7d6
+          * 15-16 8d6
+          * 17-18 9d6
+          * 19-20 10d6
+      - name: Thieves's Cant
+        type: Proficiency Improvement
+        category: Languages
+        proficiencies:
+          - Thieves's Cant
+        description: >
+          You can speak thieve's cant and understand secret signs and symbols
+          related to it.
+      # Level 3
+      - name: Fancy Footwork
+        description: >
+          Target can't make opportunity attacks against you if you make a
+          melee attack against it during your turn.
+      - name: Rakish Audacity
+        description: >
+          You don't need advantage to use Sneak attack if:
+          * You are within 5 ft.
+          * No other creature is within 5 ft of it.
+          * Don't have any disadvantages.
+
+    proficiencies:
+      skills:
+        - Acrobatics
+        - Athletics
+        - Deception
+        - Sleight of hand
+      savingThrows:
+        - DEX
+        - INT
+      tools:
+        - Thieves tools
+      armor:
+        - Light armor
+      weapons:
+        - Simple weapons
+        - Hand crossbows
+        - Longswords
+        - Rapiers
+        - Shortswords
+
+inventory:
+  - name: Backpack
+    items:
+      - name: Leather armor
+        type: armor
+        armor:
+          class: 11
+          type: light
+        equipped: true
+      - name: Dagger
+        quantity: 2
+        type: weapon
+        damage:
+          value: 1d4
+          type: slashing
+        equipped: true
+      - name: Shortbow (+quiver)
+        type: weapon
+        damage:
+          value: 1d6
+          type: piercing
+        equipped: true
+      - name: Thieves tools
+        type: gear
+      - name: Crowbar
+        type: gear
+      - name: Common clothes including hood
+        type: gear
+      - name: Burglar pack (3 uses)
+        type: gear
+
+  - name: Wallet
+    items:
+      - name: Gold
+        quantity: 114
+      - name: Silver
+        quantity: 8
