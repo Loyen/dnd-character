@@ -143,16 +143,14 @@ class CustomYamlImporter implements ImporterInterface
         foreach ($this->characterData->classes as $yamlClass) {
             $class = new CharacterClass($yamlClass->name);
 
-            $sourceList = $yamlClass->sources !== null
-                ? $this->createSourceList($yamlClass->sources)
-                : [];
+            $sourceList = $this->createSourceList($yamlClass->sources);
 
             $class->setLevel($yamlClass->level);
 
             $featList = [];
             foreach ($yamlClass->features as $featData) {
                 $featList[] = new CharacterFeature(
-                    $featData->name,
+                    $featData->name ?? 'Unknown',
                     $featData->description ?? '',
                     $sourceList
                 );
@@ -275,17 +273,19 @@ class CustomYamlImporter implements ImporterInterface
         return $movementSpeedList;
     }
 
-    /** @return array<string, array<int, string>> */
+    /** @return array<int|string, mixed> */
     private function getProficiencies(): array
     {
-        $proficiencyList = array_column(
-            $this->characterData->background['features'],
-            'proficiencies',
-            'category'
-        ) + array_fill_keys(
+        $proficiencyList = array_fill_keys(
             array_keys(array_column(YamlProficiencyCategory::cases(), null, 'value')),
             []
         );
+
+        $proficiencyList = array_merge($proficiencyList, array_column(
+            $this->characterData->background['features'],
+            'proficiencies',
+            'category'
+        ));
 
         foreach ($this->characterData->race->features as $feat) {
             if ($feat instanceof YamlFeatureProficiencyImprovement) {
@@ -333,10 +333,6 @@ class CustomYamlImporter implements ImporterInterface
         $sourceList = [];
 
         foreach ($sources as $sourceData) {
-            if ($sourceData->name === null) {
-                continue;
-            }
-
             $sourceList[] = new SourceMaterial(
                 $sourceData->name,
                 $sourceData->extra ?? null

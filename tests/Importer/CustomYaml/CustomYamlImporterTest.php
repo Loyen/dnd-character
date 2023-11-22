@@ -53,15 +53,18 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(YamlSource::class)]
 final class CustomYamlImporterTest extends TestCase
 {
+    /**
+     * @return array<string, mixed>
+     */
     public static function dataCharacters(): array
     {
         $characterList = [];
 
         $characterFileDir = __DIR__ . '/Fixtures/';
 
-        foreach (glob($characterFileDir . 'character_*_expected.json') as $filePath) {
+        foreach (glob($characterFileDir . 'character_*_expected.json') ?: [] as $filePath) {
             $characterData = json_decode(
-                file_get_contents($filePath),
+                file_get_contents($filePath) ?: '',
                 true
             );
 
@@ -70,7 +73,7 @@ final class CustomYamlImporterTest extends TestCase
                 . strtolower(str_replace(' ', '_', $characterData['name']))
                 . '_input.yml';
 
-            $characterName = $characterData['name'];
+            $characterName = (string) $characterData['name'];
 
             $characterList[$characterName] = [
                 $characterData,
@@ -80,11 +83,14 @@ final class CustomYamlImporterTest extends TestCase
         return $characterList;
     }
 
+    /**
+     * @param array<string, mixed> $expectedCharacterData
+     */
     #[DataProvider('dataCharacters')]
-    public function testImport(array $expectedCharacterData)
+    public function testImport(array $expectedCharacterData): void
     {
         $character = CustomYamlImporter::import(
-            file_get_contents($expectedCharacterData['inputFilePath'])
+            file_get_contents($expectedCharacterData['inputFilePath']) ?: ''
         );
 
         $this->assertInstanceOf(Character::class, $character);
@@ -97,13 +103,17 @@ final class CustomYamlImporterTest extends TestCase
         $this->assertCharacterProficiencies($character->getProficiencies());
     }
 
-    public function testInvalidCharacterImportThrowsException()
+    public function testInvalidCharacterImportThrowsException(): void
     {
         $this->expectException(CharacterInvalidImportException::class);
         CustomYamlImporter::import('');
     }
 
-    private function assertCharacterAbilityScores(array $expectedScores, array $actualScores)
+    /**
+     * @param array<string, array{score: int, modifier: int, savingThrowProficient: bool}> $expectedScores
+     * @param array<string, CharacterAbility>                                              $actualScores
+     */
+    private function assertCharacterAbilityScores(array $expectedScores, array $actualScores): void
     {
         $this->assertContainsOnlyInstancesOf(CharacterAbility::class, $actualScores);
         $this->assertSame(
@@ -167,29 +177,16 @@ final class CustomYamlImporterTest extends TestCase
         );
     }
 
-    private function assertCharacterArmorClass(int $expectedArmorClass, ?CharacterArmorClass $actualArmorClass)
-    {
-        $this->assertInstanceOf(CharacterArmorClass::class, $actualArmorClass);
-        $this->assertSame($expectedArmorClass, $actualArmorClass->getCalculatedValue(), 'Armor Class');
-    }
-
-    private function assertCharacterHealth(int $expectedHealth, ?CharacterHealth $actualHealth)
+    private function assertCharacterHealth(int $expectedHealth, ?CharacterHealth $actualHealth): void
     {
         $this->assertInstanceOf(CharacterHealth::class, $actualHealth);
         $this->assertSame($expectedHealth, $actualHealth->getMaxHitPoints(), 'Maximum HP');
     }
 
-    private function assertCharacterMovementSpeeds(array $expectedMovementSpeeds, array $actualMovementSpeeds)
-    {
-        $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $actualMovementSpeeds);
-        $this->assertSame(
-            json_encode($expectedMovementSpeeds),
-            json_encode($actualMovementSpeeds),
-            'Movement speeds'
-        );
-    }
-
-    private function assertCharacterProficiencies(array $actualProficiencies)
+    /**
+     * @param array<string, array<int, CharacterProficiency>> $actualProficiencies
+     */
+    private function assertCharacterProficiencies(array $actualProficiencies): void
     {
         $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(

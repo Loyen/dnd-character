@@ -18,7 +18,7 @@ class YamlRace
     /**
      * @param array<string, mixed> $data
      */
-    public static function fromData(array $data): ?self
+    public static function fromData(array $data): self
     {
         return new self(
             $data['name'],

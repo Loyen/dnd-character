@@ -2,18 +2,17 @@
 
 namespace loyen\DndbCharacterSheet\Importer\CustomYaml\Model;
 
-use loyen\DndbCharacterSheet\Model\SourceMaterial;
-
 class YamlFeature
 {
     public function __construct(
         public ?string $name = null,
         public int $level = 1,
         public string $description = '',
-        /** @var SourceMaterial[] */
+        /** @var YamlSource[] */
         public array $sources = []
     ) {}
 
+    /** @param array<string, mixed> $data */
     public static function fromData(array $data): self
     {
         return match ($data['type'] ?? null) {

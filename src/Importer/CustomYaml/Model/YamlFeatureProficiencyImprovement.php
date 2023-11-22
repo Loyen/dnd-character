@@ -3,7 +3,6 @@
 namespace loyen\DndbCharacterSheet\Importer\CustomYaml\Model;
 
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Exception\CharacterYamlDataException;
-use loyen\DndbCharacterSheet\Model\SourceMaterial;
 
 class YamlFeatureProficiencyImprovement extends YamlFeature
 {
@@ -14,10 +13,11 @@ class YamlFeatureProficiencyImprovement extends YamlFeature
         public YamlProficiencyCategory $category,
         /** @var string[] */
         public array $proficiencies = [],
-        /** @var SourceMaterial[] */
+        /** @var YamlSource[] */
         public array $sources = []
     ) {}
 
+    /** @param array<string, mixed> $data */
     public static function fromData(array $data): self
     {
         return new self(
