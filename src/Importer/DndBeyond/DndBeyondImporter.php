@@ -60,7 +60,7 @@ class DndBeyondImporter implements ImporterInterface
 
         $this->modifiers = array_filter(
             array_merge(...array_values($modifiers)),
-            fn ($m) => !\in_array($m->componentId, $noChoiceSelectedComponentIds)
+            fn($m) => !\in_array($m->componentId, $noChoiceSelectedComponentIds)
         );
     }
 
@@ -183,7 +183,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getAbilityProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (
+            fn(
                 ApiModifier & $m,
                 array &$proficiencyList
             ) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Ability->value || (
@@ -319,7 +319,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getArmorProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Armor->value
+            fn(ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Armor->value
         );
     }
 
@@ -540,7 +540,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getLanguages(): array
     {
         $languages = $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Language->value
+            fn(ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Language->value
         );
 
         if (isset($this->apiCharacter->customProficiencies)) {
@@ -554,7 +554,7 @@ class DndBeyondImporter implements ImporterInterface
                 }
             }
 
-            uasort($languages, fn ($a, $b) => $a->name <=> $b->name);
+            uasort($languages, fn($a, $b) => $a->name <=> $b->name);
         }
 
         return $languages;
@@ -712,7 +712,7 @@ class DndBeyondImporter implements ImporterInterface
             );
         }
 
-        uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
+        uasort($proficiencies, fn($a, $b) => $a->name <=> $b->name);
 
         return array_values($proficiencies);
     }
@@ -723,7 +723,7 @@ class DndBeyondImporter implements ImporterInterface
     public function getToolProficiencies(): array
     {
         return $this->getProficienciesByFilter(
-            fn (ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Tool->value
+            fn(ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Tool->value
         );
     }
 
@@ -781,18 +781,18 @@ class DndBeyondImporter implements ImporterInterface
 
         if (!empty($filterProficiencies)) {
             $filterProficiencies = array_map(
-                fn ($entityId) => ApiProficiencyGroupEntityTypeId::Weapon->value . '-' . $entityId,
+                fn($entityId) => ApiProficiencyGroupEntityTypeId::Weapon->value . '-' . $entityId,
                 $filterProficiencies
             );
 
             $proficiencies = array_filter(
                 $proficiencies,
-                fn ($p) => !\in_array($p, $filterProficiencies, true),
+                fn($p) => !\in_array($p, $filterProficiencies, true),
                 \ARRAY_FILTER_USE_KEY
             );
         }
 
-        uasort($proficiencies, fn ($a, $b) => $a->name <=> $b->name);
+        uasort($proficiencies, fn($a, $b) => $a->name <=> $b->name);
 
         return array_values($proficiencies);
     }
@@ -823,10 +823,10 @@ class DndBeyondImporter implements ImporterInterface
         array_shift($multiClasses);
 
         $levelOneProficiencies = array_map(
-            fn ($f) => $f->id,
+            fn($f) => $f->id,
             array_filter(
                 array_merge(...array_column(array_column($multiClasses, 'definition'), 'classFeatures')),
-                fn ($f) => $f->requiredLevel === 1
+                fn($f) => $f->requiredLevel === 1
                     && $f->name === 'Proficiencies'
             )
         );
