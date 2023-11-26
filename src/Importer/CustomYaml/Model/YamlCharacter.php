@@ -31,7 +31,7 @@ class YamlCharacter
             isset($data['classes'])
                 ? YamlClass::createCollectionFromData($data['classes'])
                 : [],
-            $data['background'],
+            YamlBackground::fromData($data['background']),
             $data['inventory'] ?? [],
             $data['wallet'] ?? []
         );

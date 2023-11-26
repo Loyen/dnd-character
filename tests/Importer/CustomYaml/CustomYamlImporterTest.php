@@ -4,6 +4,7 @@ namespace Tests\loyen\DndbCharacterSheet\Importer\CustomYaml;
 
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\CustomYamlImporter;
+use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlBackground;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlCharacter;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlClass;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeature;
@@ -31,7 +32,16 @@ use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Character::class)]
 #[CoversClass(CustomYamlImporter::class)]
+#[CoversClass(YamlBackground::class)]
 #[CoversClass(YamlCharacter::class)]
+#[CoversClass(YamlClass::class)]
+#[CoversClass(YamlFeature::class)]
+#[CoversClass(YamlFeatureAbilityScoreImprovement::class)]
+#[CoversClass(YamlFeatureMovementImprovement::class)]
+#[CoversClass(YamlFeatureProficiencyImprovement::class)]
+#[CoversClass(YamlMovement::class)]
+#[CoversClass(YamlRace::class)]
+#[CoversClass(YamlSource::class)]
 #[UsesClass(AbilityType::class)]
 #[UsesClass(Character::class)]
 #[UsesClass(CharacterAbility::class)]
@@ -43,14 +53,6 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(CharacterProficiency::class)]
 #[UsesClass(Item::class)]
 #[UsesClass(SourceMaterial::class)]
-#[UsesClass(YamlClass::class)]
-#[UsesClass(YamlFeature::class)]
-#[UsesClass(YamlFeatureAbilityScoreImprovement::class)]
-#[UsesClass(YamlFeatureMovementImprovement::class)]
-#[UsesClass(YamlFeatureProficiencyImprovement::class)]
-#[UsesClass(YamlMovement::class)]
-#[UsesClass(YamlRace::class)]
-#[UsesClass(YamlSource::class)]
 final class CustomYamlImporterTest extends TestCase
 {
     /**

@@ -69,7 +69,7 @@ class CustomYamlImporter implements ImporterInterface
         return array_count_values(array_merge(...array_column(
             [
                 ...$this->characterData->race->features,
-                ...$this->characterData->background['features'],
+                ...$this->characterData->background->features,
                 ...array_column($this->characterData->classes, 'features')[0],
             ],
             'abilities'
@@ -281,11 +281,15 @@ class CustomYamlImporter implements ImporterInterface
             []
         );
 
-        $proficiencyList = array_merge($proficiencyList, array_column(
-            $this->characterData->background['features'],
-            'proficiencies',
-            'category'
-        ));
+        foreach ($this->characterData->background->features as $feat) {
+            if ($feat instanceof YamlFeatureProficiencyImprovement) {
+                $proficiencyList[$feat->category->value] ??= [];
+                $proficiencyList[$feat->category->value] = array_merge(
+                    $proficiencyList[$feat->category->value],
+                    $feat->proficiencies
+                );
+            }
+        }
 
         foreach ($this->characterData->race->features as $feat) {
             if ($feat instanceof YamlFeatureProficiencyImprovement) {
