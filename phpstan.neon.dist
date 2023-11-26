@@ -1,6 +1,7 @@
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon
 parameters:
+    tmpDir: .phpstan.cache
     level: 8
     paths:
         - src

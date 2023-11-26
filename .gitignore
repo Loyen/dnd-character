@@ -2,6 +2,7 @@ reports/
 vendor/
 .php-cs-fixer.cache
 .php-cs-fixer.php
+.phpstan.cache
 .phpstan.neon
 .phpunit.cache
 .phpunit.xml
