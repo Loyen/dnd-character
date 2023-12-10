@@ -18,6 +18,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntity
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiWeaponGroupEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
 use loyen\DndbCharacterSheet\Importer\ImporterInterface;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiAbilityType;
 use loyen\DndbCharacterSheet\Model\AbilityType;
 use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\Character;
@@ -105,7 +106,7 @@ class DndBeyondImporter implements ImporterInterface
                 !empty($m->value)
                 && $m->entityId !== null
                 && $m->entityTypeId === 1472902489
-                && AbilityType::tryFrom($m->entityId) !== null
+                && ApiAbilityType::tryFrom($m->entityId) !== null
             ) {
                 $modifierList[$m->entityId] ??= [];
                 $modifierList[$m->entityId][] = $m->value;
@@ -142,7 +143,7 @@ class DndBeyondImporter implements ImporterInterface
                 empty($itemModifier->value)
                 || $itemModifier->entityId === null
                 || $itemModifier->entityTypeId !== 1472902489
-                || AbilityType::tryFrom($itemModifier->entityId) === null
+                || ApiAbilityType::tryFrom($itemModifier->entityId) === null
             ) {
                 continue;
             }
@@ -156,10 +157,18 @@ class DndBeyondImporter implements ImporterInterface
 
         $statsCollection = [];
         foreach ($this->apiCharacter->stats as $stat) {
-            $characterAbilityType = AbilityType::from($stat->id);
-            $savingThrowCode = strtolower($characterAbilityType->name()) . '-saving-throws';
+            $characterApiAbilityType = ApiAbilityType::from($stat->id);
+            $abilityType = match ($characterApiAbilityType) {
+                ApiAbilityType::STR => AbilityType::STR,
+                ApiAbilityType::DEX => AbilityType::DEX,
+                ApiAbilityType::CON => AbilityType::CON,
+                ApiAbilityType::INT => AbilityType::INT,
+                ApiAbilityType::WIS => AbilityType::WIS,
+                ApiAbilityType::CHA => AbilityType::CHA
+            };
+            $savingThrowCode = strtolower($abilityType->value) . '-saving-throws';
 
-            $ability = new CharacterAbility($characterAbilityType);
+            $ability = new CharacterAbility($abilityType);
             $ability->setValue($stat->value);
             $ability->setSavingThrowProficient(isset($savingThrowsProficiencies[$savingThrowCode]));
 
@@ -171,7 +180,7 @@ class DndBeyondImporter implements ImporterInterface
                 $ability->setOverrideValue($overrideList[$stat->id]);
             }
 
-            $statsCollection[$characterAbilityType->name] = $ability;
+            $statsCollection[$characterApiAbilityType->name] = $ability;
         }
 
         return $statsCollection;
@@ -267,31 +276,31 @@ class DndBeyondImporter implements ImporterInterface
                 if ($m->componentId === ApiArmorTypeComponentId::AutognomeArmoredCasing->value) {
                     $armorClass->setValue(13);
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::DEX->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::DEX->name]
                     );
                 } elseif ($m->componentId === ApiArmorTypeComponentId::LizardFolkNaturalArmor->value) {
                     $armorClass->setValue(13);
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::DEX->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::DEX->name]
                     );
                 } elseif ($m->componentId === ApiArmorTypeComponentId::LoxodonNaturalArmor->value) {
                     $armorClass->setValue(12);
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::CON->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::CON->name]
                     );
                 } elseif ($m->componentId === ApiArmorTypeComponentId::MonkUnarmoredDefense->value) {
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::DEX->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::DEX->name]
                     );
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::WIS->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::WIS->name]
                     );
                 } elseif ($m->componentId === ApiArmorTypeComponentId::BarbarianUnarmoredDefense->value) {
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::DEX->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::DEX->name]
                     );
                     $armorClass->addAbilityScore(
-                        $this->character->getAbilityScores()[AbilityType::CON->name]
+                        $this->character->getAbilityScores()[ApiAbilityType::CON->name]
                     );
                 }
             } elseif (
@@ -306,7 +315,7 @@ class DndBeyondImporter implements ImporterInterface
 
         if (empty($armorClass->getAbilityScores())) {
             $armorClass->addAbilityScore(
-                $this->character->getAbilityScores()[AbilityType::DEX->name]
+                $this->character->getAbilityScores()[ApiAbilityType::DEX->name]
             );
         }
 
@@ -414,7 +423,7 @@ class DndBeyondImporter implements ImporterInterface
             $healthModifiers[] = -$this->apiCharacter->removedHitPoints;
         }
 
-        $constituionScore = $this->character->getAbilityScores()[AbilityType::CON->name];
+        $constituionScore = $this->character->getAbilityScores()[ApiAbilityType::CON->name];
         $baseHitPoints += (int) floor($this->character->getLevel() * $constituionScore->getCalculatedModifier());
 
         return new CharacterHealth(

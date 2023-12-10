@@ -88,7 +88,7 @@ class CharacterAbility implements \JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            'name' => $this->type->name(),
+            'name' => $this->type->value,
             'value' => $this->getCalculatedValue(),
             'modifier' => $this->getCalculatedModifier(),
             'savingThrowProficient' => $this->savingThrowProficient,
