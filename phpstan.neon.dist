@@ -1,5 +1,6 @@
 includes:
-	- vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
 parameters:
     tmpDir: .phpstan.cache
     level: 8

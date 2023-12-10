@@ -130,7 +130,6 @@ final class DndBeyondImporterTest extends TestCase
             file_get_contents($expectedCharacterData['apiFilePath']) ?: ''
         );
 
-        $this->assertInstanceOf(Character::class, $character);
         $this->assertSame($expectedCharacterData['name'], $character->getName());
         $this->assertSame($expectedCharacterData['level'], $character->getLevel(), 'Character Level');
         $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());

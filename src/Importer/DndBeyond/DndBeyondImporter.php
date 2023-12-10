@@ -512,7 +512,7 @@ class DndBeyondImporter implements ImporterInterface
                 $item->setDamageType($apiItemDefinition->damageType);
             }
 
-            if (isset($apiItemDefinition->damage?->diceString)) {
+            if (isset($apiItemDefinition->damage->diceString)) {
                 $item->setDamage($apiItemDefinition->damage->diceString);
             }
 

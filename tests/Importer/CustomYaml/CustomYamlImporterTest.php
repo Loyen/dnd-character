@@ -95,7 +95,6 @@ final class CustomYamlImporterTest extends TestCase
             file_get_contents($expectedCharacterData['inputFilePath']) ?: ''
         );
 
-        $this->assertInstanceOf(Character::class, $character);
         $this->assertSame($expectedCharacterData['name'], $character->getName());
         $this->assertSame($expectedCharacterData['level'], $character->getLevel(), 'Character Level');
         $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());
