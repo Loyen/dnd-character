@@ -6,7 +6,7 @@ class YamlRace
 {
     public function __construct(
         public readonly string $name,
-        public readonly string $subrace,
+        public readonly ?string $subrace,
         /** @var YamlSource[] */
         public readonly array $sources,
         public readonly string $size,
@@ -22,7 +22,7 @@ class YamlRace
     {
         return new self(
             $data['name'],
-            $data['subrace'],
+            $data['subrace'] ?? null,
             isset($data['sources'])
                 ? YamlSource::createCollectionFromData($data['sources'])
                 : [],
