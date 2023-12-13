@@ -275,7 +275,7 @@ class CustomYamlImporter implements ImporterInterface
 
             $movementSpeedList[$movementType->value] = new CharacterMovement(
                 $movementType,
-                $this->characterData->race->movement?->{$movementType->value} ?? 0,
+                $this->characterData->race->movement->{$movementType->value},
                 $modifiersByType[$movementType->value]
             );
         }
