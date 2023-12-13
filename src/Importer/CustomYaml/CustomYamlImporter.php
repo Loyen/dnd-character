@@ -5,6 +5,8 @@ namespace loyen\DndbCharacterSheet\Importer\CustomYaml;
 use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Exception\CharacterYamlDataException;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlCharacter;
+use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeature;
+use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeatureMovementImprovement;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeatureProficiencyImprovement;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlProficiencyCategory;
 use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlSource;
@@ -164,16 +166,6 @@ class CustomYamlImporter implements ImporterInterface
         return $classList;
     }
 
-    /** @return array<int, CharacterFeature> */
-    public function getFeatureList(): array
-    {
-        return array_merge(
-            $this->characterData->race->features,
-            $this->characterData->background->features,
-            ...array_column($this->characterData->classes, 'features')
-        );
-    }
-
     /**
      * @return array<string, int>
      */
@@ -259,21 +251,61 @@ class CustomYamlImporter implements ImporterInterface
     public function getMovementSpeeds(): array
     {
         $movementSpeedList = [];
+
+        /** @var YamlFeatureMovementImprovement[] */
+        $movementFeats = array_filter(
+            $this->getFeatures(),
+            fn(YamlFeature $f) => $f instanceof YamlFeatureMovementImprovement
+        );
+
+        $modifiersByType = [];
+        foreach (MovementType::cases() as $movementType) {
+        }
+
         foreach (MovementType::cases() as $movementType) {
             if (empty($this->characterData->race->movement->{$movementType->value})) {
                 continue;
             }
 
+            $modifiersByType[$movementType->value] = [];
+
+            foreach ($movementFeats as $feat) {
+                $modifiersByType[$movementType->value][] = $feat->movement->{$movementType->value};
+            }
+
             $movementSpeedList[$movementType->value] = new CharacterMovement(
                 $movementType,
-                $this->characterData->race->movement->{$movementType->value}
+                $this->characterData->race->movement?->{$movementType->value} ?? 0,
+                $modifiersByType[$movementType->value]
             );
         }
 
         return $movementSpeedList;
     }
 
-    /** @return array<int|string, mixed> */
+    /** @return YamlFeature[] */
+    private function getFeatures(): array
+    {
+        $features = [];
+
+        foreach ($this->characterData->background->features as $feat) {
+            $features[] = $feat;
+        }
+
+        foreach ($this->characterData->race->features as $feat) {
+            $features[] = $feat;
+        }
+
+        foreach ($this->characterData->classes as $class) {
+            foreach ($class->features as $feat) {
+                $features[] = $feat;
+            }
+        }
+
+        return $features;
+    }
+
+    /** @return array<value-of<YamlProficiencyCategory>, string[]> */
     private function getProficiencies(): array
     {
         $proficiencyList = array_fill_keys(
@@ -281,32 +313,12 @@ class CustomYamlImporter implements ImporterInterface
             []
         );
 
-        foreach ($this->characterData->background->features as $feat) {
+        foreach ($this->getFeatures() as $feat) {
             if ($feat instanceof YamlFeatureProficiencyImprovement) {
-                $proficiencyList[$feat->category->value] ??= [];
                 $proficiencyList[$feat->category->value] = array_merge(
-                    $proficiencyList[$feat->category->value],
+                    $proficiencyList[$feat->category->value] ?? [],
                     $feat->proficiencies
                 );
-            }
-        }
-
-        foreach ($this->characterData->race->features as $feat) {
-            if ($feat instanceof YamlFeatureProficiencyImprovement) {
-                $proficiencyList[$feat->category->value] ??= [];
-                $proficiencyList[$feat->category->value] = array_merge(
-                    $proficiencyList[$feat->category->value],
-                    $feat->proficiencies
-                );
-            }
-        }
-
-        foreach ($this->characterData->classes as $class) {
-            foreach ($class->features as $feat) {
-                if ($feat instanceof YamlFeatureProficiencyImprovement) {
-                    $proficiencyList[$feat->category->value] ??= [];
-                    $proficiencyList[$feat->category->value] = array_merge($proficiencyList[$feat->category->value], $feat->proficiencies);
-                }
             }
         }
 

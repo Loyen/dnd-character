@@ -100,6 +100,7 @@ final class CustomYamlImporterTest extends TestCase
         $this->assertCharacterAbilityScores($expectedCharacterData['abilityScores'], $character->getAbilityScores());
         $this->assertCharacterHealth($expectedCharacterData['health'], $character->getHealth());
         $this->assertContainsOnlyInstancesOf(CharacterClass::class, $character->getClasses());
+        $this->assertCharacterMovementSpeeds($expectedCharacterData['movementSpeeds'], $character->getMovementSpeeds());
         $this->assertContainsOnlyInstancesOf(Item::class, $character->getInventory());
         $this->assertCharacterProficiencies($character->getProficiencies());
     }
@@ -182,6 +183,20 @@ final class CustomYamlImporterTest extends TestCase
     {
         $this->assertInstanceOf(CharacterHealth::class, $actualHealth);
         $this->assertSame($expectedHealth, $actualHealth->getMaxHitPoints(), 'Maximum HP');
+    }
+
+    /**
+     * @param array<string, int>               $expectedMovementSpeeds
+     * @param array<string, CharacterMovement> $actualMovementSpeeds
+     */
+    private function assertCharacterMovementSpeeds(array $expectedMovementSpeeds, array $actualMovementSpeeds): void
+    {
+        $this->assertContainsOnlyInstancesOf(CharacterMovement::class, $actualMovementSpeeds);
+        $this->assertSame(
+            (string) json_encode($expectedMovementSpeeds),
+            (string) json_encode($actualMovementSpeeds),
+            'Movement speeds'
+        );
     }
 
     /**
