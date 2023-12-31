@@ -15,4 +15,4 @@ RUN set -eux; \
     curl -o /usr/local/bin/composer https://getcomposer.org/download/2.5.7/composer.phar; \
     chmod +x /usr/local/bin/composer
 
-ENV PATH "./vendor/bin:${PATH}"
+ENV PATH "${PATH}:./vendor/bin"
