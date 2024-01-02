@@ -259,8 +259,6 @@ class CustomYamlImporter implements ImporterInterface
         );
 
         $modifiersByType = [];
-        foreach (MovementType::cases() as $movementType) {
-        }
 
         foreach (MovementType::cases() as $movementType) {
             if (empty($this->characterData->race->movement->{$movementType->value})) {
