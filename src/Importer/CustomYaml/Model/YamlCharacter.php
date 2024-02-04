@@ -11,7 +11,7 @@ class YamlCharacter
         public readonly YamlRace $race,
         /** @var YamlClass[] */
         public readonly array $classes,
-        public readonly mixed $background,
+        public readonly YamlBackground $background,
         public readonly mixed $inventory,
         public readonly mixed $wallet
     ) {}
