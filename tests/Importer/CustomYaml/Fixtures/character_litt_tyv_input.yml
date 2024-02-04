@@ -47,9 +47,9 @@ background:
   description: >
     You are a criminal.
   features:
-    - name: Criminal Constitutiontact
+    - name: Criminal Contact
       description: >
-        You have Constitutiontacts within the criminal network.
+        You have contacts within the criminal network.
     - type: Proficiency Improvement
       category: Skills
       proficiencies:
