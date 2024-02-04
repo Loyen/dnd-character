@@ -153,7 +153,7 @@ class CustomYamlImporter implements ImporterInterface
             foreach ($yamlClass->features as $featData) {
                 $featList[] = new CharacterFeature(
                     $featData->name ?? 'Unknown',
-                    $featData->description ?? '',
+                    $featData->description,
                     $sourceList
                 );
             }
