@@ -2,12 +2,12 @@
 name: Litt Tyv
 
 abilityScores:
-  STR: 12 # 12
-  DEX: 15 # 20
-  CON: 13 # 14
-  INT: 8 # 8
-  WIS: 10 # 12
-  CHA: 14 # 18
+  Strength: 12 # 12
+  Dexterity: 15 # 20
+  Constitution: 13 # 14
+  Intelligence: 8 # 8
+  Wisdom: 10 # 12
+  Charisma: 14 # 18
 
 race:
   name: Gnome
@@ -25,19 +25,19 @@ race:
     - type: Ability Score Improvement
       # 1 increases by 2, 1 increases by 1
       abilities:
-        - DEX
-        - DEX
-        - CHA
+        - Dexterity
+        - Dexterity
+        - Charisma
     - name: Darkvision
       description: >
         Can see in dim light as if bright light (60 ft).
         Can see in darkness as if dim light (shades of gray).
     - name: Gnome cunning
       description: >
-        Advantage on all INT, WIS, and CHA saving throws against magic.
+        Advantage on all Intelligence, Wisdom, and Charisma saving throws against magic.
     - name: Natural Illusionist
       description: >
-        Minor illusion as cantrip (INT as spellcasting ability)
+        Minor illusion as cantrip (Intelligence as spellcasting ability)
     - name: Speak with Small Beasts
       description: >
         Can communicate simple ideas with small animals using sound and gestures.
@@ -47,9 +47,9 @@ background:
   description: >
     You are a criminal.
   features:
-    - name: Criminal Contact
+    - name: Criminal Constitutiontact
       description: >
-        You have contacts within the criminal network.
+        You have Constitutiontacts within the criminal network.
     - type: Proficiency Improvement
       category: Skills
       proficiencies:
@@ -82,8 +82,8 @@ classes:
     - type: Proficiency Improvement # Class proficiencies
       category: Saving Throws
       proficiencies:
-        - DEX
-        - INT
+        - Dexterity
+        - Intelligence
     - type: Proficiency Improvement # Class proficiencies
       category: Skills
       proficiencies:
@@ -162,14 +162,14 @@ classes:
       level: 3
       description: >
         Climbing do not cost extra movement.
-        You can make running jumps, distance increased by {DEX modifier} feet.
+        You can make running jumps, distance increased by {Dexterity modifier} feet.
         When you choose this archetype at 3rd level, you gain the ability to
         climb faster than normal; climbing no longer costs you extra movement.
     - type: Ability Score Improvement
       level: 4
       abilities:
-        - DEX
-        - CON
+        - Dexterity
+        - Constitution
     - name: Mobile
       type: Movement Improvement
       level: 4 # Custom
@@ -193,14 +193,14 @@ classes:
     - name: Evasion
       level: 7
       description: >
-        When allowed to make a DEX saving throw to take only half damage, you
+        When allowed to make a Dexterity saving throw to take only half damage, you
         take no damage if you succeed or half if you fail.
     - type: Ability Score Improvement
       level: 8
       abilities:
-        - CHA
-        - DEX
-        - DEX # Skill Expert Ability Score
+        - Charisma
+        - Dexterity
+        - Dexterity # Skill Expert Ability Score
     - type: Proficiency Improvement
       level: 8 # Custom
       category: Skills
@@ -217,9 +217,9 @@ classes:
       abilities:
         # TODO: Add two ASIs on top of Fade away since we should have
         # feat + ASI on every ASI
-        - INT # Fade Away
-        - CHA
-        - CHA
+        - Intelligence # Fade Away
+        - Charisma
+        - Charisma
     - name: Fade Away
       level: 10 # Custom
       description: >
@@ -237,8 +237,8 @@ classes:
     - type: Ability Score Improvement
       level: 12
       abilities:
-        - WIS
-        - WIS
+        - Wisdom
+        - Wisdom
     - name: Skulker
       level: 12 # Custom
       description: >
@@ -261,7 +261,7 @@ classes:
       level: 15
       category: Saving Throws
       proficiencies:
-        - WIS
+        - Wisdom
       description: >
         Proficiency in Wisdom saving throws.
 

@@ -2,12 +2,12 @@
 name: Raffles-3
 
 abilityScores:
-  STR: 8
-  DEX: 15
-  CON: 13
-  INT: 10
-  WIS: 12
-  CHA: 14
+  Strength: 8
+  Dexterity: 15
+  Constitution: 13
+  Intelligence: 10
+  Wisdom: 12
+  Charisma: 14
 
 background:
   name: Thief for hire
@@ -88,8 +88,8 @@ classes:
       - type: Proficiency Improvement
         category: Saving Throws
         proficiencies:
-          - DEX
-          - INT
+          - Dexterity
+          - Intelligence
       # Level 1
       - name: Expertise
         type: Proficiency Improvement
@@ -143,8 +143,8 @@ classes:
         - Deception
         - Sleight of hand
       savingThrows:
-        - DEX
-        - INT
+        - Dexterity
+        - Intelligence
       tools:
         - Thieves tools
       armor:

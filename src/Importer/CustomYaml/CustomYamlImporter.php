@@ -83,17 +83,15 @@ class CustomYamlImporter implements ImporterInterface
     {
         $abilityList = [];
 
-        $abilityTypes = array_column(AbilityType::cases(), null, 'name');
-
         $proficiencyList = $this->getProficiencies();
         $abilityScoreImprovements = $this->getAbilityScoreImprovements();
 
         foreach ($this->characterData->abilityScores as $type => $score) {
-            if (!isset($abilityTypes[$type])) {
+            if (AbilityType::tryFrom($type) === null) {
                 throw new CharacterInvalidImportException('Ability score ' . $type . ' not found');
             }
 
-            $ability = new CharacterAbility($abilityTypes[$type]);
+            $ability = new CharacterAbility(AbilityType::from($type));
             $ability->setValue($score);
 
             $ability->setSavingThrowProficient(
