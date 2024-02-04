@@ -16,12 +16,9 @@
             gap: 0 1em;
         }
         .character {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 1em;
-            grid-template-areas:
-                "name          information   features"
-                "scores        scores        features"
-                "proficiencies proficiencies features";
             border-top: 5px solid #e1e1e1;
             padding: 35px 5px 0;
             margin-top: 35px;
@@ -38,32 +35,25 @@
             font-weight: 300;
         }
         .stats {
-            grid-area: information;
             display: flex;
+            gap: 2em;
         }
         .stat {
             font-size: 1.6em;
-            text-align: right;
-            line-height: 1em;
-            font-weight: 300;
-            flex: auto;
         }
         .stat:after {
             content: " " attr(data-name);
             font-size: .6em;
+            vertical-align: super;
         }
 
         .scores {
-            grid-area: scores;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            display: flex;
+            gap: 2em;
         }
         .score {
             font-size: 1.8em;
             text-align: center;
-            margin-top: .4em;
-            margin-bottom: .4em;
-            line-height: 1;
         }
         .score:before {
             font-size: .8em;
@@ -79,12 +69,11 @@
         }
         .score-total {
             font-size: .6em;
+            vertical-align: super;
         }
 
         .proficiencies {
-            grid-area: proficiencies;
-            display: grid;
-            grid-template-columns: repeat(3, auto);
+            display: flex;
             gap: 1em;
         }
         .items {
@@ -121,8 +110,8 @@
             vertical-align: middle;
         }
         .features {
-            grid-area: features;
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 1em;
         }
         .feature-section {
@@ -148,18 +137,30 @@
                 <div class="stat speed" data-name="SPD">{{ character.movementSpeeds.walk.calculatedValue }}</div>
             </div>
             <div class="scores">
-                <div class="score{% if character.abilityScores.STR.savingThrowProficient %} saving-throw{% endif %}" data-name="STR">{{ character.abilityScores.STR.calculatedModifier }}
-                    <span class="score-total">({{ character.abilityScores.STR.calculatedValue }})</span></div>
-                <div class="score{% if character.abilityScores.DEX.savingThrowProficient %} saving-throw{% endif %}" data-name="DEX">{{ character.abilityScores.DEX.calculatedModifier }}
-                    <span class="score-total">({{ character.abilityScores.DEX.calculatedValue }})</span></div>
-                <div class="score{% if character.abilityScores.CON.savingThrowProficient %} saving-throw{% endif %}" data-name="CON">{{ character.abilityScores.CON.calculatedModifier }}
-                    <span class="score-total">({{ character.abilityScores.CON.calculatedValue }})</span></div>
-                <div class="score{% if character.abilityScores.INT.savingThrowProficient %} saving-throw{% endif %}" data-name="INT">{{ character.abilityScores.INT.calculatedModifier }}
-                    <span class="score-total">({{ character.abilityScores.INT.calculatedValue }})</span></div>
-                <div class="score{% if character.abilityScores.WIS.savingThrowProficient %} saving-throw{% endif %}" data-name="WIS">{{ character.abilityScores.WIS.calculatedModifier }}
-                    <span class="score-total">({{ character.abilityScores.WIS.calculatedValue }})</span></div>
-                <div class="score{% if character.abilityScores.CHA.savingThrowProficient %} saving-throw{% endif %}" data-name="CHA">{{ character.abilityScores.CHA.calculatedModifier }}
-                    <span class="score-total">({{ character.abilityScores.CHA.calculatedValue }})</span></div>
+                <div class="score{% if character.abilityScores.STR.savingThrowProficient %} saving-throw{% endif %}" data-name="STR">
+                    <span class="score-modifier">{{ character.abilityScores.STR.calculatedModifier }}</span>
+                    <span class="score-total">{{ character.abilityScores.STR.calculatedValue }}</span>
+                </div>
+                <div class="score{% if character.abilityScores.DEX.savingThrowProficient %} saving-throw{% endif %}" data-name="DEX">
+                    <span class="score-modifier">{{ character.abilityScores.DEX.calculatedModifier }}</span>
+                    <span class="score-total">{{ character.abilityScores.DEX.calculatedValue }}</span>
+                </div>
+                <div class="score{% if character.abilityScores.CON.savingThrowProficient %} saving-throw{% endif %}" data-name="CON">
+                    <span class="score-modifier">{{ character.abilityScores.CON.calculatedModifier }}</span>
+                    <span class="score-total">{{ character.abilityScores.CON.calculatedValue }}</span>
+                </div>
+                <div class="score{% if character.abilityScores.INT.savingThrowProficient %} saving-throw{% endif %}" data-name="INT">
+                    <span class="score-modifier">{{ character.abilityScores.INT.calculatedModifier }}</span>
+                    <span class="score-total">{{ character.abilityScores.INT.calculatedValue }}</span>
+                </div>
+                <div class="score{% if character.abilityScores.WIS.savingThrowProficient %} saving-throw{% endif %}" data-name="WIS">
+                    <span class="score-modifier">{{ character.abilityScores.WIS.calculatedModifier }}</span>
+                    <span class="score-total">{{ character.abilityScores.WIS.calculatedValue }}</span>
+                </div>
+                <div class="score{% if character.abilityScores.CHA.savingThrowProficient %} saving-throw{% endif %}" data-name="CHA">
+                    <span class="score-modifier">{{ character.abilityScores.CHA.calculatedModifier }}</span>
+                    <span class="score-total">{{ character.abilityScores.CHA.calculatedValue }}</span>
+                </div>
             </div>
             <div class="proficiencies">
                 <div class="items armor">
