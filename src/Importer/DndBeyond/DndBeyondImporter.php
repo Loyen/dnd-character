@@ -307,7 +307,7 @@ class DndBeyondImporter implements ImporterInterface
                 $m->value !== null
                 && $m->subType !== 'unarmored-armor-class'
             ) {
-                $armorBonuses[] = (int) $m->value;
+                $armorBonuses[] = $m->value;
             }
         }
 
@@ -413,7 +413,7 @@ class DndBeyondImporter implements ImporterInterface
 
     public function getHealth(): CharacterHealth
     {
-        $baseHitPoints = (int) $this->apiCharacter->baseHitPoints;
+        $baseHitPoints = $this->apiCharacter->baseHitPoints;
 
         $healthModifiers = [];
         if (isset($this->apiCharacter->bonusHitPoints)) {
@@ -457,7 +457,7 @@ class DndBeyondImporter implements ImporterInterface
 
             $characterFeature = new CharacterFeature(
                 $feat->definition->name,
-                $feat->definition->description ?? '',
+                $feat->definition->description,
                 $sourceList
             );
 
@@ -500,7 +500,7 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             if (
-                isset($apiItemDefinition->armorTypeId)
+                $apiItemDefinition->armorTypeId !== null
                 && $this->getArmorTypeFromArmorTypeId($apiItemDefinition->armorTypeId) !== null
             ) {
                 $item->setArmorType(
@@ -571,7 +571,7 @@ class DndBeyondImporter implements ImporterInterface
 
     public function getLevel(): int
     {
-        return (int) min(20, array_sum(array_column($this->apiCharacter->classes, 'level')));
+        return min(20, array_sum(array_column($this->apiCharacter->classes, 'level')));
     }
 
     /**
@@ -642,7 +642,7 @@ class DndBeyondImporter implements ImporterInterface
             }
 
             if ($movementSpeeds[$movementType->value] === null) {
-                $speedCollection[$movementType->value] = &$speedCollection[MovementType::WALK->value];
+                $speedCollection[$movementType->value] = $speedCollection[MovementType::WALK->value];
             } else {
                 $speedCollection[$movementType->value] = new CharacterMovement(
                     $movementType,
