@@ -123,6 +123,15 @@
             grid-template-columns: repeat(4, auto);
             line-height: 1.1em;
         }
+
+        .inventoryList {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .inventory--header {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -218,6 +227,15 @@
 
                             {% endfor %}
                         </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div><b>Inventory</b></div>
+            <div class="inventoryList">
+                {% for item in character.inventory %}
+                    <div class="inventoryItem">
+                        <div class="inventoryItem-name">{{ item.quantity }}x {{ item.name }}</div>
                     </div>
                 {% endfor %}
             </div>
