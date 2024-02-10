@@ -18,7 +18,7 @@
         "analyse": "phpstan analyze",
         "test": "phpunit",
         "dndb-api": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromApi",
-        "dndb-json": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromFile",
+        "dndb-file": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromFile",
         "custom-yaml": "loyen\\DndbCharacterSheet\\Command\\CustomYaml::fromFile"
     },
     "config": {
