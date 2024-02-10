@@ -41,7 +41,7 @@ enum Source: int
     case OneDDPlaytest = 100;
     case TyrannyofDragons = 102;
 
-    public function name(): string
+    public function title(): string
     {
         return match ($this) {
             self::UnknownSource => 'Unknown',

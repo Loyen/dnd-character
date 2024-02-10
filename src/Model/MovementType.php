@@ -10,7 +10,7 @@ enum MovementType: string
     case SWIM = 'swim';
     case CLIMB = 'climb';
 
-    public function name(): string
+    public function title(): string
     {
         return match ($this) {
             self::WALK => 'Walking',

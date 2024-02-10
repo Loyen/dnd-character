@@ -374,7 +374,7 @@ class DndBeyondImporter implements ImporterInterface
                         $source = Source::tryFrom($apiSource->sourceId) ?? Source::UnknownSource;
 
                         $sourceList[] = new SourceMaterial(
-                            $source->name(),
+                            $source->title(),
                             'pg ' . $apiSource->pageNumber
                         );
                     }
@@ -449,7 +449,7 @@ class DndBeyondImporter implements ImporterInterface
                     $source = Source::tryFrom($apiSource->sourceId) ?? Source::UnknownSource;
 
                     $sourceList[] = new SourceMaterial(
-                        $source->name(),
+                        $source->title(),
                         'pg ' . $apiSource->pageNumber
                     );
                 }
