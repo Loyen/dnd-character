@@ -14,16 +14,16 @@ processed matter.
 
 To generate a character sheet you can use the `from-api` command:
 
-    $ composer run from-api %character-id
+    $ composer run dndb-api %character-id
 
 You can also generate a file based off of a JSON file containing the
 API response:
 
-    $ composer run from-file %path-to-file
+    $ composer run dndb-file %path-to-file
 
 You can also get the data in JSON format by using the `--json` flag:
 
-    $ composer run from-api -- --json %character-id
+    $ composer run dndb-api -- --json %character-id
 
 ## Contributing
 
