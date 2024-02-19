@@ -25,6 +25,7 @@ use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiOptionDefinition;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiProperty;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiRace;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiStat;
+use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiTraits;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
 use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
@@ -75,6 +76,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiSimpleRangedWeaponEntityId::class)]
 #[CoversClass(ApiSimpleWeaponEntityId::class)]
 #[CoversClass(ApiStat::class)]
+#[CoversClass(ApiTraits::class)]
 #[CoversClass(DndBeyondImporter::class)]
 #[CoversClass(Source::class)]
 #[UsesClass(AbilityType::class)]
