@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF&minus;8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+        }
+        body {
+            font-family: 'Tiamat SC', Arial;
+            font-size: 9pt;
+            display: grid;
+        }
+
+        .character {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .characterBasic {
+            display: grid;
+            grid-template-columns: auto auto;
+        }
+
+        .characterBasic-item {
+            flex: auto;
+        }
+
+            .characterName {
+                font-size: 1.6em;
+                align-self: center;
+            }
+
+            .characterSummary {
+                display: grid;
+                grid-template-areas:
+                    "summaryClass summaryClass summaryClass"
+                    "summaryRace summaryBackground summaryExperience";
+                gap: 0.5em;
+            }
+
+            .characterClass {
+                grid-area: summaryClass;
+            }
+            .characterRace {
+                grid-area: summaryRace;
+            }
+            .characterBackground {
+                grid-area: summaryBackground;
+            }
+            .characterExperience {
+                grid-area: summaryExperience;
+            }
+
+            .characterSummaryField-title {
+                border-top: 0.1em solid #000;
+                font-size: 0.8em;
+                font-weight: bold;
+            }
+
+        .characterData {
+            display: grid;
+            grid-template-areas:
+                "abilityScores savingThrows extras  hitPoints"
+                "abilityScores skills       extras  proficiencies"
+                "abilityScores skills       actions actions"
+                "senses        senses       attacks attacks";
+            grid-template-columns: 0.2fr 0.5fr 1fr 1fr;
+            gap: 1em;
+
+        }
+
+        .characterAbilityScores {
+            grid-area: abilityScores;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+            padding: 0.5em;
+        }
+            .characterAbilityScore {
+                display: grid;
+                gap: 0.5em;
+            }
+            .characterAbilityScore-title {
+                justify-self: center;
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 0.8em;
+            }
+            .characterAbilityScore-modifier {
+                justify-self: center;
+                font-weight: bold;
+            }
+            .characterAbilityScore-total {
+                justify-self: center;
+            }
+
+        .characterSavingThrows {
+            grid-area: savingThrows;
+        }
+
+        .skillList {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2em;
+        }
+
+            .skillListItem {
+                display: flex;
+                gap: 1em;
+            }
+
+            .skillListItem .skillListItem-proficiency:before {
+                content: 'O';
+            }
+
+        .characterSkills {
+            grid-area: skills;
+        }
+
+        .characterExtras {
+            grid-area: extras;
+            display: grid;
+            grid-template-areas:
+                "extras-initiative extras-armor"
+                "extras-defenses extras-defenses"
+                "extras-defenses extras-defenses"
+                "extras-inspiration extras-inspiration"
+                "extras-proficiencyBonus extras-proficiencyBonus"
+                "extras-abilitySaveDc extras-abilitySaveDc"
+                "extras-speed extras-speed";
+            padding: 1em;
+            gap: 1em;
+        }
+            .characterExtras-initiative {
+                grid-area: extras-initiative;
+            }
+            .characterExtras-armor {
+                grid-area: extras-armor;
+            }
+            .characterExtras-defenses {
+                grid-area: extras-defenses;
+            }
+            .characterExtras-inspiration {
+                grid-area: extras-inspiration;
+            }
+            .characterExtras-proficiencyBonus {
+                grid-area: extras-proficiencyBonus;
+            }
+            .characterExtras-abilitySaveDc {
+                grid-area: extras-abilitySaveDc;
+            }
+            .characterExtras-speed {
+                grid-area: extras-speed;
+            }
+
+        .characterHitPoints {
+            grid-area: hitPoints;
+            display: grid;
+            grid-template-areas:
+                "hitPoints-hitPoints hitPoints-hitPoints"
+                "hitPoints-hitDice hitPoints-deathSaves";
+            gap: 1em;
+            padding: 1em;
+        }
+            .characterHitPoints-hitPoints {
+                grid-area: hitPoints-hitPoints;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1em;
+            }
+            .characterHitPoints-hitDice {
+                grid-area: hitPoints-hitDice;
+            }
+            .characterHitPoints-deathSaves {
+                grid-area: hitPoints-deathSaves;
+            }
+        .characterProficiencies {
+            grid-area: proficiencies;
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+            .characterProficiencieList {
+                flex: 1;
+            }
+
+        .characterActions {
+            grid-area: actions;
+        }
+
+        .characterSenses {
+            grid-area: senses;
+        }
+        .characterAttacks {
+            grid-area: attacks;
+        }
+
+            .weapon {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1em;
+            }
+
+            .weapon:first-child {
+                font-weight: bold;
+            }
+
+        .card {
+            display: grid;
+            grid-template-areas:
+                "card-content"
+                "card-title";
+            grid-template-rows:
+                auto
+                max-content;
+            border-radius: 1.2em/1em;
+        }
+
+            .card--standard {
+                background-color: #fff;
+                border: 0.2em solid #000;
+                padding: 0.5em 0.5em 0.2em 0.5em;
+            }
+
+            .card-title {
+                grid-area: card-title;
+                justify-self: center;
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 0.8em;
+            }
+
+            .card-content--focused {
+                justify-self: center;
+                align-self: center;
+            }
+
+        .fieldCard {
+            display: flex;
+            padding: 0.2em 0.5em;
+        }
+
+            .fieldCard-box {
+                flex: 1 1 20px;
+                display: grid;
+                background-color: #fff;
+                border: 0.2em solid #000;
+                justify-content: center;
+                align-content: center;
+                line-height: 3em;
+            }
+
+            .fieldCard-box--alternate {
+                border-radius: 50%/20%;
+            }
+
+            .fieldCard-title {
+                flex: 9;
+                background-color: #fff;
+                border: 0.2em solid #000;
+                border-right: none;
+                border-left: none;
+                text-align: center;
+                align-self: center;
+                line-height: 2em;
+                font-size: 0.9em;
+                font-weight: bold;
+            }
+
+            .fieldCard-title:first-child {
+                border: 0.2em solid #000;
+                border-right: none;
+            }
+            .fieldCard-title:last-child {
+                border: 0.2em solid #000;
+                border-left: none;
+            }
+
+        .area--highlight {
+            background-color: #aaa;
+            background-image:
+                linear-gradient(135deg, #bbb 25%, transparent 25%),
+                linear-gradient(225deg, #bbb 25%, transparent 25%),
+                linear-gradient(45deg, #bbb 25%, transparent 25%),
+                linear-gradient(315deg, #bbb 25%, #eee 25%);
+            background-size: 10px 10px;
+            background-position: 5px 0, 5px 0, 0 0, 0 0;
+            background-repeat: repeat;
+            border-radius: 2em/1em;
+        }
+
+        .text--empathised {
+            font-size: 1.6em;
+        }
+    </style>
+</head>
+<body>
+    <div class="character">
+        <div class="characterBasic">
+            <div class="characterBasic-item characterName">{{ character.name }}</div>
+            <div class="characterBasic-item characterSummary">
+                <div class="characterClass characterSummaryField">
+                    <div class="characterSummaryField-content">
+                        {{ character.classes|map((c) => "#{c.name} #{c.level}")|join(', ') }}
+                    </div>
+                    <div class="characterSummaryField-title">Class</div>
+                </div>
+                <div class="characterRace characterSummaryField">
+                    <div class="characterSummaryField-content">Race</div>
+                    <div class="characterSummaryField-title">Race</div>
+                </div>
+                <div class="characterBackground characterSummaryField">
+                    <div class="characterSummaryField-content">Background</div>
+                    <div class="characterSummaryField-title">Background</div>
+                </div>
+                <div class="characterExperience characterSummaryField">
+                    <div class="characterSummaryField-content">XP</div>
+                    <div class="characterSummaryField-title">Experience Points</div>
+                </div>
+            </div>
+        </div>
+        <div class="characterData">
+            <div class="characterAbilityScores area--highlight">
+                {% for abilityScore in character.abilityScores %}
+                    <div class="characterAbilityScore card card--standard">
+                        <div class="characterAbilityScore-title">{{ abilityScore.type.value }}</div>
+                        <div class="characterAbilityScore-modifier">
+                            <span class="text--empathised">{{ abilityScore.calculatedModifier }}</span>
+                        </div>
+                        <div class="characterAbilityScore-total">{{ abilityScore.calculatedValue }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="characterSavingThrows card card--standard">
+                <div class="card-content">
+                    <div class="skillList">
+                        {% for abilityScore in character.abilityScores %}
+                            {% if abilityScore.savingThrowProficient %}
+                                <div class="skillListItem">
+                                    <div class="skillListItem-proficiency"></div>
+                                    <div class="skillListItem-name">{{ abilityScore.type.value }}</div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-title">Saving Throws</div>
+            </div>
+            <div class="characterSkills card card--standard">
+                <div class="card-content">
+                    <div class="skillList">
+                        {% for ability in character.proficiencies.abilities %}
+                            <div class="skillListItem">
+                                <div class="skillListItem-proficiency"></div>
+                                <div class="skillListItem-name">{{ ability.name }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-title">Skills</div>
+            </div>
+
+            <div class="characterExtras area--highlight">
+                <div class="characterExtras-initiative card card--standard">
+                    <div class="card-content"></div>
+                    <div class="card-title">Initiative</div>
+                </div>
+                <div class="characterExtras-armor card card--standard">
+                    <div class="card-content card-content--focused">
+                        <span class="text--empathised">{{ character.armorClass.calculatedValue }}</span>
+                    </div>
+                    <div class="card-title">Armor</div>
+                </div>
+                <div class="characterExtras-defenses card card--standard">
+                    <div class="card-content"></div>
+                    <div class="card-title">Defenses</div>
+                </div>
+                <div class="characterExtras-inspiration fieldCard">
+                    <div class="fieldCard-box"></div>
+                    <div class="fieldCard-title">Inspiration</div>
+                </div>
+                <div class="characterExtras-proficiencyBonus fieldCard">
+                    <div class="fieldCard-box fieldCard-box--alternate">
+                        <span class="text--empathised">{{ character.proficiencyBonus }}</span>
+                    </div>
+                    <div class="fieldCard-title">Proficiency Bonus</div>
+                </div>
+                <div class="characterExtras-abilitySaveDc fieldCard">
+                    <div class="fieldCard-box"></div>
+                    <div class="fieldCard-title">Ability Save DC</div>
+                    <div class="fieldCard-box"></div>
+                </div>
+                <div class="characterExtras-speed card card--standard">
+                    <div class="card-content">
+                        {{ character.movementSpeeds|map((m) => "#{m.calculatedValue} ft. (#{m.type.title})")|join(', ') }}
+                    </div>
+                    <div class="card-title">Speed</div>
+                </div>
+            </div>
+
+            <div class="characterHitPoints area--highlight">
+                <div class="characterHitPoints-hitPoints">
+                    <div class="card card--standard">
+                        <div class="card-content card-content--focused">
+                            <span class="text--empathised">{{ character.health.maxHitPoints }}</span>
+                        </div>
+                        <div class="card-title">Max HP</div>
+                    </div>
+                    <div class="card card--standard">
+                        <div class="card-content card-content--focused">
+                            <span class="text--empathised"></span>
+                        </div>
+                        <div class="card-title">Current HP</div>
+                    </div>
+                    <div class="card card--standard">
+                        <div class="card-content card-content--focused">
+                            <span class="text--empathised">
+                                {{ character.health.temporaryHitPoints > 0 ? character.health.temporaryHitPoints : '' }}
+                            </span>
+                        </div>
+                        <div class="card-title">Temp HP</div>
+                    </div>
+                </div>
+                <div class="characterHitPoints-hitDice card card--standard">
+                    <div class="card-content"></div>
+                    <div class="card-title">Hit Dice</div>
+                </div>
+                <div class="characterHitPoints-deathSaves card card--standard">
+                    <div class="card-content"></div>
+                    <div class="card-title">Death Saves</div>
+                </div>
+            </div>
+
+            <div class="characterProficiencies">
+                <div class="characterProficiencieList card card--standard">
+                    <div class="card-content">
+                        {{ character.proficiencies.armor|map((p) => "#{p.name}")|join(', ') }}
+                    </div>
+                    <div class="card-title">Armor</div>
+                </div>
+                <div class="characterProficiencieList card card--standard">
+                    <div class="card-content">
+                        {{ character.proficiencies.weapons|map((p) => "#{p.name}")|join(', ') }}
+                    </div>
+                    <div class="card-title">Weapons</div>
+                </div>
+                <div class="characterProficiencieList card card--standard">
+                    <div class="card-content">
+                        {{ character.proficiencies.tools|map((p) => "#{p.name}")|join(', ') }}
+                    </div>
+                    <div class="card-title">Tools</div>
+                </div>
+                <div class="characterProficiencieList card card--standard">
+                    <div class="card-content">
+                        {{ character.proficiencies.languages|map((p) => "#{p.name}")|join(', ') }}
+                    </div>
+                    <div class="card-title">Languages</div>
+                </div>
+            </div>
+
+            <div class="characterActions card card--standard">
+                <div class="card-content">Actions</div>
+                <div class="card-title">Actions</div>
+            </div>
+
+            <div class="characterSenses card card--standard">
+                <div class="card-content">
+                    <div class="fieldCard">
+                        <div class="fieldCard-box fieldCard-box--alternate">
+                            <span class="text--empathised">{{ 10 + character.abilityScores.WIS.calculatedModifier + ('Perception' in character.proficiencies.abilities|map((a) => "#{a.name}") ? character.proficiencyBonus : 0) }}</span>
+                        </div>
+                        <div class="fieldCard-title">Passive Wisdom (Perception)</div>
+                    </div>
+                    <div class="fieldCard">
+                        <div class="fieldCard-box fieldCard-box--alternate">
+                            <span class="text--empathised">{{ 10 + character.abilityScores.WIS.calculatedModifier + ('Insight' in character.proficiencies.abilities|map((a) => "#{a.name}") ? character.proficiencyBonus : 0) }}</span>
+                        </div>
+                        <div class="fieldCard-title">Passive Wisdom (Insight)</div>
+                    </div>
+                    <div class="fieldCard">
+                        <div class="fieldCard-box fieldCard-box--alternate">
+                            <span class="text--empathised">{{ 10 + character.abilityScores.INT.calculatedModifier + ('Investigation' in character.proficiencies.abilities|map((a) => "#{a.name}") ? character.proficiencyBonus : 0) }}</span>
+                        </div>
+                        <div class="fieldCard-title">Passive Intelligence (Investigation)</div>
+                    </div>
+                </div>
+                <div class="card-title">Senses</div>
+            </div>
+            <div class="characterAttacks card card--standard">
+                <div class="card-content">
+                    <div class="weapon inventory--header">
+                        <div>Name</div>
+                        <div>Range</div>
+                        <div>Damage</div>
+                        <div>Notes</div>
+                    </div>
+                    {% for item in character.inventory %}
+                        {% if item.damageType %}
+                            <div class="weapon">
+                                <div class="weapon-name">{{ item.name }}</div>
+                                <div class="weapon-range">
+                                    {{ item.range }} ft.
+                                    {% if item.longRange > 0 and item.range != item.longRange %}
+                                        ({{ item.longRange }} ft.)
+                                    {% endif %}
+                                </div>
+                                <div class="weapon-damage">{{ item.damage }}</div>
+                                <div class="weapon-notes">{{ item.properties|join(', ') }}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="card-title">Weapon attacks & cantrips</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
