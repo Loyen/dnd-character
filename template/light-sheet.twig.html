@@ -231,13 +231,15 @@
                 {% endfor %}
             </div>
 
-            <div><b>Inventory</b></div>
-            <div class="inventoryList">
-                {% for item in character.inventory %}
-                    <div class="inventoryItem">
-                        <div class="inventoryItem-name">{{ item.quantity }}x {{ item.name }}</div>
-                    </div>
-                {% endfor %}
+            <div class="inventory">
+                <div><b>Inventory</b></div>
+                <div class="inventoryList">
+                    {% for item in character.inventory %}
+                        <div class="inventoryItem">
+                            <div class="inventoryItem-name">{{ item.quantity }}x {{ item.name }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
