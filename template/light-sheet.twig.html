@@ -28,15 +28,19 @@
             margin-top: 0;
             padding-top: 0;
         }
+        .basics {
+            display: flex;
+            gap: 2em;
+        }
         .name {
-            grid-area: name;
             font-size: 1.5em;
             line-height: 1;
             font-weight: 300;
         }
         .stats {
             display: flex;
-            gap: 2em;
+            gap: 1em;
+            flex: 1;
         }
         .stat {
             font-size: 1.6em;
@@ -50,6 +54,7 @@
         .scores {
             display: flex;
             gap: 2em;
+            justify-self: end;
         }
         .score {
             font-size: 1.8em;
@@ -138,37 +143,39 @@
     <div class="container">
         <div class="character">
             <div class="name">{{ character.name }}</div>
-            <div class="stats">
-                <div class="stat level" data-name="LVL">{{ character.level }}</div>
-                <div class="stat proficiency" data-name="PRO">{{ character.proficiencyBonus }}</div>
-                <div class="stat armorclass" data-name="AC">{{ character.armorClass.calculatedValue }}</div>
-                <div class="stat hitpoints" data-name="HP">{{ character.health.maxHitPoints }}</div>
-                <div class="stat speed" data-name="SPD">{{ character.movementSpeeds.walk.calculatedValue }}</div>
-            </div>
-            <div class="scores">
-                <div class="score{% if character.abilityScores.STR.savingThrowProficient %} saving-throw{% endif %}" data-name="STR">
-                    <span class="score-modifier">{{ character.abilityScores.STR.calculatedModifier }}</span>
-                    <span class="score-total">{{ character.abilityScores.STR.calculatedValue }}</span>
+            <div class="basics">
+                <div class="stats">
+                    <div class="stat level" data-name="LVL">{{ character.level }}</div>
+                    <div class="stat proficiency" data-name="PRO">{{ character.proficiencyBonus }}</div>
+                    <div class="stat armorclass" data-name="AC">{{ character.armorClass.calculatedValue }}</div>
+                    <div class="stat hitpoints" data-name="HP">{{ character.health.maxHitPoints }}</div>
+                    <div class="stat speed" data-name="SPD">{{ character.movementSpeeds.walk.calculatedValue }}</div>
                 </div>
-                <div class="score{% if character.abilityScores.DEX.savingThrowProficient %} saving-throw{% endif %}" data-name="DEX">
-                    <span class="score-modifier">{{ character.abilityScores.DEX.calculatedModifier }}</span>
-                    <span class="score-total">{{ character.abilityScores.DEX.calculatedValue }}</span>
-                </div>
-                <div class="score{% if character.abilityScores.CON.savingThrowProficient %} saving-throw{% endif %}" data-name="CON">
-                    <span class="score-modifier">{{ character.abilityScores.CON.calculatedModifier }}</span>
-                    <span class="score-total">{{ character.abilityScores.CON.calculatedValue }}</span>
-                </div>
-                <div class="score{% if character.abilityScores.INT.savingThrowProficient %} saving-throw{% endif %}" data-name="INT">
-                    <span class="score-modifier">{{ character.abilityScores.INT.calculatedModifier }}</span>
-                    <span class="score-total">{{ character.abilityScores.INT.calculatedValue }}</span>
-                </div>
-                <div class="score{% if character.abilityScores.WIS.savingThrowProficient %} saving-throw{% endif %}" data-name="WIS">
-                    <span class="score-modifier">{{ character.abilityScores.WIS.calculatedModifier }}</span>
-                    <span class="score-total">{{ character.abilityScores.WIS.calculatedValue }}</span>
-                </div>
-                <div class="score{% if character.abilityScores.CHA.savingThrowProficient %} saving-throw{% endif %}" data-name="CHA">
-                    <span class="score-modifier">{{ character.abilityScores.CHA.calculatedModifier }}</span>
-                    <span class="score-total">{{ character.abilityScores.CHA.calculatedValue }}</span>
+                <div class="scores">
+                    <div class="score{% if character.abilityScores.STR.savingThrowProficient %} saving-throw{% endif %}" data-name="STR">
+                        <span class="score-modifier">{{ character.abilityScores.STR.calculatedModifier }}</span>
+                        <span class="score-total">{{ character.abilityScores.STR.calculatedValue }}</span>
+                    </div>
+                    <div class="score{% if character.abilityScores.DEX.savingThrowProficient %} saving-throw{% endif %}" data-name="DEX">
+                        <span class="score-modifier">{{ character.abilityScores.DEX.calculatedModifier }}</span>
+                        <span class="score-total">{{ character.abilityScores.DEX.calculatedValue }}</span>
+                    </div>
+                    <div class="score{% if character.abilityScores.CON.savingThrowProficient %} saving-throw{% endif %}" data-name="CON">
+                        <span class="score-modifier">{{ character.abilityScores.CON.calculatedModifier }}</span>
+                        <span class="score-total">{{ character.abilityScores.CON.calculatedValue }}</span>
+                    </div>
+                    <div class="score{% if character.abilityScores.INT.savingThrowProficient %} saving-throw{% endif %}" data-name="INT">
+                        <span class="score-modifier">{{ character.abilityScores.INT.calculatedModifier }}</span>
+                        <span class="score-total">{{ character.abilityScores.INT.calculatedValue }}</span>
+                    </div>
+                    <div class="score{% if character.abilityScores.WIS.savingThrowProficient %} saving-throw{% endif %}" data-name="WIS">
+                        <span class="score-modifier">{{ character.abilityScores.WIS.calculatedModifier }}</span>
+                        <span class="score-total">{{ character.abilityScores.WIS.calculatedValue }}</span>
+                    </div>
+                    <div class="score{% if character.abilityScores.CHA.savingThrowProficient %} saving-throw{% endif %}" data-name="CHA">
+                        <span class="score-modifier">{{ character.abilityScores.CHA.calculatedModifier }}</span>
+                        <span class="score-total">{{ character.abilityScores.CHA.calculatedValue }}</span>
+                    </div>
                 </div>
             </div>
             <div class="proficiencies">
