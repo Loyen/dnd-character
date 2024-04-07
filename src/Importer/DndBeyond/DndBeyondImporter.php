@@ -24,6 +24,7 @@ use loyen\DndbCharacterSheet\Model\ArmorType;
 use loyen\DndbCharacterSheet\Model\Character;
 use loyen\DndbCharacterSheet\Model\CharacterAbility;
 use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
+use loyen\DndbCharacterSheet\Model\CharacterTraits;
 use loyen\DndbCharacterSheet\Model\CharacterClass;
 use loyen\DndbCharacterSheet\Model\CharacterFeature;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
@@ -87,6 +88,7 @@ class DndBeyondImporter implements ImporterInterface
             'tools' => $this->getToolProficiencies(),
             'weapons' => $this->getWeaponProficiences(),
         ]);
+        $this->character->setTraits($this->getTraits());
 
         return $this->character;
     }
@@ -675,6 +677,29 @@ class DndBeyondImporter implements ImporterInterface
         }
 
         return $missingOptionList;
+    }
+
+    public function getTraits(): CharacterTraits
+    {
+        $traits = [];
+
+        foreach ([
+            $this->apiCharacter->traits->personalityTraits,
+            $this->apiCharacter->traits->ideals,
+            $this->apiCharacter->traits->bonds,
+            $this->apiCharacter->traits->flaws,
+        ] as $trait) {
+            $splitTrait = array_filter(
+                array_map(
+                    fn($t) => trim($t),
+                    explode("\n", $trait)
+                ),
+            );
+
+            $traits = array_merge($traits, $splitTrait);
+        }
+
+        return new CharacterTraits($traits);
     }
 
     public function getProficiencyBonus(): int

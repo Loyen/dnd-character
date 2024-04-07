@@ -311,4 +311,24 @@ final class DndBeyondImporterTest extends TestCase
             'Weapons proficiencies match expected list'
         );
     }
+
+    public function testTraits(): void
+    {
+        $character = DndBeyondImporter::import(
+            file_get_contents(__DIR__ . '/Fixtures/character_40953316_api_response.json') ?: '',
+        );
+
+        $this->assertEquals(
+            [
+                'A simple, direct solution is the best path to success.',
+                'I can relate to almost any combat situation.',
+                'I like to eat.',
+                'Gold is great.',
+                'I only follow myself. I choose to follow others when I can\'t be bothered with the consequences.',
+                'I have to do what is right.',
+                'I have a bad temper and a short fuse.',
+            ],
+            $character->getTraits()->traits
+        );
+    }
 }

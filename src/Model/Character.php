@@ -37,6 +37,7 @@ class Character implements \JsonSerializable
      * @var array<int, Item>
      */
     private array $inventory;
+    private CharacterTraits $traits;
 
     public function setName(string $name): void
     {
@@ -208,6 +209,16 @@ class Character implements \JsonSerializable
     public function getProficiencies(): array
     {
         return $this->proficiencies;
+    }
+
+    public function setTraits(CharacterTraits $traits): void
+    {
+        $this->traits = $traits;
+    }
+
+    public function getTraits(): CharacterTraits
+    {
+        return $this->traits;
     }
 
     public function jsonSerialize(): mixed
