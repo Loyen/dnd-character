@@ -42,6 +42,7 @@ use loyen\DndbCharacterSheet\Model\CharacterFeature;
 use loyen\DndbCharacterSheet\Model\CharacterHealth;
 use loyen\DndbCharacterSheet\Model\CharacterMovement;
 use loyen\DndbCharacterSheet\Model\CharacterProficiency;
+use loyen\DndbCharacterSheet\Model\CharacterTraits;
 use loyen\DndbCharacterSheet\Model\Item;
 use loyen\DndbCharacterSheet\Model\SourceMaterial;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -77,6 +78,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(ApiSimpleWeaponEntityId::class)]
 #[CoversClass(ApiStat::class)]
 #[CoversClass(ApiTraits::class)]
+#[CoversClass(CharacterTraits::class)]
 #[CoversClass(DndBeyondImporter::class)]
 #[CoversClass(Source::class)]
 #[UsesClass(AbilityType::class)]
