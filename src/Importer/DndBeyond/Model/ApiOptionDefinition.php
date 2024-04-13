@@ -17,7 +17,7 @@ class ApiOptionDefinition
         /** @var array<int, mixed> */
         public readonly array $creatureRules,
         /** @var array<int, mixed> */
-        public readonly array $spellListIds
+        public readonly array $spellListIds,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ class ApiOptionDefinition
             $data['sourceId'],
             $data['sourcePageNumber'],
             $data['creatureRules'],
-            $data['spellListIds']
+            $data['spellListIds'],
         );
     }
 }

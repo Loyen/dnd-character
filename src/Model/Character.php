@@ -150,8 +150,8 @@ class Character implements \JsonSerializable
             $this->features,
             ...array_map(
                 fn($c) => $c->getFeatures(),
-                $this->classes
-            )
+                $this->classes,
+            ),
         );
 
         sort($features);

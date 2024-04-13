@@ -13,7 +13,7 @@ class ApiCustomProficiency
         public readonly ?string $notes,
         public readonly mixed $override,
         public readonly mixed $magicBonus,
-        public readonly mixed $miscBonus
+        public readonly mixed $miscBonus,
     ) {}
 
     /**
@@ -30,7 +30,7 @@ class ApiCustomProficiency
             $data['notes'],
             $data['override'],
             $data['magicBonus'],
-            $data['miscBonus']
+            $data['miscBonus'],
         );
     }
 

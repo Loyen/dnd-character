@@ -17,7 +17,7 @@ enum MovementType: string
             self::FLY => 'Flying',
             self::BURROW => 'Burrowing',
             self::SWIM => 'Swimming',
-            self::CLIMB => 'Climbing'
+            self::CLIMB => 'Climbing',
         };
     }
 }

@@ -34,7 +34,7 @@ class ApiClassDefinition
         /** @var array<string, mixed>|null */
         public readonly ?array $spellRules,
         /** @var array<int, object>|null */
-        public readonly ?array $prerequisites
+        public readonly ?array $prerequisites,
     ) {}
 
     /**
@@ -71,7 +71,7 @@ class ApiClassDefinition
             $data['isHomebrew'],
             $data['primaryAbilities'],
             $data['spellRules'],
-            $data['prerequisites']
+            $data['prerequisites'],
         );
     }
 }

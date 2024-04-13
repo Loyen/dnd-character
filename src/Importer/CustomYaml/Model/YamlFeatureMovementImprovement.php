@@ -10,7 +10,7 @@ class YamlFeatureMovementImprovement extends YamlFeature
         public string $description,
         public YamlMovement $movement,
         /** @var YamlSource[] */
-        public array $sources = []
+        public array $sources = [],
     ) {}
 
     /** @param array<string, mixed> $data */

@@ -74,7 +74,7 @@ class CustomYamlImporter implements ImporterInterface
                 ...$this->characterData->background->features,
                 ...array_column($this->characterData->classes, 'features')[0],
             ],
-            'abilities'
+            'abilities',
         )));
     }
 
@@ -95,7 +95,7 @@ class CustomYamlImporter implements ImporterInterface
             $ability->setValue($score);
 
             $ability->setSavingThrowProficient(
-                \in_array($type, $proficiencyList[YamlProficiencyCategory::SavingThrows->value])
+                \in_array($type, $proficiencyList[YamlProficiencyCategory::SavingThrows->value]),
             );
 
             if (isset($abilityScoreImprovements[$type])) {
@@ -128,7 +128,7 @@ class CustomYamlImporter implements ImporterInterface
 
         if (empty($armorClass->getAbilityScores())) {
             $armorClass->addAbilityScore(
-                $this->character->getAbilityScores()[AbilityType::DEX->name]
+                $this->character->getAbilityScores()[AbilityType::DEX->name],
             );
         }
 
@@ -152,7 +152,7 @@ class CustomYamlImporter implements ImporterInterface
                 $featList[] = new CharacterFeature(
                     $featData->name ?? 'Unknown',
                     $featData->description,
-                    $sourceList
+                    $sourceList,
                 );
             }
 
@@ -219,7 +219,7 @@ class CustomYamlImporter implements ImporterInterface
                         'medium' => ArmorType::MediumArmor,
                         'heavy' => ArmorType::HeavyArmor,
                         'shield' => ArmorType::Shield,
-                        default => throw new CharacterInvalidImportException('Unknown armor type from item')
+                        default => throw new CharacterInvalidImportException('Unknown armor type from item'),
                     };
 
                     $item->setArmorClass($itemData['armor']['class']);
@@ -253,7 +253,7 @@ class CustomYamlImporter implements ImporterInterface
         /** @var YamlFeatureMovementImprovement[] */
         $movementFeats = array_filter(
             $this->getFeatures(),
-            fn(YamlFeature $f) => $f instanceof YamlFeatureMovementImprovement
+            fn(YamlFeature $f) => $f instanceof YamlFeatureMovementImprovement,
         );
 
         $modifiersByType = [];
@@ -272,7 +272,7 @@ class CustomYamlImporter implements ImporterInterface
             $movementSpeedList[$movementType->value] = new CharacterMovement(
                 $movementType,
                 $this->characterData->race->movement->{$movementType->value},
-                $modifiersByType[$movementType->value]
+                $modifiersByType[$movementType->value],
             );
         }
 
@@ -306,14 +306,14 @@ class CustomYamlImporter implements ImporterInterface
     {
         $proficiencyList = array_fill_keys(
             array_keys(array_column(YamlProficiencyCategory::cases(), null, 'value')),
-            []
+            [],
         );
 
         foreach ($this->getFeatures() as $feat) {
             if ($feat instanceof YamlFeatureProficiencyImprovement) {
                 $proficiencyList[$feat->category->value] = array_merge(
                     $proficiencyList[$feat->category->value] ?? [],
-                    $feat->proficiencies
+                    $feat->proficiencies,
                 );
             }
         }
@@ -331,7 +331,7 @@ class CustomYamlImporter implements ImporterInterface
             $level <= 12 => 4,
             $level <= 16 => 5,
             $level <= 20 => 6,
-            default => throw new CharacterYamlDataException('Level out of scope')
+            default => throw new CharacterYamlDataException('Level out of scope'),
         };
     }
 
@@ -347,7 +347,7 @@ class CustomYamlImporter implements ImporterInterface
         foreach ($sources as $sourceData) {
             $sourceList[] = new SourceMaterial(
                 $sourceData->name,
-                $sourceData->extra ?? null
+                $sourceData->extra ?? null,
             );
         }
 

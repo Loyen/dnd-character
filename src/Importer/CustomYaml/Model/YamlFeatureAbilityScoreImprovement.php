@@ -11,7 +11,7 @@ class YamlFeatureAbilityScoreImprovement extends YamlFeature
         /** @var YamlAbilityScore[] */
         public array $abilities = [],
         /** @var YamlSource[] */
-        public array $sources = []
+        public array $sources = [],
     ) {}
 
     /** @param array<string, mixed> $data */

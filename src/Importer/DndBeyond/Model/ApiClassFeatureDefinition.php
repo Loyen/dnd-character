@@ -38,7 +38,7 @@ class ApiClassFeatureDefinition
         /** @var array<int, mixed> */
         public readonly array $affectedFeatureDefinitionKeys,
         public readonly string $entityType,
-        public readonly int $entityId
+        public readonly int $entityId,
     ) {}
 
     /**
@@ -72,7 +72,7 @@ class ApiClassFeatureDefinition
             ApiBookSource::createCollectionFromApi($data['sources']),
             $data['affectedFeatureDefinitionKeys'],
             $data['entityType'],
-            $data['entityID']
+            $data['entityID'],
         );
     }
 }

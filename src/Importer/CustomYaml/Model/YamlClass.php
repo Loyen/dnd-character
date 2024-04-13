@@ -13,7 +13,7 @@ class YamlClass
         /** @var array<string, int> */
         public readonly array $hitPoints,
         /** @var YamlFeature[] */
-        public readonly array $features
+        public readonly array $features,
     ) {}
 
     /**
@@ -31,7 +31,7 @@ class YamlClass
             $data['hitPoints'] ?? [],
             isset($data['features'])
                 ? YamlFeature::createCollectionFromData($data['features'])
-                : []
+                : [],
         );
     }
 

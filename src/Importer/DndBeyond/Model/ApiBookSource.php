@@ -7,7 +7,7 @@ class ApiBookSource
     public function __construct(
         public readonly int $sourceId,
         public readonly ?int $pageNumber,
-        public readonly int $sourceType
+        public readonly int $sourceType,
     ) {}
 
     /**
@@ -18,7 +18,7 @@ class ApiBookSource
         return new self(
             $data['sourceId'],
             $data['pageNumber'],
-            $data['sourceType']
+            $data['sourceType'],
         );
     }
 

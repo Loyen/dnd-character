@@ -42,7 +42,7 @@ class DndBeyondApi
         if (\in_array('--json', $arguments, true)) {
             echo json_encode(
                 $character,
-                \JSON_PRETTY_PRINT
+                \JSON_PRETTY_PRINT,
             );
         } else {
             $sheet = new Sheet();
@@ -74,7 +74,7 @@ class DndBeyondApi
         if (\in_array('--json', $arguments, true)) {
             echo json_encode(
                 $character,
-                \JSON_PRETTY_PRINT
+                \JSON_PRETTY_PRINT,
             );
         } else {
             $sheet = new Sheet();

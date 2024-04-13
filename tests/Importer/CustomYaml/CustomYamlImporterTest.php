@@ -67,7 +67,7 @@ final class CustomYamlImporterTest extends TestCase
         foreach (glob($characterFileDir . 'character_*_expected.json') ?: [] as $filePath) {
             $characterData = json_decode(
                 file_get_contents($filePath) ?: '',
-                true
+                true,
             );
 
             $characterData['inputFilePath'] = $characterFileDir
@@ -92,7 +92,7 @@ final class CustomYamlImporterTest extends TestCase
     public function testImport(array $expectedCharacterData): void
     {
         $character = CustomYamlImporter::import(
-            file_get_contents($expectedCharacterData['inputFilePath']) ?: ''
+            file_get_contents($expectedCharacterData['inputFilePath']) ?: '',
         );
 
         $this->assertSame($expectedCharacterData['name'], $character->getName());
@@ -135,7 +135,7 @@ final class CustomYamlImporterTest extends TestCase
                 'WIS' => $actualScores['WIS']->getCalculatedValue(),
                 'CHA' => $actualScores['CHA']->getCalculatedValue(),
             ],
-            'Ability scores'
+            'Ability scores',
         );
 
         $this->assertSame(
@@ -155,7 +155,7 @@ final class CustomYamlImporterTest extends TestCase
                 'WIS' => $actualScores['WIS']->getCalculatedModifier(),
                 'CHA' => $actualScores['CHA']->getCalculatedModifier(),
             ],
-            'Ability modifiers'
+            'Ability modifiers',
         );
 
         $this->assertSame(
@@ -175,7 +175,7 @@ final class CustomYamlImporterTest extends TestCase
                 'WIS' => $actualScores['WIS']->isSavingThrowProficient(),
                 'CHA' => $actualScores['CHA']->isSavingThrowProficient(),
             ],
-            'Ability saving throw proficiencies'
+            'Ability saving throw proficiencies',
         );
     }
 
@@ -195,7 +195,7 @@ final class CustomYamlImporterTest extends TestCase
         $this->assertSame(
             (string) json_encode($expectedMovementSpeeds),
             (string) json_encode($actualMovementSpeeds),
-            'Movement speeds'
+            'Movement speeds',
         );
     }
 
@@ -208,27 +208,27 @@ final class CustomYamlImporterTest extends TestCase
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],
-            'Abilities proficiencies'
+            'Abilities proficiencies',
         );
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['armor'],
-            'Armor proficiencies'
+            'Armor proficiencies',
         );
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['languages'],
-            'Languages proficiencies'
+            'Languages proficiencies',
         );
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['tools'],
-            'Tools proficiencies'
+            'Tools proficiencies',
         );
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['weapons'],
-            'Weapons proficiencies'
+            'Weapons proficiencies',
         );
     }
 }

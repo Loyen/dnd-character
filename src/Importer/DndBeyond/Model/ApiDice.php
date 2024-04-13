@@ -9,7 +9,7 @@ class ApiDice
         public readonly ?int $diceValue,
         public readonly ?int $diceMultiplier,
         public readonly ?int $fixedValue,
-        public readonly ?string $diceString
+        public readonly ?string $diceString,
     ) {}
 
     /**
@@ -22,7 +22,7 @@ class ApiDice
             $data['diceValue'],
             $data['diceMultiplier'],
             $data['fixedValue'],
-            $data['diceString']
+            $data['diceString'],
         );
     }
 }

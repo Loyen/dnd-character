@@ -5,7 +5,7 @@ namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model;
 class ApiClassFeature
 {
     public function __construct(
-        public readonly ApiClassFeatureDefinition $definition
+        public readonly ApiClassFeatureDefinition $definition,
     ) {}
 
     /**
@@ -14,7 +14,7 @@ class ApiClassFeature
     public static function fromApi(array $data): self
     {
         return new self(
-            ApiClassFeatureDefinition::fromApi($data['definition'])
+            ApiClassFeatureDefinition::fromApi($data['definition']),
         );
     }
 

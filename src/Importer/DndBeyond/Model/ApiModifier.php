@@ -27,7 +27,7 @@ class ApiModifier
         public readonly int $modifierTypeId,
         public readonly int $modifierSubTypeId,
         public readonly int $componentId,
-        public readonly int $componentTypeId
+        public readonly int $componentTypeId,
     ) {}
 
     /**
@@ -56,7 +56,7 @@ class ApiModifier
             $data['modifierTypeId'],
             $data['modifierSubTypeId'],
             $data['componentId'],
-            $data['componentTypeId']
+            $data['componentTypeId'],
         );
     }
 

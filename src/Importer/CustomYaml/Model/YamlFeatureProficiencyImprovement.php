@@ -14,7 +14,7 @@ class YamlFeatureProficiencyImprovement extends YamlFeature
         /** @var string[] */
         public array $proficiencies = [],
         /** @var YamlSource[] */
-        public array $sources = []
+        public array $sources = [],
     ) {}
 
     /** @param array<string, mixed> $data */

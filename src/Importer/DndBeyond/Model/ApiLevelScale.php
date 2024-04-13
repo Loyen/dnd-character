@@ -22,7 +22,7 @@ class ApiLevelScale
             $data['level'],
             $data['description'],
             ApiDice::fromApi($data['dice']),
-            $data['fixedValue']
+            $data['fixedValue'],
         );
     }
 

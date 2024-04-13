@@ -22,7 +22,7 @@ class ApiInventoryItem
         public readonly int $containerEntityId,
         public readonly int $containerEntityTypeId,
         public readonly string $containerDefinitionKey,
-        public readonly ?int $currency
+        public readonly ?int $currency,
     ) {}
 
     /**

@@ -13,7 +13,7 @@ class YamlCharacter
         public readonly array $classes,
         public readonly YamlBackground $background,
         public readonly mixed $inventory,
-        public readonly mixed $wallet
+        public readonly mixed $wallet,
     ) {}
 
     public static function fromYaml(string $yaml): ?self
@@ -33,7 +33,7 @@ class YamlCharacter
                 : [],
             YamlBackground::fromData($data['background']),
             $data['inventory'] ?? [],
-            $data['wallet'] ?? []
+            $data['wallet'] ?? [],
         );
     }
 }

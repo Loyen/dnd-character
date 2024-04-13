@@ -22,7 +22,7 @@ class ApiFeatDefinition
         /** @var array<int, ApiBookSource> */
         public readonly array $sources,
         /** @var array<int, mixed> */
-        public readonly array $spellListIds
+        public readonly array $spellListIds,
     ) {}
 
     /**
@@ -43,7 +43,7 @@ class ApiFeatDefinition
             $data['prerequisites'],
             $data['isHomebrew'],
             ApiBookSource::createCollectionFromApi($data['sources']),
-            $data['spellListIds']
+            $data['spellListIds'],
         );
     }
 }

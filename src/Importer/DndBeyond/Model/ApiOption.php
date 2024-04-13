@@ -7,7 +7,7 @@ class ApiOption
     public function __construct(
         public readonly int $componentId,
         public readonly int $componentTypeId,
-        public readonly ApiOptionDefinition $definition
+        public readonly ApiOptionDefinition $definition,
     ) {}
 
     /**
@@ -18,7 +18,7 @@ class ApiOption
         return new self(
             $data['componentId'],
             $data['componentTypeId'],
-            ApiOptionDefinition::fromApi($data['definition'])
+            ApiOptionDefinition::fromApi($data['definition']),
         );
     }
 

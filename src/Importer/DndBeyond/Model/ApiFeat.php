@@ -8,7 +8,7 @@ class ApiFeat
         public readonly ?int $componentTypeId,
         public readonly ?int $componentId,
         public readonly ApiFeatDefinition $definition,
-        public readonly int $definitionId
+        public readonly int $definitionId,
     ) {}
 
     /**
@@ -20,7 +20,7 @@ class ApiFeat
             $data['componentTypeId'],
             $data['componentId'],
             ApiFeatDefinition::fromApi($data['definition']),
-            $data['definitionId']
+            $data['definitionId'],
         );
     }
 

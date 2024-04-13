@@ -46,7 +46,7 @@ class ApiCharacter
          */
         /** @var array<int, ApiCustomProficiency> */
         public readonly ?array $customProficiencies,
-        public readonly ApiTraits $traits
+        public readonly ApiTraits $traits,
     ) {}
 
     public static function fromApi(string $json): ?self
@@ -76,7 +76,7 @@ class ApiCharacter
             $data['removedHitPoints'],
             $data['temporaryHitPoints'],
             ApiCustomProficiency::createCollectionFromApi($data['customProficiencies']),
-            ApiTraits::fromApi($data['traits'])
+            ApiTraits::fromApi($data['traits']),
         );
     }
 }

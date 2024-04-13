@@ -10,7 +10,7 @@ class YamlBackground
         /** @var YamlFeature[] */
         public readonly array $features,
         /** @var YamlSource[] */
-        public readonly array $sources
+        public readonly array $sources,
     ) {}
 
     /**
@@ -26,7 +26,7 @@ class YamlBackground
                 : [],
             isset($data['sources'])
                 ? YamlSource::createCollectionFromData($data['sources'])
-                : []
+                : [],
         );
     }
 }

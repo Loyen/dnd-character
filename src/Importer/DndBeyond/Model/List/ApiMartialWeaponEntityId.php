@@ -30,7 +30,7 @@ enum ApiMartialWeaponEntityId: int
     {
         return array_column(
             self::cases(),
-            'value'
+            'value',
         );
     }
 }

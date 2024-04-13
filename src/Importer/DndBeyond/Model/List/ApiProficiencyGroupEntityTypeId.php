@@ -21,7 +21,7 @@ enum ApiProficiencyGroupEntityTypeId: int
             self::Language => ProficiencyGroup::Language,
             self::Tool => ProficiencyGroup::Tool,
             self::Weapon => ProficiencyGroup::Weapon,
-            self::WeaponGroup => ProficiencyGroup::WeaponGroup
+            self::WeaponGroup => ProficiencyGroup::WeaponGroup,
         };
     }
 }

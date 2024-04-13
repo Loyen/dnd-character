@@ -7,7 +7,7 @@ class ApiStat
     public function __construct(
         public readonly int $id,
         public readonly ?string $name,
-        public readonly int $value
+        public readonly int $value,
     ) {}
 
     /**
@@ -18,7 +18,7 @@ class ApiStat
         return new self(
             $data['id'],
             $data['name'],
-            \is_int($data['value']) ? $data['value'] : 0
+            \is_int($data['value']) ? $data['value'] : 0,
         );
     }
 

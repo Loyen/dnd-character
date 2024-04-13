@@ -12,7 +12,7 @@ class YamlRace
         public readonly string $size,
         public readonly YamlMovement $movement,
         /** @var YamlFeature[] */
-        public readonly array $features
+        public readonly array $features,
     ) {}
 
     /**
@@ -30,7 +30,7 @@ class YamlRace
             YamlMovement::fromData($data['movement']),
             isset($data['features'])
                 ? YamlFeature::createCollectionFromData($data['features'])
-                : []
+                : [],
         );
     }
 }

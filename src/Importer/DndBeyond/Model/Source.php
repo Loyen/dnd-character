@@ -79,7 +79,7 @@ enum Source: int
             self::DragonsofStormwreckIsle => 'Dragons of Stormwreck Isle',
             self::DragonlanceShadowoftheDragonQueen => 'Dragonlance: Shadow of the Dragon Queen',
             self::OneDDPlaytest => 'One D&D Playtest',
-            self::TyrannyofDragons => 'Tyranny of Dragons'
+            self::TyrannyofDragons => 'Tyranny of Dragons',
         };
     }
 }

@@ -22,7 +22,7 @@ class YamlMovement
             $data['fly'] ?? 0,
             $data['burrow'] ?? 0,
             $data['swim'] ?? 0,
-            $data['climb'] ?? 0
+            $data['climb'] ?? 0,
         );
     }
 }

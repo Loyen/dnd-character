@@ -8,7 +8,7 @@ class ApiProperty
         public readonly int $id,
         public readonly string $name,
         public readonly string $description,
-        public readonly ?string $notes
+        public readonly ?string $notes,
     ) {}
 
     /**
@@ -20,7 +20,7 @@ class ApiProperty
             $data['id'],
             $data['name'],
             $data['description'],
-            $data['notes']
+            $data['notes'],
         );
     }
 

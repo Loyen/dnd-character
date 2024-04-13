@@ -9,7 +9,7 @@ class YamlFeature
         public int $level = 1,
         public string $description = '',
         /** @var YamlSource[] */
-        public array $sources = []
+        public array $sources = [],
     ) {}
 
     /** @param array<string, mixed> $data */
@@ -26,7 +26,7 @@ class YamlFeature
                 isset($data['sources'])
                         ? YamlSource::createCollectionFromData($data['sources'])
                         : [],
-            )
+            ),
         };
     }
 

@@ -10,7 +10,7 @@ class ApiClassDefinitionFeature
         public readonly mixed $prerequisite,
         public readonly string $description,
         public readonly int $requiredLevel,
-        public readonly int $displayOrder
+        public readonly int $displayOrder,
     ) {}
 
     /**
@@ -24,7 +24,7 @@ class ApiClassDefinitionFeature
             $data['prerequisite'],
             $data['description'],
             $data['requiredLevel'],
-            $data['displayOrder']
+            $data['displayOrder'],
         );
     }
 

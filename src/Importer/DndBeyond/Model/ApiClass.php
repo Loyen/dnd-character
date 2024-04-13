@@ -15,7 +15,7 @@ class ApiClass
         public readonly ApiClassDefinition $definition,
         public readonly ?ApiClassDefinition $subclassDefinition,
         /** @var array<int, ApiClassFeature> */
-        public readonly array $classFeatures
+        public readonly array $classFeatures,
     ) {}
 
     /**
@@ -35,7 +35,7 @@ class ApiClass
             $data['subclassDefinition'] !== null
                 ? ApiClassDefinition::fromApi($data['subclassDefinition'])
                 : null,
-            ApiClassFeature::createCollectionFromApi($data['classFeatures'])
+            ApiClassFeature::createCollectionFromApi($data['classFeatures']),
         );
     }
 

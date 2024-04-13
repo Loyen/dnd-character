@@ -64,7 +64,7 @@ class ApiInventoryItemDefinition
         public readonly ?int $groupedId,
         public readonly bool $canBeAddedToInventory,
         public readonly bool $isContainer,
-        public readonly bool $isCustomItem
+        public readonly bool $isCustomItem,
     ) {}
 
     /**
@@ -127,7 +127,7 @@ class ApiInventoryItemDefinition
             $data['groupedId'],
             $data['canBeAddedToInventory'],
             $data['isContainer'],
-            $data['isCustomItem']
+            $data['isCustomItem'],
         );
     }
 }

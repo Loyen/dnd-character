@@ -106,7 +106,7 @@ final class DndBeyondImporterTest extends TestCase
         foreach (glob($characterFileDir . 'character_*_expected.json') ?: [] as $filePath) {
             $characterData = json_decode(
                 file_get_contents($filePath) ?: '',
-                true
+                true,
             );
 
             $characterData['apiFilePath'] = $characterFileDir
@@ -131,7 +131,7 @@ final class DndBeyondImporterTest extends TestCase
     public function testImport(array $expectedCharacterData): void
     {
         $character = DndBeyondImporter::import(
-            file_get_contents($expectedCharacterData['apiFilePath']) ?: ''
+            file_get_contents($expectedCharacterData['apiFilePath']) ?: '',
         );
 
         $this->assertSame($expectedCharacterData['name'], $character->getName());
@@ -145,7 +145,7 @@ final class DndBeyondImporterTest extends TestCase
         $this->assertSame($expectedCharacterData['wallet'], $character->getCurrencies(), 'Wallet');
         $this->assertCharacterProficiencies(
             $expectedCharacterData['proficiencies'],
-            $character->getProficiencies()
+            $character->getProficiencies(),
         );
     }
 
@@ -179,7 +179,7 @@ final class DndBeyondImporterTest extends TestCase
                 'WIS' => $actualScores['WIS']->getCalculatedValue(),
                 'CHA' => $actualScores['CHA']->getCalculatedValue(),
             ],
-            'Ability scores'
+            'Ability scores',
         );
 
         $this->assertSame(
@@ -199,7 +199,7 @@ final class DndBeyondImporterTest extends TestCase
                 'WIS' => $actualScores['WIS']->getCalculatedModifier(),
                 'CHA' => $actualScores['CHA']->getCalculatedModifier(),
             ],
-            'Ability modifiers'
+            'Ability modifiers',
         );
 
         $this->assertSame(
@@ -219,7 +219,7 @@ final class DndBeyondImporterTest extends TestCase
                 'WIS' => $actualScores['WIS']->isSavingThrowProficient(),
                 'CHA' => $actualScores['CHA']->isSavingThrowProficient(),
             ],
-            'Ability saving throw proficiencies'
+            'Ability saving throw proficiencies',
         );
     }
 
@@ -245,7 +245,7 @@ final class DndBeyondImporterTest extends TestCase
         $this->assertSame(
             json_encode($expectedMovementSpeeds),
             json_encode($actualMovementSpeeds),
-            'Movement speeds'
+            'Movement speeds',
         );
     }
 
@@ -255,62 +255,62 @@ final class DndBeyondImporterTest extends TestCase
      */
     private function assertCharacterProficiencies(
         array $expectedProficiencies,
-        array $actualProficiencies
+        array $actualProficiencies,
     ): void {
         $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],
-            'Abilities proficiencies'
+            'Abilities proficiencies',
         );
         $this->assertSame(
             $expectedProficiencies['abilities'],
             array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['abilities']),
-            'Abilities proficiencies match expected list'
+            'Abilities proficiencies match expected list',
         );
 
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['armor'],
-            'Armor proficiencies'
+            'Armor proficiencies',
         );
         $this->assertSame(
             $expectedProficiencies['armor'],
             array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['armor']),
-            'Armor proficiencies match expected list'
+            'Armor proficiencies match expected list',
         );
 
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['languages'],
-            'Languages proficiencies'
+            'Languages proficiencies',
         );
         $this->assertSame(
             $expectedProficiencies['languages'],
             array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['languages']),
-            'Languages proficiencies match expected list'
+            'Languages proficiencies match expected list',
         );
 
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['tools'],
-            'Tools proficiencies'
+            'Tools proficiencies',
         );
         $this->assertSame(
             $expectedProficiencies['tools'],
             array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['tools']),
-            'Tools proficiencies match expected list'
+            'Tools proficiencies match expected list',
         );
 
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['weapons'],
-            'Weapons proficiencies'
+            'Weapons proficiencies',
         );
         $this->assertSame(
             $expectedProficiencies['weapons'],
             array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['weapons']),
-            'Weapons proficiencies match expected list'
+            'Weapons proficiencies match expected list',
         );
     }
 
@@ -330,7 +330,7 @@ final class DndBeyondImporterTest extends TestCase
                 'I have to do what is right.',
                 'I have a bad temper and a short fuse.',
             ],
-            $character->getTraits()->traits
+            $character->getTraits()->traits,
         );
     }
 }

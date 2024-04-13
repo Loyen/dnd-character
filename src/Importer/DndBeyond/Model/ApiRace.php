@@ -6,7 +6,7 @@ class ApiRace
 {
     public function __construct(
         /** @var array<string, array<string, int>> */
-        public readonly array $weightSpeeds
+        public readonly array $weightSpeeds,
     ) {}
 
     /**
@@ -15,7 +15,7 @@ class ApiRace
     public static function fromApi(array $data): self
     {
         return new self(
-            $data['weightSpeeds']
+            $data['weightSpeeds'],
         );
     }
 }

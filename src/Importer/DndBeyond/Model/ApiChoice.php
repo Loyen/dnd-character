@@ -21,7 +21,7 @@ class ApiChoice
         /** @var array<int, mixed> */
         public readonly array $options,
         /** @var array<int, int> */
-        public readonly array $optionIds
+        public readonly array $optionIds,
     ) {}
 
     /**
@@ -43,7 +43,7 @@ class ApiChoice
             $data['defaultSubtypes'],
             $data['displayOrder'],
             $data['options'],
-            $data['optionIds']
+            $data['optionIds'],
         );
     }
 
