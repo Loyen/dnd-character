@@ -1,29 +1,29 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\CustomYaml;
+namespace DndSheet\Importer\CustomYaml;
 
-use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Exception\CharacterYamlDataException;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlCharacter;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeature;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeatureMovementImprovement;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlFeatureProficiencyImprovement;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlProficiencyCategory;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\Model\YamlSource;
-use loyen\DndbCharacterSheet\Importer\ImporterInterface;
-use loyen\DndbCharacterSheet\Model\AbilityType;
-use loyen\DndbCharacterSheet\Model\ArmorType;
-use loyen\DndbCharacterSheet\Model\Character;
-use loyen\DndbCharacterSheet\Model\CharacterAbility;
-use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
-use loyen\DndbCharacterSheet\Model\CharacterClass;
-use loyen\DndbCharacterSheet\Model\CharacterFeature;
-use loyen\DndbCharacterSheet\Model\CharacterHealth;
-use loyen\DndbCharacterSheet\Model\CharacterMovement;
-use loyen\DndbCharacterSheet\Model\CurrencyType;
-use loyen\DndbCharacterSheet\Model\Item;
-use loyen\DndbCharacterSheet\Model\MovementType;
-use loyen\DndbCharacterSheet\Model\SourceMaterial;
+use DndSheet\Exception\CharacterInvalidImportException;
+use DndSheet\Importer\CustomYaml\Exception\CharacterYamlDataException;
+use DndSheet\Importer\CustomYaml\Model\YamlCharacter;
+use DndSheet\Importer\CustomYaml\Model\YamlFeature;
+use DndSheet\Importer\CustomYaml\Model\YamlFeatureMovementImprovement;
+use DndSheet\Importer\CustomYaml\Model\YamlFeatureProficiencyImprovement;
+use DndSheet\Importer\CustomYaml\Model\YamlProficiencyCategory;
+use DndSheet\Importer\CustomYaml\Model\YamlSource;
+use DndSheet\Importer\ImporterInterface;
+use DndSheet\Model\AbilityType;
+use DndSheet\Model\ArmorType;
+use DndSheet\Model\Character;
+use DndSheet\Model\CharacterAbility;
+use DndSheet\Model\CharacterArmorClass;
+use DndSheet\Model\CharacterClass;
+use DndSheet\Model\CharacterFeature;
+use DndSheet\Model\CharacterHealth;
+use DndSheet\Model\CharacterMovement;
+use DndSheet\Model\CurrencyType;
+use DndSheet\Model\Item;
+use DndSheet\Model\MovementType;
+use DndSheet\Model\SourceMaterial;
 
 class CustomYamlImporter implements ImporterInterface
 {
@@ -38,7 +38,7 @@ class CustomYamlImporter implements ImporterInterface
     public function __construct(string $inputString)
     {
         $this->characterData = YamlCharacter::fromYaml($inputString)
-            ?? throw new CharacterInvalidImportException();
+            ?? throw new CharacterInvalidImportException('YAML content was not readable or did not contain the data expected.');
     }
 
     public function createCharacter(): Character

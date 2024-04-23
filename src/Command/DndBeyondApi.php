@@ -1,29 +1,51 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Command;
+namespace DndSheet\Command;
 
-use Composer\Script\Event;
+use DndSheet\Exception\CharacterInvalidImportException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\DndBeyondImporter;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Exception\CharacterAPIException;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Exception\CharacterFileReadException;
-use loyen\DndbCharacterSheet\Sheet;
+use DndSheet\Importer\DndBeyond\DndBeyondImporter;
+use DndSheet\Importer\DndBeyond\Exception\CharacterFileReadException;
+use DndSheet\Sheet;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class DndBeyondApi
+#[AsCommand(
+    name: 'dndbeyond',
+    description: 'Create a character sheet from DNDBeyond API character data',
+)]
+class DndBeyondApi extends Command
 {
-    public static function fromApi(Event $event): void
+    protected function configure(): void
     {
-        $exitCode = 0;
+        $this->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'File to read.');
+        $this->addOption('characterid', 'c', InputOption::VALUE_REQUIRED, 'Character ID to read from API.');
+        $this->addOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.');
+    }
 
-        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
-        require_once $vendorDir . '/autoload.php';
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        if ($input->getOption('file') !== null) {
+            return $this->fromFile($input, $output);
+        } elseif ($input->getOption('characterid') !== null) {
+            return $this->fromApi($input, $output);
+        }
 
-        $arguments = $event->getArguments();
-        $characterId = filter_var(array_pop($arguments), \FILTER_VALIDATE_INT, \FILTER_NULL_ON_FAILURE);
+        return Command::SUCCESS;
+    }
+
+    public static function fromApi(InputInterface $input, OutputInterface $output): int
+    {
+        $characterId = filter_var($input->getOption('characterid'), \FILTER_VALIDATE_INT, \FILTER_NULL_ON_FAILURE);
 
         if (!$characterId) {
-            throw new \Exception('No character ID inputted.');
+            $output->writeln('No character ID inputted.');
+
+            return Command::FAILURE;
         }
 
         try {
@@ -36,32 +58,35 @@ class DndBeyondApi
 
             $character = DndBeyondImporter::import((string) $response->getBody());
         } catch (GuzzleException $e) {
-            throw new CharacterAPIException('Could not get a response from DNDBeyond character API. Message: ' . $e->getMessage());
+            $output->writeln(
+                'Could not get a response from DNDBeyond character API. Error: ' . $e->getMessage(),
+            );
+
+            return Command::FAILURE;
+        } catch (CharacterInvalidImportException $e) {
+            $output->writeln(
+                'Failed to parse the response from DNDBeyond character API. Error: ' . $e->getMessage(),
+            );
+
+            return Command::FAILURE;
         }
 
-        if (\in_array('--json', $arguments, true)) {
-            echo json_encode(
+        if ($input->getOption('json')) {
+            $output->writeln((string) json_encode(
                 $character,
                 \JSON_PRETTY_PRINT,
-            );
+            ));
         } else {
             $sheet = new Sheet();
-            echo $sheet->render($character);
+            $output->writeln($sheet->render($character));
         }
 
-        echo \PHP_EOL;
-        exit($exitCode);
+        return Command::SUCCESS;
     }
 
-    public static function fromFile(Event $event): void
+    public static function fromFile(InputInterface $input, OutputInterface $output): int
     {
-        $exitCode = 0;
-
-        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
-        require_once $vendorDir . '/autoload.php';
-
-        $arguments = $event->getArguments();
-        $filePath = array_pop($arguments);
+        $filePath = $input->getOption('file');
 
         if (!$filePath || !file_exists($filePath)) {
             throw new CharacterFileReadException('No file inputted.');
@@ -71,17 +96,16 @@ class DndBeyondApi
             ?: throw new CharacterFileReadException('Failed to read inputted file.');
         $character = DndBeyondImporter::import($fileContent);
 
-        if (\in_array('--json', $arguments, true)) {
-            echo json_encode(
+        if ($input->getOption('json')) {
+            $output->writeln((string) json_encode(
                 $character,
                 \JSON_PRETTY_PRINT,
-            );
+            ));
         } else {
             $sheet = new Sheet();
-            echo $sheet->render($character);
+            $output->writeln($sheet->render($character));
         }
 
-        echo \PHP_EOL;
-        exit($exitCode);
+        return Command::SUCCESS;
     }
 }

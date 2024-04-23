@@ -1,5 +1,5 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Exception;
+namespace DndSheet\Exception;
 
 class CharacterInvalidImportException extends CharacterException {}

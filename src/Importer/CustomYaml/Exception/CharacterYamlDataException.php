@@ -1,7 +1,7 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\CustomYaml\Exception;
+namespace DndSheet\Importer\CustomYaml\Exception;
 
-use loyen\DndbCharacterSheet\Exception\CharacterException;
+use DndSheet\Exception\CharacterException;
 
 class CharacterYamlDataException extends CharacterException {}

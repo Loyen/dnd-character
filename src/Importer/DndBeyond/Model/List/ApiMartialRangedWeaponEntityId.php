@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
+namespace DndSheet\Importer\DndBeyond\Model\List;
 
 enum ApiMartialRangedWeaponEntityId: int
 {

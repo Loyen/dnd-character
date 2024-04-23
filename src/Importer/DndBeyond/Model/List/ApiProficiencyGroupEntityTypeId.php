@@ -1,8 +1,8 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List;
+namespace DndSheet\Importer\DndBeyond\Model\List;
 
-use loyen\DndbCharacterSheet\Model\ProficiencyGroup;
+use DndSheet\Model\ProficiencyGroup;
 
 enum ApiProficiencyGroupEntityTypeId: int
 {

@@ -1,41 +1,41 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond;
+namespace DndSheet\Importer\DndBeyond;
 
-use loyen\DndbCharacterSheet\Exception\CharacterException;
-use loyen\DndbCharacterSheet\Exception\CharacterInvalidImportException;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiCharacter;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiModifier;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiArmorTypeComponentId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiBonusTypeModifierTypeId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiModifierTypeModifierTypeId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleRangedWeaponEntityId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntityId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\List\ApiWeaponGroupEntityId;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\Source;
-use loyen\DndbCharacterSheet\Importer\ImporterInterface;
-use loyen\DndbCharacterSheet\Importer\DndBeyond\Model\ApiAbilityType;
-use loyen\DndbCharacterSheet\Model\AbilityType;
-use loyen\DndbCharacterSheet\Model\ArmorType;
-use loyen\DndbCharacterSheet\Model\Character;
-use loyen\DndbCharacterSheet\Model\CharacterAbility;
-use loyen\DndbCharacterSheet\Model\CharacterArmorClass;
-use loyen\DndbCharacterSheet\Model\CharacterTraits;
-use loyen\DndbCharacterSheet\Model\CharacterClass;
-use loyen\DndbCharacterSheet\Model\CharacterFeature;
-use loyen\DndbCharacterSheet\Model\CharacterHealth;
-use loyen\DndbCharacterSheet\Model\CharacterMovement;
-use loyen\DndbCharacterSheet\Model\CharacterProficiency;
-use loyen\DndbCharacterSheet\Model\CurrencyType;
-use loyen\DndbCharacterSheet\Model\Item;
-use loyen\DndbCharacterSheet\Model\MovementType;
-use loyen\DndbCharacterSheet\Model\ProficiencyGroup;
-use loyen\DndbCharacterSheet\Model\ProficiencyType;
-use loyen\DndbCharacterSheet\Model\SourceMaterial;
+use DndSheet\Exception\CharacterException;
+use DndSheet\Exception\CharacterInvalidImportException;
+use DndSheet\Importer\DndBeyond\Model\ApiAbilityType;
+use DndSheet\Importer\DndBeyond\Model\ApiCharacter;
+use DndSheet\Importer\DndBeyond\Model\ApiModifier;
+use DndSheet\Importer\DndBeyond\Model\List\ApiArmorTypeComponentId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiBonusTypeModifierTypeId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
+use DndSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiModifierTypeModifierTypeId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiSimpleRangedWeaponEntityId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntityId;
+use DndSheet\Importer\DndBeyond\Model\List\ApiWeaponGroupEntityId;
+use DndSheet\Importer\DndBeyond\Model\Source;
+use DndSheet\Importer\ImporterInterface;
+use DndSheet\Model\AbilityType;
+use DndSheet\Model\ArmorType;
+use DndSheet\Model\Character;
+use DndSheet\Model\CharacterAbility;
+use DndSheet\Model\CharacterArmorClass;
+use DndSheet\Model\CharacterClass;
+use DndSheet\Model\CharacterFeature;
+use DndSheet\Model\CharacterHealth;
+use DndSheet\Model\CharacterMovement;
+use DndSheet\Model\CharacterProficiency;
+use DndSheet\Model\CharacterTraits;
+use DndSheet\Model\CurrencyType;
+use DndSheet\Model\Item;
+use DndSheet\Model\MovementType;
+use DndSheet\Model\ProficiencyGroup;
+use DndSheet\Model\ProficiencyType;
+use DndSheet\Model\SourceMaterial;
 
 class DndBeyondImporter implements ImporterInterface
 {
@@ -52,7 +52,7 @@ class DndBeyondImporter implements ImporterInterface
     public function __construct(string $jsonString)
     {
         $this->apiCharacter = ApiCharacter::fromApi($jsonString)
-            ?? throw new CharacterInvalidImportException();
+            ?? throw new CharacterInvalidImportException('JSON content was not readable or did not contain the data expected.');
 
         $modifiers = $this->apiCharacter->modifiers;
 

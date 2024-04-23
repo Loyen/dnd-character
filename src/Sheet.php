@@ -1,8 +1,8 @@
 <?php
 
-namespace loyen\DndbCharacterSheet;
+namespace DndSheet;
 
-use loyen\DndbCharacterSheet\Model\Character;
+use DndSheet\Model\Character;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

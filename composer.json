@@ -16,10 +16,7 @@
         "lint": "php-cs-fixer fix --dry-run",
         "format": "php-cs-fixer fix",
         "analyse": "phpstan analyze",
-        "test": "phpunit",
-        "dndb-api": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromApi",
-        "dndb-file": "loyen\\DndbCharacterSheet\\Command\\DndBeyondApi::fromFile",
-        "custom-yaml": "loyen\\DndbCharacterSheet\\Command\\CustomYaml::fromFile"
+        "test": "phpunit"
     },
     "config": {
         "platform": {
@@ -31,23 +28,23 @@
     },
     "autoload": {
         "psr-4": {
-            "loyen\\DndbCharacterSheet\\": "src/"
+            "DndSheet\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\loyen\\DndbCharacterSheet\\": "tests/"
+            "DndSheet\\Tests\\": "tests/"
         }
     },
     "require": {
         "guzzlehttp/guzzle": "7.*",
-        "composer/composer": "2.*",
-        "twig/twig": "3.*"
+        "twig/twig": "3.*",
+        "symfony/console": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "1.*",
         "phpunit/phpunit": "11.*",
         "friendsofphp/php-cs-fixer": "3.*",
-        "phpstan/phpstan-phpunit": "1.*"
+        "phpstan/phpstan-phpunit": "^1.3"
     }
 }

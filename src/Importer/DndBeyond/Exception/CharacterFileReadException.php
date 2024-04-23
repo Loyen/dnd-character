@@ -1,7 +1,7 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\DndBeyond\Exception;
+namespace DndSheet\Importer\DndBeyond\Exception;
 
-use loyen\DndbCharacterSheet\Exception\CharacterException;
+use DndSheet\Exception\CharacterException;
 
 class CharacterFileReadException extends CharacterException {}

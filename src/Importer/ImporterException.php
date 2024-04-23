@@ -1,5 +1,5 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer;
+namespace DndSheet\Importer;
 
 class ImporterException extends \Exception {}

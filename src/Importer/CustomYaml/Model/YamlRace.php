@@ -1,6 +1,6 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer\CustomYaml\Model;
+namespace DndSheet\Importer\CustomYaml\Model;
 
 class YamlRace
 {

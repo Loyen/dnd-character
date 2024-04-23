@@ -1,8 +1,8 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Importer;
+namespace DndSheet\Importer;
 
-use loyen\DndbCharacterSheet\Model\Character;
+use DndSheet\Model\Character;
 
 interface ImporterInterface
 {

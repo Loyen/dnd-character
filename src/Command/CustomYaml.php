@@ -1,43 +1,69 @@
 <?php
 
-namespace loyen\DndbCharacterSheet\Command;
+namespace DndSheet\Command;
 
-use Composer\Script\Event;
-use loyen\DndbCharacterSheet\Importer\CustomYaml\CustomYamlImporter;
-use loyen\DndbCharacterSheet\Importer\ImporterException;
-use loyen\DndbCharacterSheet\Sheet;
+use DndSheet\Exception\CharacterInvalidImportException;
+use DndSheet\Importer\CustomYaml\CustomYamlImporter;
+use DndSheet\Sheet;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class CustomYaml
+#[AsCommand(
+    name: 'custom-yaml',
+    description: 'Create a character sheet from a YAML schema',
+)]
+class CustomYaml extends Command
 {
-    public static function fromFile(Event $event): void
+    protected function configure(): void
     {
-        $exitCode = 0;
+        $this->addArgument('file', InputArgument::OPTIONAL, 'File to read.');
+        $this->addOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.');
+    }
 
-        $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');
-        require_once $vendorDir . '/autoload.php';
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $filePath = $input->getArgument('file');
 
-        $arguments = $event->getArguments();
-        $filePath = array_pop($arguments);
+        if (!$filePath) {
+            $output->writeln('No file inputted.');
 
-        if (!$filePath || !file_exists($filePath)) {
-            throw new ImporterException('No file inputted.');
+            return Command::FAILURE;
         }
 
-        $fileContent = file_get_contents($filePath)
-            ?: throw new ImporterException('Failed to read inputted file.');
-        $character = CustomYamlImporter::import($fileContent);
+        if (!file_exists($filePath)) {
+            $output->writeln('Failed to find file.');
 
-        if (\in_array('--json', $arguments, true)) {
-            echo json_encode(
+            return Command::FAILURE;
+        }
+
+        if (($fileContent = file_get_contents($filePath)) === false) {
+            $output->writeln('Failed to read file.');
+
+            return Command::FAILURE;
+        }
+
+        try {
+            $character = CustomYamlImporter::import($fileContent);
+        } catch (CharacterInvalidImportException $e) {
+            $output->writeln('Failed to parse file. Error: ' . $e->getMessage());
+
+            return Command::FAILURE;
+        }
+
+        if ($input->getOption('json')) {
+            $output->writeln((string) json_encode(
                 $character,
                 \JSON_PRETTY_PRINT,
-            );
+            ));
         } else {
             $sheet = new Sheet();
-            echo $sheet->render($character);
+            $output->writeln($sheet->render($character));
         }
 
-        echo \PHP_EOL;
-        exit($exitCode);
+        return Command::SUCCESS;
     }
 }
