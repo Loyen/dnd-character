@@ -39,7 +39,7 @@
     "require": {
         "guzzlehttp/guzzle": "7.*",
         "twig/twig": "3.*",
-        "symfony/console": "*"
+        "symfony/console": "7.0.*"
     },
     "require-dev": {
         "phpstan/phpstan": "1.*",
