@@ -1,5 +1,5 @@
 <?php
 
-namespace DndSheet\Exception;
+namespace DndCharacter\Exception;
 
 class CharacterInvalidImportException extends CharacterException {}

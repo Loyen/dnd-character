@@ -1,6 +1,6 @@
 <?php
 
-namespace DndSheet\Model;
+namespace DndCharacter\Model;
 
 class CharacterTraits implements \JsonSerializable
 {

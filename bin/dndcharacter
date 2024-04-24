@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-use DndSheet\DndSheetApplication;
+use DndCharacter\Application;
 
 if (!is_dir(dirname(__DIR__) . '/vendor')) {
     throw new LogicException('Dependencies are missing. Try running "composer install".');
@@ -9,5 +9,5 @@ if (!is_dir(dirname(__DIR__) . '/vendor')) {
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$application = new DndSheetApplication('DndSheet', '');
+$application = new Application('DndSheet', '');
 $application->run();

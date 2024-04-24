@@ -1,13 +1,13 @@
 <?php
 
-namespace DndSheet\Command;
+namespace DndCharacter\Command;
 
-use DndSheet\Exception\CharacterInvalidImportException;
+use DndCharacter\Exception\CharacterInvalidImportException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use DndSheet\Importer\DndBeyond\DndBeyondImporter;
-use DndSheet\Importer\DndBeyond\Exception\CharacterFileReadException;
-use DndSheet\Sheet;
+use DndCharacter\Importer\DndBeyond\DndBeyondImporter;
+use DndCharacter\Importer\DndBeyond\Exception\CharacterFileReadException;
+use DndCharacter\Sheet;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

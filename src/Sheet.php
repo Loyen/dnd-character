@@ -1,8 +1,8 @@
 <?php
 
-namespace DndSheet;
+namespace DndCharacter;
 
-use DndSheet\Model\Character;
+use DndCharacter\Model\Character;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

@@ -1,7 +1,7 @@
 <?php
 
-namespace DndSheet\Importer\DndBeyond\Exception;
+namespace DndCharacter\Importer\DndBeyond\Exception;
 
-use DndSheet\Exception\CharacterException;
+use DndCharacter\Exception\CharacterException;
 
 class CharacterAPIException extends CharacterException {}

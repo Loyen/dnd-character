@@ -1,6 +1,6 @@
 <?php
 
-namespace DndSheet\Importer\CustomYaml;
+namespace DndCharacter\Importer\CustomYaml;
 
 enum CustomYamlImporterSelectors: string
 {

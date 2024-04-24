@@ -1,8 +1,8 @@
 <?php
 
-namespace DndSheet\Importer\CustomYaml\Model;
+namespace DndCharacter\Importer\CustomYaml\Model;
 
-use DndSheet\Importer\CustomYaml\Exception\CharacterYamlDataException;
+use DndCharacter\Importer\CustomYaml\Exception\CharacterYamlDataException;
 
 class YamlFeatureProficiencyImprovement extends YamlFeature
 {

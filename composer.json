@@ -1,5 +1,6 @@
 {
-    "name": "loyen/dndb-character-sheet",
+    "name": "loyen/dnd-character",
+    "description": "DND Character Sheet Generator",
     "type": "project",
     "authors": [
         {
@@ -28,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "DndSheet\\": "src/"
+            "DndCharacter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "DndSheet\\Tests\\": "tests/"
+            "DndCharacter\\Tests\\": "tests/"
         }
     },
     "require": {

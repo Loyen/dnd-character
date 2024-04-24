@@ -1,29 +1,29 @@
 <?php
 
-namespace DndSheet\Importer\CustomYaml;
+namespace DndCharacter\Importer\CustomYaml;
 
-use DndSheet\Exception\CharacterInvalidImportException;
-use DndSheet\Importer\CustomYaml\Exception\CharacterYamlDataException;
-use DndSheet\Importer\CustomYaml\Model\YamlCharacter;
-use DndSheet\Importer\CustomYaml\Model\YamlFeature;
-use DndSheet\Importer\CustomYaml\Model\YamlFeatureMovementImprovement;
-use DndSheet\Importer\CustomYaml\Model\YamlFeatureProficiencyImprovement;
-use DndSheet\Importer\CustomYaml\Model\YamlProficiencyCategory;
-use DndSheet\Importer\CustomYaml\Model\YamlSource;
-use DndSheet\Importer\ImporterInterface;
-use DndSheet\Model\AbilityType;
-use DndSheet\Model\ArmorType;
-use DndSheet\Model\Character;
-use DndSheet\Model\CharacterAbility;
-use DndSheet\Model\CharacterArmorClass;
-use DndSheet\Model\CharacterClass;
-use DndSheet\Model\CharacterFeature;
-use DndSheet\Model\CharacterHealth;
-use DndSheet\Model\CharacterMovement;
-use DndSheet\Model\CurrencyType;
-use DndSheet\Model\Item;
-use DndSheet\Model\MovementType;
-use DndSheet\Model\SourceMaterial;
+use DndCharacter\Exception\CharacterInvalidImportException;
+use DndCharacter\Importer\CustomYaml\Exception\CharacterYamlDataException;
+use DndCharacter\Importer\CustomYaml\Model\YamlCharacter;
+use DndCharacter\Importer\CustomYaml\Model\YamlFeature;
+use DndCharacter\Importer\CustomYaml\Model\YamlFeatureMovementImprovement;
+use DndCharacter\Importer\CustomYaml\Model\YamlFeatureProficiencyImprovement;
+use DndCharacter\Importer\CustomYaml\Model\YamlProficiencyCategory;
+use DndCharacter\Importer\CustomYaml\Model\YamlSource;
+use DndCharacter\Importer\ImporterInterface;
+use DndCharacter\Model\AbilityType;
+use DndCharacter\Model\ArmorType;
+use DndCharacter\Model\Character;
+use DndCharacter\Model\CharacterAbility;
+use DndCharacter\Model\CharacterArmorClass;
+use DndCharacter\Model\CharacterClass;
+use DndCharacter\Model\CharacterFeature;
+use DndCharacter\Model\CharacterHealth;
+use DndCharacter\Model\CharacterMovement;
+use DndCharacter\Model\CurrencyType;
+use DndCharacter\Model\Item;
+use DndCharacter\Model\MovementType;
+use DndCharacter\Model\SourceMaterial;
 
 class CustomYamlImporter implements ImporterInterface
 {

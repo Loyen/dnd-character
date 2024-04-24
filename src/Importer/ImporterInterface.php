@@ -1,8 +1,8 @@
 <?php
 
-namespace DndSheet\Importer;
+namespace DndCharacter\Importer;
 
-use DndSheet\Model\Character;
+use DndCharacter\Model\Character;
 
 interface ImporterInterface
 {

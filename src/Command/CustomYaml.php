@@ -1,10 +1,10 @@
 <?php
 
-namespace DndSheet\Command;
+namespace DndCharacter\Command;
 
-use DndSheet\Exception\CharacterInvalidImportException;
-use DndSheet\Importer\CustomYaml\CustomYamlImporter;
-use DndSheet\Sheet;
+use DndCharacter\Exception\CharacterInvalidImportException;
+use DndCharacter\Importer\CustomYaml\CustomYamlImporter;
+use DndCharacter\Sheet;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

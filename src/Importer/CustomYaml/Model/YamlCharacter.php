@@ -1,6 +1,6 @@
 <?php
 
-namespace DndSheet\Importer\CustomYaml\Model;
+namespace DndCharacter\Importer\CustomYaml\Model;
 
 class YamlCharacter
 {

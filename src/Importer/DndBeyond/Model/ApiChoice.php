@@ -1,6 +1,6 @@
 <?php
 
-namespace DndSheet\Importer\DndBeyond\Model;
+namespace DndCharacter\Importer\DndBeyond\Model;
 
 class ApiChoice
 {

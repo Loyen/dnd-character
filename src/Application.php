@@ -1,15 +1,15 @@
 <?php
 
-namespace DndSheet;
+namespace DndCharacter;
 
-use DndSheet\Command\CustomYaml;
-use DndSheet\Command\DndBeyondApi;
-use Symfony\Component\Console\Application;
+use DndCharacter\Command\CustomYaml;
+use DndCharacter\Command\DndBeyondApi;
+use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
 
-class DndSheetApplication extends Application
+class Application extends BaseApplication
 {
     /**
      * @return Command[]

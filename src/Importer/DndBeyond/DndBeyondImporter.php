@@ -1,41 +1,41 @@
 <?php
 
-namespace DndSheet\Importer\DndBeyond;
+namespace DndCharacter\Importer\DndBeyond;
 
-use DndSheet\Exception\CharacterException;
-use DndSheet\Exception\CharacterInvalidImportException;
-use DndSheet\Importer\DndBeyond\Model\ApiAbilityType;
-use DndSheet\Importer\DndBeyond\Model\ApiCharacter;
-use DndSheet\Importer\DndBeyond\Model\ApiModifier;
-use DndSheet\Importer\DndBeyond\Model\List\ApiArmorTypeComponentId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiBonusTypeModifierTypeId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
-use DndSheet\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiModifierTypeModifierTypeId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiSimpleRangedWeaponEntityId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntityId;
-use DndSheet\Importer\DndBeyond\Model\List\ApiWeaponGroupEntityId;
-use DndSheet\Importer\DndBeyond\Model\Source;
-use DndSheet\Importer\ImporterInterface;
-use DndSheet\Model\AbilityType;
-use DndSheet\Model\ArmorType;
-use DndSheet\Model\Character;
-use DndSheet\Model\CharacterAbility;
-use DndSheet\Model\CharacterArmorClass;
-use DndSheet\Model\CharacterClass;
-use DndSheet\Model\CharacterFeature;
-use DndSheet\Model\CharacterHealth;
-use DndSheet\Model\CharacterMovement;
-use DndSheet\Model\CharacterProficiency;
-use DndSheet\Model\CharacterTraits;
-use DndSheet\Model\CurrencyType;
-use DndSheet\Model\Item;
-use DndSheet\Model\MovementType;
-use DndSheet\Model\ProficiencyGroup;
-use DndSheet\Model\ProficiencyType;
-use DndSheet\Model\SourceMaterial;
+use DndCharacter\Exception\CharacterException;
+use DndCharacter\Exception\CharacterInvalidImportException;
+use DndCharacter\Importer\DndBeyond\Model\ApiAbilityType;
+use DndCharacter\Importer\DndBeyond\Model\ApiCharacter;
+use DndCharacter\Importer\DndBeyond\Model\ApiModifier;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiArmorTypeComponentId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiBonusTypeModifierTypeId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiCustomProficiencyType;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiMartialRangedWeaponEntityId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiMartialWeaponEntityId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiModifierTypeModifierTypeId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiProficiencyGroupEntityTypeId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiSimpleRangedWeaponEntityId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiSimpleWeaponEntityId;
+use DndCharacter\Importer\DndBeyond\Model\List\ApiWeaponGroupEntityId;
+use DndCharacter\Importer\DndBeyond\Model\Source;
+use DndCharacter\Importer\ImporterInterface;
+use DndCharacter\Model\AbilityType;
+use DndCharacter\Model\ArmorType;
+use DndCharacter\Model\Character;
+use DndCharacter\Model\CharacterAbility;
+use DndCharacter\Model\CharacterArmorClass;
+use DndCharacter\Model\CharacterClass;
+use DndCharacter\Model\CharacterFeature;
+use DndCharacter\Model\CharacterHealth;
+use DndCharacter\Model\CharacterMovement;
+use DndCharacter\Model\CharacterProficiency;
+use DndCharacter\Model\CharacterTraits;
+use DndCharacter\Model\CurrencyType;
+use DndCharacter\Model\Item;
+use DndCharacter\Model\MovementType;
+use DndCharacter\Model\ProficiencyGroup;
+use DndCharacter\Model\ProficiencyType;
+use DndCharacter\Model\SourceMaterial;
 
 class DndBeyondImporter implements ImporterInterface
 {

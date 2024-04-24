@@ -1,6 +1,6 @@
 <?php
 
-namespace DndSheet\Importer\DndBeyond\Model\List;
+namespace DndCharacter\Importer\DndBeyond\Model\List;
 
 enum ApiArmorTypeComponentId: int
 {
