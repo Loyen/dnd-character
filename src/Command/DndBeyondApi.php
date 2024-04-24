@@ -22,9 +22,11 @@ class DndBeyondApi extends Command
 {
     protected function configure(): void
     {
-        $this->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'File to read.');
-        $this->addOption('characterid', 'c', InputOption::VALUE_REQUIRED, 'Character ID to read from API.');
-        $this->addOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.');
+        $this->setDefinition([
+            new InputOption('file', 'f', InputOption::VALUE_REQUIRED, 'File to read.'),
+            new InputOption('characterid', 'c', InputOption::VALUE_REQUIRED, 'Character ID to read from API.'),
+            new InputOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.'),
+        ]);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

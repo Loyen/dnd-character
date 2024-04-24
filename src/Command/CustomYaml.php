@@ -20,8 +20,10 @@ class CustomYaml extends Command
 {
     protected function configure(): void
     {
-        $this->addArgument('file', InputArgument::OPTIONAL, 'File to read.');
-        $this->addOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.');
+        $this->setDefinition([
+            new InputArgument('file', InputArgument::OPTIONAL, 'File to read.'),
+            new InputOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.'),
+        ]);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
