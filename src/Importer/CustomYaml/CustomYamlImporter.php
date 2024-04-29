@@ -41,7 +41,7 @@ class CustomYamlImporter implements ImporterInterface
             ?? throw new CharacterInvalidImportException('YAML content was not readable or did not contain the data expected.');
     }
 
-    public function createCharacter(): Character
+    private function createCharacter(): Character
     {
         $this->character = new Character();
         $this->character->setName($this->characterData->name);
@@ -167,7 +167,7 @@ class CustomYamlImporter implements ImporterInterface
     /**
      * @return array<string, int>
      */
-    public function getCurrencies(): array
+    private function getCurrencies(): array
     {
         $currencies = $this->characterData->wallet;
 
@@ -246,7 +246,7 @@ class CustomYamlImporter implements ImporterInterface
     /**
      * @return array<string, CharacterMovement>
      */
-    public function getMovementSpeeds(): array
+    private function getMovementSpeeds(): array
     {
         $movementSpeedList = [];
 
@@ -321,7 +321,7 @@ class CustomYamlImporter implements ImporterInterface
         return $proficiencyList;
     }
 
-    public function getProficiencyBonus(): int
+    private function getProficiencyBonus(): int
     {
         $level = $this->character->getLevel();
 

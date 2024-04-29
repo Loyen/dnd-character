@@ -66,7 +66,7 @@ class DndBeyondImporter implements ImporterInterface
         );
     }
 
-    public function createCharacter(): Character
+    private function createCharacter(): Character
     {
         $this->character = new Character();
 
@@ -96,7 +96,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<string, CharacterAbility>
      */
-    public function getAbilityScores(): array
+    private function getAbilityScores(): array
     {
         $modifierList = [];
         $savingThrowsProficiencies = [];
@@ -191,7 +191,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getAbilityProficiencies(): array
+    private function getAbilityProficiencies(): array
     {
         return $this->getProficienciesByFilter(
             fn(
@@ -208,7 +208,7 @@ class DndBeyondImporter implements ImporterInterface
         );
     }
 
-    public function getArmorClass(): CharacterArmorClass
+    private function getArmorClass(): CharacterArmorClass
     {
         $armorClass = new CharacterArmorClass();
 
@@ -327,7 +327,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getArmorProficiencies(): array
+    private function getArmorProficiencies(): array
     {
         return $this->getProficienciesByFilter(
             fn(ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Armor->value,
@@ -337,7 +337,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterClass>
      */
-    public function getClasses(): array
+    private function getClasses(): array
     {
         $classes = $this->apiCharacter->classes;
         $classOptions = array_column($this->apiCharacter->options['class'], null, 'componentId');
@@ -401,7 +401,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<string, int>
      */
-    public function getCurrencies(): array
+    private function getCurrencies(): array
     {
         $currencies = $this->apiCharacter->currencies;
 
@@ -413,7 +413,7 @@ class DndBeyondImporter implements ImporterInterface
         return $currencyList;
     }
 
-    public function getHealth(): CharacterHealth
+    private function getHealth(): CharacterHealth
     {
         $baseHitPoints = $this->apiCharacter->baseHitPoints;
 
@@ -439,7 +439,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterFeature>
      */
-    public function getFeatures(): array
+    private function getFeatures(): array
     {
         $feats = $this->apiCharacter->feats;
 
@@ -472,7 +472,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, Item>
      */
-    public function getInventory(): array
+    private function getInventory(): array
     {
         $itemList = [];
         foreach ($this->apiCharacter->inventory as $apiItem) {
@@ -548,7 +548,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getLanguages(): array
+    private function getLanguages(): array
     {
         $languages = $this->getProficienciesByFilter(
             fn(ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Language->value,
@@ -571,7 +571,7 @@ class DndBeyondImporter implements ImporterInterface
         return $languages;
     }
 
-    public function getLevel(): int
+    private function getLevel(): int
     {
         return min(20, array_sum(array_column($this->apiCharacter->classes, 'level')));
     }
@@ -579,7 +579,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, ApiModifier>
      */
-    public function getItemModifiers(): array
+    private function getItemModifiers(): array
     {
         $itemModifiers = array_column($this->apiCharacter->modifiers['item'], null, 'id');
 
@@ -604,7 +604,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<string, CharacterMovement>
      */
-    public function getMovementSpeeds(): array
+    private function getMovementSpeeds(): array
     {
         $movementSpeeds = $this->apiCharacter->race->weightSpeeds['normal'];
         $movementModifiers = [];
@@ -658,7 +658,7 @@ class DndBeyondImporter implements ImporterInterface
     }
 
     /** @return array<int, int> */
-    public function getComponentIdsThatAreMissingOptionChoice(): array
+    private function getComponentIdsThatAreMissingOptionChoice(): array
     {
         $missingOptionList = [];
 
@@ -679,7 +679,7 @@ class DndBeyondImporter implements ImporterInterface
         return $missingOptionList;
     }
 
-    public function getTraits(): CharacterTraits
+    private function getTraits(): CharacterTraits
     {
         $traits = [];
 
@@ -702,7 +702,7 @@ class DndBeyondImporter implements ImporterInterface
         return new CharacterTraits($traits);
     }
 
-    public function getProficiencyBonus(): int
+    private function getProficiencyBonus(): int
     {
         $level = $this->character->getLevel();
 
@@ -719,7 +719,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getProficienciesByFilter(callable $function): array
+    private function getProficienciesByFilter(callable $function): array
     {
         $proficiencies = [];
         foreach ($this->modifiers as $m) {
@@ -754,7 +754,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getToolProficiencies(): array
+    private function getToolProficiencies(): array
     {
         return $this->getProficienciesByFilter(
             fn(ApiModifier $m) => $m->entityTypeId !== ApiProficiencyGroupEntityTypeId::Tool->value,
@@ -764,7 +764,7 @@ class DndBeyondImporter implements ImporterInterface
     /**
      * @return array<int, CharacterProficiency>
      */
-    public function getWeaponProficiences(): array
+    private function getWeaponProficiences(): array
     {
         $weaponEntityIdList = [
             ApiProficiencyGroupEntityTypeId::WeaponGroup->value,

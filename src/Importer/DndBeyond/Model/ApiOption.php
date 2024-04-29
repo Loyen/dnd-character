@@ -13,7 +13,7 @@ class ApiOption
     /**
      * @param array<string, mixed> $data
      */
-    public static function fromApi(array $data): self
+    private static function fromApi(array $data): self
     {
         return new self(
             $data['componentId'],
@@ -27,7 +27,7 @@ class ApiOption
      *
      * @return array<int, self>
      */
-    public static function createCollectionFromApi(array $data): array
+    private static function createCollectionFromApi(array $data): array
     {
         $optionCollection = [];
 

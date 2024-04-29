@@ -33,7 +33,7 @@ class ApiModifier
     /**
      * @param array<string, mixed> $data
      */
-    public static function fromApi(array $data): self
+    private static function fromApi(array $data): self
     {
         return new self(
             $data['fixedValue'],
