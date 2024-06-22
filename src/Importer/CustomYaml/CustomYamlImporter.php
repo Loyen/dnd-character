@@ -211,7 +211,7 @@ class CustomYamlImporter implements ImporterInterface
                     isset(
                         $itemData['armor'],
                         $itemData['armor']['class'],
-                        $itemData['armor']['type']
+                        $itemData['armor']['type'],
                     )
                 ) {
                     $armorType = match ($itemData['armor']['type']) {
@@ -312,7 +312,7 @@ class CustomYamlImporter implements ImporterInterface
         foreach ($this->getFeatures() as $feat) {
             if ($feat instanceof YamlFeatureProficiencyImprovement) {
                 $proficiencyList[$feat->category->value] = array_merge(
-                    $proficiencyList[$feat->category->value] ?? [],
+                    $proficiencyList[$feat->category->value],
                     $feat->proficiencies,
                 );
             }
