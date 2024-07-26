@@ -15,6 +15,7 @@ return (new PhpCsFixer\Config())
         '@PER-CS:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'nullable_type_declaration_for_default_null_value' => ['use_nullable_type_declaration' => true],
+        'ordered_attributes' => true,
         'yoda_style' => false,
     ])
     ->setFinder($finder);
