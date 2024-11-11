@@ -43,9 +43,9 @@
         "symfony/console": "7.0.*"
     },
     "require-dev": {
-        "phpstan/phpstan": "1.*",
+        "phpstan/phpstan": "2.*",
         "phpunit/phpunit": "11.*",
         "friendsofphp/php-cs-fixer": "3.*",
-        "phpstan/phpstan-phpunit": "1.*"
+        "phpstan/phpstan-phpunit": "2.*"
     }
 }
