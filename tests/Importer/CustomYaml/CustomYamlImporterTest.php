@@ -204,7 +204,7 @@ final class CustomYamlImporterTest extends TestCase
      */
     private function assertCharacterProficiencies(array $actualProficiencies): void
     {
-        $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
+        $this->assertContainsOnlyArray($actualProficiencies, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],

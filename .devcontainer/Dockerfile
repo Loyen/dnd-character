@@ -1,4 +1,4 @@
-FROM docker.io/php:8.2-cli-bullseye
+FROM docker.io/php:8.3-cli-bullseye
 
 RUN set -eux; \
     apt update -y; \

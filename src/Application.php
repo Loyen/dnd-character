@@ -16,6 +16,11 @@ class Application extends BaseApplication
      */
     protected function getDefaultCommands(): array
     {
-        return [new CustomYaml(), new DndBeyondApi(), new HelpCommand(), new ListCommand()];
+        return [
+            new CustomYaml(),
+            new DndBeyondApi(),
+            new HelpCommand(),
+            new ListCommand(),
+        ];
     }
 }

@@ -257,7 +257,7 @@ final class DndBeyondImporterTest extends TestCase
         array $expectedProficiencies,
         array $actualProficiencies,
     ): void {
-        $this->assertContainsOnly('array', $actualProficiencies, true, 'Proficiencies');
+        $this->assertContainsOnlyArray($actualProficiencies, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],
