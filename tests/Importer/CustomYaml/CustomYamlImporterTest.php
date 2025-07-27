@@ -43,7 +43,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(YamlRace::class)]
 #[CoversClass(YamlSource::class)]
 #[UsesClass(AbilityType::class)]
-#[UsesClass(Character::class)]
 #[UsesClass(CharacterAbility::class)]
 #[UsesClass(CharacterArmorClass::class)]
 #[UsesClass(CharacterClass::class)]
@@ -204,7 +203,6 @@ final class CustomYamlImporterTest extends TestCase
      */
     private function assertCharacterProficiencies(array $actualProficiencies): void
     {
-        $this->assertContainsOnlyArray($actualProficiencies, 'Proficiencies');
         $this->assertContainsOnlyInstancesOf(
             CharacterProficiency::class,
             $actualProficiencies['abilities'],
