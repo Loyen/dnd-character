@@ -5,11 +5,10 @@ namespace DndCharacter\Command;
 use DndCharacter\Exception\CharacterInvalidImportException;
 use DndCharacter\Importer\CustomYaml\CustomYamlImporter;
 use DndCharacter\Sheet;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -18,19 +17,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class CustomYaml extends Command
 {
-    protected function configure(): void
-    {
-        $this->setDefinition([
-            new InputArgument('file', InputArgument::OPTIONAL, 'File to read.'),
-            new InputOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.'),
-        ]);
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $filePath = $input->getArgument('file');
-
-        if (!$filePath) {
+    public function __invoke(
+        OutputInterface $output,
+        #[Argument('File to read.', 'file')]
+        string $filePath,
+        #[Option('Output in JSON.', 'json')]
+        bool $asJson = false,
+    ): int {
+        if (empty($filePath)) {
             $output->writeln('No file inputted.');
 
             return Command::FAILURE;
@@ -56,7 +50,7 @@ class CustomYaml extends Command
             return Command::FAILURE;
         }
 
-        if ($input->getOption('json')) {
+        if ($asJson) {
             $output->writeln((string) json_encode(
                 $character,
                 \JSON_PRETTY_PRINT,

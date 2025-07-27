@@ -9,9 +9,8 @@ use DndCharacter\Importer\DndBeyond\DndBeyondImporter;
 use DndCharacter\Importer\DndBeyond\Exception\CharacterFileReadException;
 use DndCharacter\Sheet;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
@@ -20,29 +19,27 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class DndBeyondApi extends Command
 {
-    protected function configure(): void
-    {
-        $this->setDefinition([
-            new InputOption('file', 'f', InputOption::VALUE_REQUIRED, 'File to read.'),
-            new InputOption('characterid', 'c', InputOption::VALUE_REQUIRED, 'Character ID to read from API.'),
-            new InputOption('json', null, InputOption::VALUE_NONE, 'Output in JSON.'),
-        ]);
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        if ($input->getOption('file') !== null) {
-            return $this->fromFile($input, $output);
-        } elseif ($input->getOption('characterid') !== null) {
-            return $this->fromApi($input, $output);
+    public function __invoke(
+        OutputInterface $output,
+        #[Option('File to read.', 'file', 'f')]
+        ?string $filePath = null,
+        #[Option('Character ID to read from API.', 'characterid', 'c')]
+        ?string $characterId = null,
+        #[Option('Output in JSON.', 'json')]
+        bool $asJson = false,
+    ): int {
+        if (!empty($filePath)) {
+            return $this->fromFile($filePath, $asJson, $output);
+        } elseif (!empty($characterId)) {
+            return $this->fromApi($characterId, $asJson, $output);
         }
 
         return Command::SUCCESS;
     }
 
-    public static function fromApi(InputInterface $input, OutputInterface $output): int
+    public static function fromApi(string $characterId, bool $asJson, OutputInterface $output): int
     {
-        $characterId = filter_var($input->getOption('characterid'), \FILTER_VALIDATE_INT, \FILTER_NULL_ON_FAILURE);
+        $characterId = filter_var($characterId, \FILTER_VALIDATE_INT, \FILTER_NULL_ON_FAILURE);
 
         if (!$characterId) {
             $output->writeln('No character ID inputted.');
@@ -73,7 +70,7 @@ class DndBeyondApi extends Command
             return Command::FAILURE;
         }
 
-        if ($input->getOption('json')) {
+        if ($asJson) {
             $output->writeln((string) json_encode(
                 $character,
                 \JSON_PRETTY_PRINT,
@@ -86,11 +83,9 @@ class DndBeyondApi extends Command
         return Command::SUCCESS;
     }
 
-    public static function fromFile(InputInterface $input, OutputInterface $output): int
+    public static function fromFile(string $filePath, bool $asJson, OutputInterface $output): int
     {
-        $filePath = $input->getOption('file');
-
-        if (!$filePath || !file_exists($filePath)) {
+        if (empty($filePath) || !file_exists($filePath)) {
             throw new CharacterFileReadException('No file inputted.');
         }
 
@@ -98,7 +93,7 @@ class DndBeyondApi extends Command
             ?: throw new CharacterFileReadException('Failed to read inputted file.');
         $character = DndBeyondImporter::import($fileContent);
 
-        if ($input->getOption('json')) {
+        if ($asJson) {
             $output->writeln((string) json_encode(
                 $character,
                 \JSON_PRETTY_PRINT,
