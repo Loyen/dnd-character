@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Importer\CustomYaml;
+namespace DndCharacter\Tests\Importer\CustomYaml;
 
 use DndCharacter\Exception\CharacterInvalidImportException;
 use DndCharacter\Importer\CustomYaml\CustomYamlImporter;

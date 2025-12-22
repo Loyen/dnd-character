@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\App\Importer\DndBeyond;
+namespace DndCharacter\Tests\Importer\DndBeyond;
 
 use DndCharacter\Exception\CharacterInvalidImportException;
 use DndCharacter\Importer\DndBeyond\DndBeyondImporter;
