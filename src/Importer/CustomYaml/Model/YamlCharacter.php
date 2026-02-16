@@ -2,6 +2,8 @@
 
 namespace DndCharacter\Importer\CustomYaml\Model;
 
+use Symfony\Component\Yaml\Yaml;
+
 class YamlCharacter
 {
     public function __construct(
@@ -18,7 +20,7 @@ class YamlCharacter
 
     public static function fromYaml(string $yaml): ?self
     {
-        $data = yaml_parse($yaml);
+        $data = Yaml::parse($yaml);
 
         if (empty($data)) {
             return null;

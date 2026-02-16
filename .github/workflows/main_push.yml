@@ -14,8 +14,8 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        coverage: pcov
-        php-version: '8.3'
+        coverage: xdebug
+        php-version: '8.5'
 
     - name: Install dependencies
       run: composer install --no-progress --prefer-dist --optimize-autoloader

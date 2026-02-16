@@ -3,6 +3,8 @@
 /vendor/
 /target/
 
+/.composer/
+
 /.php-cs-fixer.cache
 /.php-cs-fixer.php
 

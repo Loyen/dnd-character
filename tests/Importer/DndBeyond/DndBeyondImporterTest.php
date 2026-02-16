@@ -264,7 +264,7 @@ final class DndBeyondImporterTest extends TestCase
         );
         $this->assertSame(
             $expectedProficiencies['abilities'],
-            array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['abilities']),
+            array_map(static fn($a) => $a->jsonSerialize(), $actualProficiencies['abilities']),
             'Abilities proficiencies match expected list',
         );
 
@@ -275,7 +275,7 @@ final class DndBeyondImporterTest extends TestCase
         );
         $this->assertSame(
             $expectedProficiencies['armor'],
-            array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['armor']),
+            array_map(static fn($a) => $a->jsonSerialize(), $actualProficiencies['armor']),
             'Armor proficiencies match expected list',
         );
 
@@ -286,7 +286,7 @@ final class DndBeyondImporterTest extends TestCase
         );
         $this->assertSame(
             $expectedProficiencies['languages'],
-            array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['languages']),
+            array_map(static fn($a) => $a->jsonSerialize(), $actualProficiencies['languages']),
             'Languages proficiencies match expected list',
         );
 
@@ -297,7 +297,7 @@ final class DndBeyondImporterTest extends TestCase
         );
         $this->assertSame(
             $expectedProficiencies['tools'],
-            array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['tools']),
+            array_map(static fn($a) => $a->jsonSerialize(), $actualProficiencies['tools']),
             'Tools proficiencies match expected list',
         );
 
@@ -308,7 +308,7 @@ final class DndBeyondImporterTest extends TestCase
         );
         $this->assertSame(
             $expectedProficiencies['weapons'],
-            array_map(fn($a) => $a->jsonSerialize(), $actualProficiencies['weapons']),
+            array_map(static fn($a) => $a->jsonSerialize(), $actualProficiencies['weapons']),
             'Weapons proficiencies match expected list',
         );
     }

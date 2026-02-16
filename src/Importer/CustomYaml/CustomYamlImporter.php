@@ -68,14 +68,18 @@ class CustomYamlImporter implements ImporterInterface
     /** @return array<string, int> */
     private function getAbilityScoreImprovements(): array
     {
-        return array_count_values(array_merge(...array_column(
-            [
-                ...$this->characterData->race->features,
-                ...$this->characterData->background->features,
-                ...array_column($this->characterData->classes, 'features')[0],
-            ],
-            'abilities',
-        )));
+        return array_filter(
+            array_count_values(array_merge(...array_column(
+                [
+                    ...$this->characterData->race->features,
+                    ...$this->characterData->background->features,
+                    ...array_column($this->characterData->classes, 'features')[0],
+                ],
+                'abilities',
+            ))),
+            static fn($ability) => \is_string($ability),
+            \ARRAY_FILTER_USE_KEY,
+        );
     }
 
     /** @return array<string, CharacterAbility> */
@@ -253,7 +257,7 @@ class CustomYamlImporter implements ImporterInterface
         /** @var YamlFeatureMovementImprovement[] */
         $movementFeats = array_filter(
             $this->getFeatures(),
-            fn(YamlFeature $f) => $f instanceof YamlFeatureMovementImprovement,
+            static fn(YamlFeature $f) => $f instanceof YamlFeatureMovementImprovement,
         );
 
         $modifiersByType = [];

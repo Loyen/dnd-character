@@ -1,4 +1,4 @@
-FROM docker.io/php:8.3-cli-bullseye
+FROM docker.io/php:8.5-cli-trixie
 
 RUN set -eux; \
     apt update -y; \
@@ -12,7 +12,7 @@ RUN set -eux; \
     echo "extension=yaml.so" > /usr/local/etc/php/conf.d/yaml.ini
 
 RUN set -eux; \
-    curl -o /usr/local/bin/composer https://getcomposer.org/download/2.5.7/composer.phar; \
+    curl -o /usr/local/bin/composer https://getcomposer.org/download/2.9.5/composer.phar; \
     chmod +x /usr/local/bin/composer
 
 ENV PATH "${PATH}:./vendor/bin"

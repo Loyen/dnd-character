@@ -149,7 +149,7 @@ class Character implements \JsonSerializable
         $features = array_merge(
             $this->features,
             ...array_map(
-                fn($c) => $c->getFeatures(),
+                static fn($c) => $c->getFeatures(),
                 $this->classes,
             ),
         );
